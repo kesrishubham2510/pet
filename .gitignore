@@ -1,0 +1,6 @@
+ # ignore all the .md files
+ *.md
+ #ignore all the gradle folders
+ */gradle
+ .idea
+ .DS_Store
