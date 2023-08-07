@@ -4,10 +4,9 @@ import reactor.core.publisher.Mono;
 
 /**
  * @param <T>      :- Type of the response returned
- * @param <String>
  */
 
 @FunctionalInterface
-public interface IDeletePet<T, String> {
+public interface IDeletePet<T> {
     Mono<T> deletePet(Mono<String> petId);
 }
