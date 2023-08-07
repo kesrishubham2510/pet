@@ -8,5 +8,5 @@ import reactor.core.publisher.Mono;
  */
 @FunctionalInterface
 public interface IUpdatePet<T, K> {
-    Mono<T> updatePetInfo(K latestInformation);
+    Mono<T> updatePetInfo(Mono<K> latestInformation);
 }

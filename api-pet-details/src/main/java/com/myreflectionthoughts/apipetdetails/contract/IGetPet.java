@@ -9,7 +9,7 @@ import reactor.core.publisher.Mono;
  */
 
 public interface IGetPet<T, String> {
-    Mono<T> getPetInfo(String petId);
+    Mono<T> getPetInfo(Mono<String> petId);
 
     Flux<T> getAllPets();
 }
