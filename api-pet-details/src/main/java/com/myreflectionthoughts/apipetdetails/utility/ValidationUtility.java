@@ -21,7 +21,7 @@ public class ValidationUtility {
     protected Category validateCategory(String categoryString) {
 
         List<String> categoryStringList = Arrays.stream(Category.values()).map(Enum::toString).collect(Collectors.toList());
-        if (!categoryStringList.contains(categoryString.toUpperCase()))
+        if (!categoryStringList.contains(categoryString.toUpperCase().trim()))
             throw new CategoryNotFoundException(exceptionUtility.getCategoryNotFoundExceptionMessage(categoryString));
 
         return Category.valueOf(categoryString.toUpperCase());
@@ -30,7 +30,7 @@ public class ValidationUtility {
     protected Gender validateGender(String genderString) {
 
         List<String> genderStringList = Arrays.stream(Gender.values()).map(Enum::toString).collect(Collectors.toList());
-        if (!genderStringList.contains(genderString.toUpperCase()))
+        if (!genderStringList.contains(genderString.toUpperCase().trim()))
             throw new GenderNotFoundException(exceptionUtility.getGenderNotFoundExceptionMessage());
 
         return Gender.valueOf(genderString.toUpperCase());

@@ -1,8 +1,10 @@
 package com.myreflectionthoughts.apipetdetails.utility;
 
+import com.myreflectionthoughts.apipetdetails.constant.ServiceConstants;
 import com.myreflectionthoughts.apipetdetails.entity.Pet;
 import com.myreflectionthoughts.apipetdetails.enums.ClinicCardStatus;
 import com.myreflectionthoughts.library.dto.request.AddPetDTO;
+import com.myreflectionthoughts.library.dto.response.DeletePetDTO;
 import com.myreflectionthoughts.library.dto.response.PetDTO;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeMap;
@@ -11,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 
-
 @Service
 public class MappingUtility {
 
@@ -19,10 +20,12 @@ public class MappingUtility {
     private ConversionUtility conversionUtility;
     @Autowired
     private ModelMapper modelMapper;
+    private ServiceConstants serviceConstants;
 
     @PostConstruct
     public void configureModelMapper() {
         addMappingConfigurations();
+        serviceConstants = new ServiceConstants();
     }
 
 
@@ -36,6 +39,13 @@ public class MappingUtility {
         PetDTO petDTO = modelMapper.map(pet, PetDTO.class);
         petDTO.setClinicCardStatusMessage(pet.getClinicCardStatus().getMessage());
         return petDTO;
+    }
+
+    public DeletePetDTO createDeletePetDTO(String petId) {
+        DeletePetDTO deletePetDTO = new DeletePetDTO();
+        deletePetDTO.setId(petId);
+        deletePetDTO.setMessage(String.format(serviceConstants.getPET_INFO_DELETED(), petId));
+        return deletePetDTO;
     }
 
     private void addMappingConfigurations() {
