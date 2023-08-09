@@ -9,9 +9,11 @@ import com.myreflectionthoughts.apipetdetails.exception.PetNotFoundException;
 import com.myreflectionthoughts.library.dto.request.AddPetDTO;
 import com.myreflectionthoughts.library.dto.response.DeletePetDTO;
 import com.myreflectionthoughts.library.dto.response.PetDTO;
+import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+@Service
 public class PetService extends ServiceProvider implements
         IAddPet<AddPetDTO, PetDTO>,
         IGetPet<PetDTO>,

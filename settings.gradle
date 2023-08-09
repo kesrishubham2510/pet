@@ -1,5 +1,5 @@
 rootProject.name= 'pets'
 
-include 'library'
-include 'api-gateway'
-include 'api-pet-details'
+include ':library'
+include ':api-gateway'
+include ':api-pet-details'

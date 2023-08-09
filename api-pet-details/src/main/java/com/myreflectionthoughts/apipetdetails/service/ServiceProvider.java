@@ -5,7 +5,6 @@ import com.myreflectionthoughts.apipetdetails.utility.MappingUtility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-@Service
 public class ServiceProvider {
     @Autowired
     protected PetRepository petRepository;

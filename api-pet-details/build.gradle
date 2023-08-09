@@ -16,17 +16,21 @@ repositories {
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter'
-	implementation 'org.projectlombok:lombok:1.18.26'
+	implementation 'org.springframework.boot:spring-boot-starter-webflux'
+    // to let gradle know that we need to compile this project for smooth running of current one
 	implementation project(path: ':library')
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb-reactive'
 	testImplementation 'io.projectreactor:reactor-test'
 	implementation 'org.modelmapper:modelmapper:3.1.1'
+
+	implementation 'org.projectlombok:lombok:1.18.26'
 	compileOnly('org.projectlombok:lombok')
 	annotationProcessor('org.projectlombok:lombok')
 	testCompileOnly('org.projectlombok:lombok')
 	testAnnotationProcessor('org.projectlombok:lombok')
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	compileOnly(project(':library'))
 }
 
 tasks.named('test') {
