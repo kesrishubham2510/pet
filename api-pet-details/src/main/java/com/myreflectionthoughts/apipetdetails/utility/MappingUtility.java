@@ -4,6 +4,7 @@ import com.myreflectionthoughts.apipetdetails.constant.ServiceConstants;
 import com.myreflectionthoughts.apipetdetails.entity.Pet;
 import com.myreflectionthoughts.apipetdetails.enums.ClinicCardStatus;
 import com.myreflectionthoughts.library.dto.request.AddPetDTO;
+import com.myreflectionthoughts.library.dto.request.UpdatePetDTO;
 import com.myreflectionthoughts.library.dto.response.DeletePetDTO;
 import com.myreflectionthoughts.library.dto.response.PetDTO;
 import org.modelmapper.ModelMapper;
@@ -35,6 +36,10 @@ public class MappingUtility {
         return pet;
     }
 
+    public Pet mapToPet(UpdatePetDTO updatePetDTO){
+        return modelMapper.map(updatePetDTO, Pet.class);
+    }
+
     public PetDTO mapToPetDTO(Pet pet) {
         PetDTO petDTO = modelMapper.map(pet, PetDTO.class);
         petDTO.setClinicCardStatusMessage(pet.getClinicCardStatus().getMessage());
@@ -52,6 +57,7 @@ public class MappingUtility {
 
         TypeMap<AddPetDTO, Pet> addPetDTO_To_Pet_Mapper = modelMapper.createTypeMap(AddPetDTO.class, Pet.class);
         TypeMap<Pet, PetDTO> pet_To_PetTDTO_Mapper = modelMapper.createTypeMap(Pet.class, PetDTO.class);
+        TypeMap<UpdatePetDTO,Pet> updatePetDTO_To_Pet_Mapper = modelMapper.createTypeMap(UpdatePetDTO.class, Pet.class);
 
         addPetDTO_To_Pet_Mapper.addMappings(
                 mapper -> mapper.using(conversionUtility.string_To_categoryConverter).map(
@@ -80,6 +86,12 @@ public class MappingUtility {
         pet_To_PetTDTO_Mapper.addMappings(
                 mapper -> mapper.using(conversionUtility.clinicCardStatus_To_stringConverter).map(
                         Pet::getClinicCardStatus, PetDTO::setClinicCardStatus
+                )
+        );
+
+        updatePetDTO_To_Pet_Mapper.addMappings(
+                mapper-> mapper.using(conversionUtility.string_To_clinicCardStatusConverter).map(
+                        UpdatePetDTO::getClinicCardStatus, Pet::setClinicCardStatus
                 )
         );
     }

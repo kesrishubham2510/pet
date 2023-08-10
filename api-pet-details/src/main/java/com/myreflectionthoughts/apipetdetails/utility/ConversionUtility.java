@@ -46,4 +46,12 @@ public class ConversionUtility {
             return validationUtility.validateGender(source);
         }
     };
+
+    protected Converter<String,ClinicCardStatus> string_To_clinicCardStatusConverter = new AbstractConverter<String, ClinicCardStatus>() {
+        @Override
+        protected ClinicCardStatus convert(String source) {
+            return validationUtility.validateClinicCardStatus(source);
+        }
+    };
+
 }

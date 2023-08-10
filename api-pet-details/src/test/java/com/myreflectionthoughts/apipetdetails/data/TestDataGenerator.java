@@ -6,6 +6,7 @@ import com.myreflectionthoughts.apipetdetails.enums.Category;
 import com.myreflectionthoughts.apipetdetails.enums.ClinicCardStatus;
 import com.myreflectionthoughts.apipetdetails.enums.Gender;
 import com.myreflectionthoughts.library.dto.request.AddPetDTO;
+import com.myreflectionthoughts.library.dto.request.UpdatePetDTO;
 import com.myreflectionthoughts.library.dto.response.DeletePetDTO;
 import com.myreflectionthoughts.library.dto.response.PetDTO;
 
@@ -27,7 +28,7 @@ public class TestDataGenerator {
         AddPetDTO addPetDTO = new AddPetDTO();
         addPetDTO.setAge(1.0);
         addPetDTO.setCategory("dog");
-        addPetDTO.setGender("male");
+        addPetDTO.setGender("female");
         addPetDTO.setName("pet-name");
         addPetDTO.setMaster("master");
         return addPetDTO;
@@ -64,6 +65,43 @@ public class TestDataGenerator {
         return deletePetDTO;
     }
 
+    public static UpdatePetDTO getUpdatePetDTO(){
+        UpdatePetDTO updatePetDTO = new UpdatePetDTO();
+        updatePetDTO.setId(petId);
+        updatePetDTO.setAge(1.0);
+        updatePetDTO.setCategory("DOG");
+        updatePetDTO.setGender("FEMALE");
+        updatePetDTO.setName("pet-name-updated");
+        updatePetDTO.setMaster("master-updated");
+        updatePetDTO.setClinicCardStatus("UNDER_PRogrESS");
+        return updatePetDTO;
+    }
+
+    public static Pet getUpdatedPet(){
+        Pet updatedPet = new Pet();
+        updatedPet.setId(petId);
+        updatedPet.setAge(1.0);
+        updatedPet.setCategory(Category.DOG);
+        updatedPet.setGender(Gender.FEMALE);
+        updatedPet.setName("pet-name-updated");
+        updatedPet.setMaster("master-updated");
+        updatedPet.setClinicCardStatus(ClinicCardStatus.UNDER_PROGRESS);
+        return updatedPet;
+    }
+
+    public static PetDTO getUpdatedPetDTO(){
+        PetDTO updatedPetDTO = new PetDTO();
+        updatedPetDTO.setId(petId);
+        updatedPetDTO.setAge(1.0);
+        updatedPetDTO.setCategory("DOG");
+        updatedPetDTO.setGender("FEMALE");
+        updatedPetDTO.setName("pet-name-updated");
+        updatedPetDTO.setMaster("master-updated");
+        updatedPetDTO.setClinicCardStatus("UNDER_PROGRESS");
+        updatedPetDTO.setClinicCardStatusMessage(ClinicCardStatus.valueOf(ServiceConstants.VALID_CLINIC_CARD_STATUS).getMessage());
+        return updatedPetDTO;
+    }
+
     public String getPetId() {
         return petId;
     }
@@ -78,5 +116,9 @@ public class TestDataGenerator {
 
     public String getGetGenderNotFoundExceptionStringTemplate() {
         return serviceConstants.getGENDER_NOT_FOUND_EXCEPTION();
+    }
+
+    public String getClinicCardStatusNotFoundExceptionStringTemplate() {
+        return serviceConstants.getCLINIC_CARD_STATUS_NOT_FOUND_EXCEPTION();
     }
 }

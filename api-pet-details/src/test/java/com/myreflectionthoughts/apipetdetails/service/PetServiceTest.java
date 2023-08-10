@@ -1,21 +1,29 @@
+/**
+     * Unit test for PetService.java
+*/
 package com.myreflectionthoughts.apipetdetails.service;
 
 import com.myreflectionthoughts.apipetdetails.constant.ServiceConstants;
 import com.myreflectionthoughts.apipetdetails.data.TestDataGenerator;
 import com.myreflectionthoughts.apipetdetails.entity.Pet;
+import com.myreflectionthoughts.apipetdetails.exception.ClinicCardStatusNotFoundException;
 import com.myreflectionthoughts.apipetdetails.exception.PetNotFoundException;
 import com.myreflectionthoughts.apipetdetails.repository.PetRepository;
 import com.myreflectionthoughts.apipetdetails.utility.MappingUtility;
 import com.myreflectionthoughts.library.dto.request.AddPetDTO;
+import com.myreflectionthoughts.library.dto.request.UpdatePetDTO;
 import com.myreflectionthoughts.library.dto.response.DeletePetDTO;
 import com.myreflectionthoughts.library.dto.response.PetDTO;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.modelmapper.MappingException;
 import org.springframework.boot.test.context.SpringBootTest;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
+
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -165,5 +173,74 @@ public class PetServiceTest{
         verify(petRepository,times(1)).findById(anyString());
         verify(petRepository,times(0)).delete(any());
         verify(mappingUtility,times(0)).createDeletePetDTO(anyString());
+    }
+
+    @Test
+    void testUpdatePetInfo(){
+
+        UpdatePetDTO updatePetDTO = TestDataGenerator.getUpdatePetDTO();
+        Pet expectedExistingPet = TestDataGenerator.getPet();
+        Pet expectedUpdatedPet = TestDataGenerator.getUpdatedPet();
+        PetDTO expectedUpdatedPetDTO = TestDataGenerator.getUpdatedPetDTO();
+
+        when(petRepository.findById(anyString())).thenReturn(Mono.just(expectedExistingPet));
+        when(mappingUtility.mapToPet(any(UpdatePetDTO.class))).thenReturn(expectedUpdatedPet);
+        when(petRepository.save(any(Pet.class))).thenReturn(Mono.just(expectedUpdatedPet));
+        when(mappingUtility.mapToPetDTO(any(Pet.class))).thenReturn(expectedUpdatedPetDTO);
+
+        Mono<PetDTO> updatedPetDTOMono = petService.updatePetInfo(Mono.just(updatePetDTO));
+
+        StepVerifier.create(updatedPetDTOMono).consumeNextWith(updatedPetDTO->{
+            assertEquals(expectedUpdatedPetDTO, updatedPetDTO);
+        }).verifyComplete();
+
+        verify(petRepository,times(1)).findById(anyString());
+        verify(mappingUtility,times(1)).mapToPet(any(UpdatePetDTO.class));
+        verify(petRepository,times(1)).save(any(Pet.class));
+        verify(mappingUtility,times(1)).mapToPetDTO(any(Pet.class));
+
+    }
+
+    @Test
+    void testUpdatePetInfo_ThrowsPetNotFoundException(){
+
+        UpdatePetDTO updatePetDTO = TestDataGenerator.getUpdatePetDTO();
+
+        when(petRepository.findById(anyString())).thenReturn(Mono.empty());
+
+        StepVerifier.create(petService.updatePetInfo(Mono.just(updatePetDTO))).expectError(PetNotFoundException.class).verify();
+
+        verify(petRepository,times(1)).findById(anyString());
+        verify(mappingUtility,times(0)).mapToPet(any(UpdatePetDTO.class));
+        verify(petRepository,times(0)).save(any(Pet.class));
+        verify(mappingUtility,times(0)).mapToPetDTO(any(Pet.class));
+
+    }
+
+    @Test
+    void testUpdatePetInfo_Throws_ClinicCardStatusNotFoundException(){
+
+        UpdatePetDTO updatePetDTO = TestDataGenerator.getUpdatePetDTO();
+        Pet expectedExistingPet = TestDataGenerator.getPet();
+        Pet expectedUpdatedPet = TestDataGenerator.getUpdatedPet();
+        PetDTO expectedUpdatedPetDTO = TestDataGenerator.getUpdatedPetDTO();
+
+        when(petRepository.findById(anyString())).thenReturn(Mono.just(expectedExistingPet));
+      /*
+         the modelMapper.map() throws custom exception wrapped under cause property of MappingException
+         hence, asserting for MappingException.class
+      */
+
+        when(mappingUtility.mapToPet(any(UpdatePetDTO.class))).thenThrow(MappingException.class);
+        when(petRepository.save(any(Pet.class))).thenReturn(Mono.just(expectedUpdatedPet));
+        when(mappingUtility.mapToPetDTO(any(Pet.class))).thenReturn(expectedUpdatedPetDTO);
+
+        StepVerifier.create(petService.updatePetInfo(Mono.just(updatePetDTO))).expectError(MappingException.class).verify();
+
+        verify(petRepository,times(1)).findById(anyString());
+        verify(mappingUtility,times(1)).mapToPet(any(UpdatePetDTO.class));
+        verify(petRepository,times(0)).save(any(Pet.class));
+        verify(mappingUtility,times(0)).mapToPetDTO(any(Pet.class));
+
     }
 }

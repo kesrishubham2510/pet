@@ -9,7 +9,6 @@ public class UpdatePetDTO {
     private String master;
     private String category;
     private String gender;
-    private double age;
     private String clinicCardStatus;
-    private String clinicCardStatusMessage;
+    private double age;
 }

@@ -1,43 +1,47 @@
+/**
+ * This is a Behaviour Driven Test written to check the
+   modelMapper functionality
+*/
+
 package com.myreflectionthoughts.apipetdetails.utility;
 
 import com.myreflectionthoughts.apipetdetails.constant.ServiceConstants;
 import com.myreflectionthoughts.apipetdetails.data.TestDataGenerator;
 import com.myreflectionthoughts.apipetdetails.entity.Pet;
+import com.myreflectionthoughts.apipetdetails.exception.CategoryNotFoundException;
+import com.myreflectionthoughts.apipetdetails.exception.ClinicCardStatusNotFoundException;
+import com.myreflectionthoughts.apipetdetails.exception.GenderNotFoundException;
+import com.myreflectionthoughts.library.dto.request.AddPetDTO;
+import com.myreflectionthoughts.library.dto.request.UpdatePetDTO;
 import com.myreflectionthoughts.library.dto.response.DeletePetDTO;
 import com.myreflectionthoughts.library.dto.response.PetDTO;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.modelmapper.ModelMapper;
+import org.modelmapper.MappingException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 public class MappingUtilityTest {
 
     private final String petId;
     private final TestDataGenerator testDataGenerator;
-    @InjectMocks
+    private final ServiceConstants serviceConstants;
+
+    @Autowired
     private MappingUtility mapper;
-    @Mock
-    private ModelMapper modelMapper;
-    @Mock
-    private ServiceConstants serviceConstants;
 
     public MappingUtilityTest() {
         petId = ServiceConstants.DUMMY_PET_ID;
         testDataGenerator = new TestDataGenerator();
+        serviceConstants = new ServiceConstants();
     }
 
     @Test
     public void testMapToPet() {
 
         Pet expectedPet = TestDataGenerator.getPet();
-        when(modelMapper.map(any(), any())).thenReturn(expectedPet);
 
         Pet actualPet = mapper.mapToPet(TestDataGenerator.getAddPetDTO());
 
@@ -54,11 +58,27 @@ public class MappingUtilityTest {
     }
 
     @Test
+    public void testMapToPet_Throws_CategoryNotFoundException() {
+
+        AddPetDTO addPetDTO = TestDataGenerator.getAddPetDTO();
+        addPetDTO.setCategory(ServiceConstants.VALID_CATEGORY_STRING+"fg");
+        MappingException thrownException = assertThrows(MappingException.class, ()->mapper.mapToPet(addPetDTO));
+        assertEquals(thrownException.getCause().getClass(), CategoryNotFoundException.class);
+    }
+
+    @Test
+    public void testMapToPet_Throws_GenderNotFoundException() {
+
+        AddPetDTO addPetDTO = TestDataGenerator.getAddPetDTO();
+        addPetDTO.setGender(ServiceConstants.VALID_GENDER_CATEGORY+"fg");
+        MappingException thrownException = assertThrows(MappingException.class, ()->mapper.mapToPet(addPetDTO));
+        assertEquals(thrownException.getCause().getClass(), GenderNotFoundException.class);
+    }
+
+    @Test
     public void testMapToPetDTO() {
 
         PetDTO expectedPetDTO = TestDataGenerator.getPetDTO();
-
-        when(modelMapper.map(any(), any())).thenReturn(expectedPetDTO);
 
         PetDTO actualPetDTO = mapper.mapToPetDTO(TestDataGenerator.getPet());
 
@@ -73,16 +93,34 @@ public class MappingUtilityTest {
         assertEquals(expectedPetDTO.getAge(), actualPetDTO.getAge());
         assertEquals(expectedPetDTO.getGender(), actualPetDTO.getGender());
         assertEquals(expectedPetDTO.getClinicCardStatus(), actualPetDTO.getClinicCardStatus());
-        assertEquals(expectedPetDTO.getClinicCardStatusMessage(), actualPetDTO.getClinicCardStatusMessage());
     }
 
     @Test
     public void testMapToDeletePetDTO() {
 
-        when(serviceConstants.getPET_INFO_DELETED()).thenReturn(testDataGenerator.getPetInfoDeletedStringTemplate());
-        DeletePetDTO deletePetDTO = mapper.createDeletePetDTO(petId);
+        DeletePetDTO expectedDeletePetDTO = testDataGenerator.getDeletePetDTO();
+        DeletePetDTO actualDeletePetDTO = mapper.createDeletePetDTO(petId);
 
-        assertNotNull(deletePetDTO);
-        assertEquals(testDataGenerator.getDeletePetDTO(), deletePetDTO);
+        assertNotNull(actualDeletePetDTO);
+        assertEquals(expectedDeletePetDTO,actualDeletePetDTO);
+    }
+
+    @Test
+    public void testMapToPet_from_UpdatePetDTO(){
+
+        Pet expectedUpdatedPet = TestDataGenerator.getUpdatedPet();
+        Pet actualUpdatePet = mapper.mapToPet(TestDataGenerator.getUpdatePetDTO());
+
+        assertEquals(expectedUpdatedPet, actualUpdatePet);
+    }
+
+    @Test
+    public void testMapToPet_from_UpdatePetDTO_Throws_ClinicCardSttusException(){
+
+        UpdatePetDTO updatePetDTO = TestDataGenerator.getUpdatePetDTO();
+        updatePetDTO.setClinicCardStatus(ServiceConstants.VALID_CLINIC_CARD_STATUS+"fvf");
+
+        MappingException thrownException = assertThrows(MappingException.class, ()->mapper.mapToPet(updatePetDTO));
+        assertEquals(thrownException.getCause().getClass(), ClinicCardStatusNotFoundException.class);
     }
 }

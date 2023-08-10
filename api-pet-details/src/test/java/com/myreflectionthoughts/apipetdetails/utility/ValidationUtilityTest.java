@@ -1,28 +1,29 @@
+/**
+ *  This is a Behaviour Driven Test to check the functionality
+    of the ValidationUtility
+ */
+
 package com.myreflectionthoughts.apipetdetails.utility;
 
 import com.myreflectionthoughts.apipetdetails.constant.ServiceConstants;
 import com.myreflectionthoughts.apipetdetails.enums.Category;
+import com.myreflectionthoughts.apipetdetails.enums.ClinicCardStatus;
 import com.myreflectionthoughts.apipetdetails.enums.Gender;
 import com.myreflectionthoughts.apipetdetails.exception.CategoryNotFoundException;
+import com.myreflectionthoughts.apipetdetails.exception.ClinicCardStatusNotFoundException;
 import com.myreflectionthoughts.apipetdetails.exception.GenderNotFoundException;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.when;
 
 @SpringBootTest
 public class ValidationUtilityTest {
 
-    @InjectMocks
+    @Autowired
     private ValidationUtility validationUtility;
-
-    @Mock
-    private ExceptionUtility exceptionUtility;
 
     @Test
     void testValidateCategory() {
@@ -36,7 +37,6 @@ public class ValidationUtilityTest {
     @Test
     void testValidateCategoryThrowsCategoryNotFoundException() {
         String invalidCategory = ServiceConstants.VALID_CATEGORY_STRING + "fnkj";
-        when(exceptionUtility.getCategoryNotFoundExceptionMessage(anyString())).thenReturn("");
         assertThrows(CategoryNotFoundException.class, () -> validationUtility.validateCategory(invalidCategory));
     }
 
@@ -52,7 +52,21 @@ public class ValidationUtilityTest {
     @Test
     void testValidateGenderThrowsGenderNotFoundException() {
         String invalidGender = ServiceConstants.VALID_GENDER_CATEGORY + "abcd";
-        when(exceptionUtility.getGenderNotFoundExceptionMessage()).thenReturn("");
         assertThrows(GenderNotFoundException.class, () -> validationUtility.validateGender(invalidGender));
+    }
+
+    @Test
+    void testValidateClinicCardStatus() {
+        String validClinicCardStatus = ServiceConstants.VALID_CLINIC_CARD_STATUS;
+        ClinicCardStatus expectedClinicCardStatus = ClinicCardStatus.valueOf(validClinicCardStatus);
+
+        ClinicCardStatus actualClinicCardStatus = validationUtility.validateClinicCardStatus(validClinicCardStatus);
+        assertEquals(expectedClinicCardStatus, actualClinicCardStatus);
+    }
+
+    @Test
+    void testValidateClinicCardStatusThrowsClinicCardStatusNotFoundException() {
+        String invalidClinicCardStatus = ServiceConstants.VALID_CLINIC_CARD_STATUS + "abcd";
+        assertThrows(ClinicCardStatusNotFoundException.class, () -> validationUtility.validateClinicCardStatus(invalidClinicCardStatus));
     }
 }

@@ -4,9 +4,11 @@ import com.myreflectionthoughts.apipetdetails.constant.ServiceConstants;
 import com.myreflectionthoughts.apipetdetails.contract.IAddPet;
 import com.myreflectionthoughts.apipetdetails.contract.IDeletePet;
 import com.myreflectionthoughts.apipetdetails.contract.IGetPet;
+import com.myreflectionthoughts.apipetdetails.contract.IUpdatePet;
 import com.myreflectionthoughts.apipetdetails.entity.Pet;
 import com.myreflectionthoughts.apipetdetails.exception.PetNotFoundException;
 import com.myreflectionthoughts.library.dto.request.AddPetDTO;
+import com.myreflectionthoughts.library.dto.request.UpdatePetDTO;
 import com.myreflectionthoughts.library.dto.response.DeletePetDTO;
 import com.myreflectionthoughts.library.dto.response.PetDTO;
 import org.springframework.stereotype.Service;
@@ -17,7 +19,8 @@ import reactor.core.publisher.Mono;
 public class PetService extends ServiceProvider implements
         IAddPet<AddPetDTO, PetDTO>,
         IGetPet<PetDTO>,
-        IDeletePet<DeletePetDTO>{
+        IDeletePet<DeletePetDTO>,
+        IUpdatePet<PetDTO,UpdatePetDTO> {
 
     @Override
     public Mono<PetDTO> addPet(Mono<AddPetDTO> requestPayloadMono) {
@@ -53,5 +56,19 @@ public class PetService extends ServiceProvider implements
     private DeletePetDTO handleDeletion(Pet pet){
         petRepository.deleteById(pet.getId());
         return mappingUtility.createDeletePetDTO(pet.getId());
+    }
+
+    @Override
+    public Mono<PetDTO> updatePetInfo(Mono<UpdatePetDTO> updatePetDTOMono) {
+        return updatePetDTOMono.flatMap(this::checkUpdatePetInfo)
+                               .map(mappingUtility::mapToPet)
+                               .flatMap(petRepository::save)
+                               .map(mappingUtility::mapToPetDTO);
+    }
+
+    private Mono<UpdatePetDTO> checkUpdatePetInfo(UpdatePetDTO updatePetDTO) {
+        return petRepository.findById(updatePetDTO.getId())
+                            .map(pet-> updatePetDTO)
+                            .switchIfEmpty(Mono.error(new PetNotFoundException(ServiceConstants.PET_NOT_FOUND_EXCEPTION)));
     }
 }
