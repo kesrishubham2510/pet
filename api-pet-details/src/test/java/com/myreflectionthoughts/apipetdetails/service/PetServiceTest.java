@@ -6,7 +6,6 @@ package com.myreflectionthoughts.apipetdetails.service;
 import com.myreflectionthoughts.apipetdetails.constant.ServiceConstants;
 import com.myreflectionthoughts.apipetdetails.data.TestDataGenerator;
 import com.myreflectionthoughts.apipetdetails.entity.Pet;
-import com.myreflectionthoughts.apipetdetails.exception.ClinicCardStatusNotFoundException;
 import com.myreflectionthoughts.apipetdetails.exception.PetNotFoundException;
 import com.myreflectionthoughts.apipetdetails.repository.PetRepository;
 import com.myreflectionthoughts.apipetdetails.utility.MappingUtility;
@@ -22,8 +21,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
-
-import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
