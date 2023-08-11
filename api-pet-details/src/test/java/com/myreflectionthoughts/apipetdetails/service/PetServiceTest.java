@@ -142,7 +142,7 @@ public class PetServiceTest{
 
         DeletePetDTO deletePetDTOExpected = testDataGenerator.getDeletePetDTO();
 
-        when(petRepository.findById(anyString())).thenReturn(Mono.just(testDataGenerator.getPet()));
+        when(petRepository.findById(anyString())).thenReturn(Mono.just(TestDataGenerator.getPet()));
         when(petRepository.deleteById(anyString())).thenReturn(Mono.empty());
         when(mappingUtility.createDeletePetDTO(anyString())).thenReturn(deletePetDTOExpected);
 
@@ -187,9 +187,7 @@ public class PetServiceTest{
 
         Mono<PetDTO> updatedPetDTOMono = petService.updatePetInfo(Mono.just(updatePetDTO));
 
-        StepVerifier.create(updatedPetDTOMono).consumeNextWith(updatedPetDTO->{
-            assertEquals(expectedUpdatedPetDTO, updatedPetDTO);
-        }).verifyComplete();
+        StepVerifier.create(updatedPetDTOMono).consumeNextWith(updatedPetDTO-> assertEquals(expectedUpdatedPetDTO, updatedPetDTO)).verifyComplete();
 
         verify(petRepository,times(1)).findById(anyString());
         verify(mappingUtility,times(1)).mapToPet(any(UpdatePetDTO.class));

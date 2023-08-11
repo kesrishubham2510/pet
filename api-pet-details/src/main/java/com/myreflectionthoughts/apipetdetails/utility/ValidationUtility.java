@@ -7,7 +7,6 @@ import com.myreflectionthoughts.apipetdetails.exception.CategoryNotFoundExceptio
 import com.myreflectionthoughts.apipetdetails.exception.ClinicCardStatusNotFoundException;
 import com.myreflectionthoughts.apipetdetails.exception.GenderNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.List;
