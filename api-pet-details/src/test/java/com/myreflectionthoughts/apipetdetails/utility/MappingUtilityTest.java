@@ -115,7 +115,7 @@ public class MappingUtilityTest {
     }
 
     @Test
-    public void testMapToPet_from_UpdatePetDTO_Throws_ClinicCardSttusException(){
+    public void testMapToPet_from_UpdatePetDTO_Throws_ClinicCardStatusException(){
 
         UpdatePetDTO updatePetDTO = TestDataGenerator.getUpdatePetDTO();
         updatePetDTO.setClinicCardStatus(ServiceConstants.VALID_CLINIC_CARD_STATUS+"fvf");

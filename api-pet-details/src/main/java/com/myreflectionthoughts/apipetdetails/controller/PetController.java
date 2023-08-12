@@ -28,7 +28,7 @@ public class PetController {
     @PostMapping("/add")
     public Mono<ResponseEntity<PetDTO>> addPet(@RequestBody Mono<AddPetDTO> addPetDTOMono){
         return petService.addPet(addPetDTOMono)
-                         .map(mappingUtility::convertToResponse);
+                         .map(mappingUtility::convertToResponseCreated);
     }
 
     @GetMapping("/get/pet/{petId}")

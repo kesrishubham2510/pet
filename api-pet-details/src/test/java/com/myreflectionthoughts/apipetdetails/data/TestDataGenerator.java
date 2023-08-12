@@ -9,6 +9,10 @@ import com.myreflectionthoughts.library.dto.request.AddPetDTO;
 import com.myreflectionthoughts.library.dto.request.UpdatePetDTO;
 import com.myreflectionthoughts.library.dto.response.DeletePetDTO;
 import com.myreflectionthoughts.library.dto.response.PetDTO;
+import org.bson.types.ObjectId;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class TestDataGenerator {
 
@@ -120,5 +124,51 @@ public class TestDataGenerator {
 
     public String getClinicCardStatusNotFoundExceptionStringTemplate() {
         return serviceConstants.getCLINIC_CARD_STATUS_NOT_FOUND_EXCEPTION();
+    }
+
+    public static List<Pet> generateDummyPets(){
+
+        Pet pet1 = generatePetWithDummyMongoDB_ID();
+
+        Pet pet2 = new Pet();
+        pet2.setId((new ObjectId()).toString());
+        pet2.setAge(2.0);
+        pet2.setCategory(Category.CAT);
+        pet2.setGender(Gender.MALE);
+        pet2.setName("pet2");
+        pet2.setMaster("master2");
+        pet2.setClinicCardStatus(ClinicCardStatus.NOT_APPLIED);
+
+        Pet pet3 = new Pet();
+        pet3.setId((new ObjectId()).toString());
+        pet3.setAge(3.0);
+        pet3.setCategory(Category.RABBIT);
+        pet3.setGender(Gender.MALE);
+        pet3.setName("pet3");
+        pet3.setMaster("master3");
+        pet3.setClinicCardStatus(ClinicCardStatus.NOT_APPLIED);
+
+        Pet pet4 = new Pet();
+        pet4.setId((new ObjectId()).toString());
+        pet4.setAge(3.0);
+        pet4.setCategory(Category.HAMSTER);
+        pet4.setGender(Gender.FEMALE);
+        pet4.setName("pet4");
+        pet4.setMaster("master4");
+        pet4.setClinicCardStatus(ClinicCardStatus.NOT_APPLIED);
+
+        return Arrays.asList(pet1,pet2,pet3,pet4);
+    }
+
+    public static Pet generatePetWithDummyMongoDB_ID(){
+        Pet pet = new Pet();
+        pet.setId((new ObjectId(ServiceConstants.DUMMY_MONGO_DB_ID)).toString());
+        pet.setAge(1.0);
+        pet.setCategory(Category.DOG);
+        pet.setGender(Gender.FEMALE);
+        pet.setName("pet");
+        pet.setMaster("master1");
+        pet.setClinicCardStatus(ClinicCardStatus.NOT_APPLIED);
+        return pet;
     }
 }
