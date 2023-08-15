@@ -8,6 +8,7 @@ import com.myreflectionthoughts.apimasterdetails.repository.MasterRepository;
 import com.myreflectionthoughts.apimasterdetails.utility.MappingUtility;
 import com.myreflectionthoughts.library.dto.request.AddMasterDTO;
 import com.myreflectionthoughts.library.dto.request.UpdateMasterDTO;
+import com.myreflectionthoughts.library.dto.response.DeleteMasterDTO;
 import com.myreflectionthoughts.library.dto.response.MasterDTO;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -120,7 +121,6 @@ public class MasterServiceTest {
         Mono<MasterDTO> actualUpdateInfoResponseMono = masterService.updateInfo(Mono.just(updateMasterDTO));
 
         StepVerifier.create(actualUpdateInfoResponseMono).consumeNextWith(actualUpdateInfoResponse -> {
-            System.out.println(actualUpdateInfoResponse);
             assertEquals(expectedUpdatedMasterDTO, actualUpdateInfoResponse);
         }).verifyComplete();
 
@@ -149,5 +149,46 @@ public class MasterServiceTest {
         verify(mappingUtility, times(0)).mapToMaster(any(UpdateMasterDTO.class));
         verify(masterRepository, times(0)).save(any(Master.class));
         verify(mappingUtility, times(0)).mapToMasterDTO(any(Master.class));
+    }
+
+    @Test
+    void testDeleteMaster(){
+
+        String masterId = ServiceConstants.VALID_MASTER_ID;
+
+        Master expectedMaster = TestDataGenerator.generateMaster();
+        Master expectedMasterMarkedForDeletion = TestDataGenerator.generateMaster();
+        expectedMasterMarkedForDeletion.setMarkForDelete(true);
+
+        when(masterRepository.findById(anyString())).thenReturn(Mono.just(expectedMaster));
+        when(masterRepository.save(any(Master.class))).thenReturn(Mono.just(expectedMasterMarkedForDeletion));
+
+        Mono<DeleteMasterDTO> deleteMasterResponseMono = masterService.delete(Mono.just(masterId));
+
+        StepVerifier.create(deleteMasterResponseMono).consumeNextWith(deleteMasterResponse->{
+            assertEquals(masterId, deleteMasterResponse.getId());
+            assertEquals(String.format(ServiceConstants.MASTER_DELETION_MESSAGE_TEMPLATE,masterId), deleteMasterResponse.getMessage());
+        }).verifyComplete();
+
+        verify(masterRepository,times(1)).findById(anyString());
+        verify(masterRepository,times(1)).save(any(Master.class));
+    }
+
+    @Test
+    void testDeleteMaster_Throws_MasterNotFoundException(){
+
+        String masterId = ServiceConstants.VALID_MASTER_ID;
+
+        Master expectedMaster = TestDataGenerator.generateMaster();
+        Master expectedMasterMarkedForDeletion = TestDataGenerator.generateMaster();
+        expectedMasterMarkedForDeletion.setMarkForDelete(true);
+
+        when(masterRepository.findById(anyString())).thenReturn(Mono.empty());
+        when(masterRepository.save(any(Master.class))).thenReturn(Mono.just(expectedMasterMarkedForDeletion));
+
+        StepVerifier.create(masterService.delete(Mono.just(masterId))).expectError(MasterNotFoundException.class).verify();
+
+        verify(masterRepository,times(1)).findById(anyString());
+        verify(masterRepository,times(0)).save(any(Master.class));
     }
 }
