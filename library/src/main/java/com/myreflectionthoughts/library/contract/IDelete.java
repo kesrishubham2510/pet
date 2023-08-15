@@ -8,5 +8,5 @@ import reactor.core.publisher.Mono;
 
 @FunctionalInterface
 public interface IDelete<T> {
-    Mono<T> delete(Mono<String> petId);
+    Mono<T> delete(Mono<String> id);
 }
