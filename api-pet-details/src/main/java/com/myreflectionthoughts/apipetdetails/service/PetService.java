@@ -1,10 +1,10 @@
 package com.myreflectionthoughts.apipetdetails.service;
 
 import com.myreflectionthoughts.apipetdetails.constant.ServiceConstants;
-import com.myreflectionthoughts.apipetdetails.contract.IAddPet;
-import com.myreflectionthoughts.apipetdetails.contract.IDeletePet;
-import com.myreflectionthoughts.apipetdetails.contract.IGetPet;
-import com.myreflectionthoughts.apipetdetails.contract.IUpdatePet;
+import com.myreflectionthoughts.library.contract.IAdd;
+import com.myreflectionthoughts.library.contract.IDelete;
+import com.myreflectionthoughts.library.contract.IGet;
+import com.myreflectionthoughts.library.contract.IUpdate;
 import com.myreflectionthoughts.apipetdetails.entity.Pet;
 import com.myreflectionthoughts.apipetdetails.exception.PetNotFoundException;
 import com.myreflectionthoughts.library.dto.request.AddPetDTO;
@@ -17,10 +17,10 @@ import reactor.core.publisher.Mono;
 
 @Service
 public class PetService extends ServiceProvider implements
-        IAddPet<AddPetDTO, PetDTO>,
-        IGetPet<PetDTO>,
-        IDeletePet<DeletePetDTO>,
-        IUpdatePet<PetDTO,UpdatePetDTO> {
+        IAdd<AddPetDTO, PetDTO>,
+        IGet<PetDTO>,
+        IDelete<DeletePetDTO>,
+        IUpdate<PetDTO,UpdatePetDTO> {
 
     @Override
     public Mono<PetDTO> addPet(Mono<AddPetDTO> requestPayloadMono) {
