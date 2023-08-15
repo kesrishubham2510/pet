@@ -8,7 +8,7 @@ import reactor.core.publisher.Mono;
  */
 
 public interface IGet<T> {
-    Mono<T> getPetInfo(Mono<String> petId);
+    Mono<T> getInfo(Mono<String> petId);
 
-    Flux<T> getAllPets();
+    Flux<T> getAll();
 }

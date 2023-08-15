@@ -27,27 +27,27 @@ public class PetController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/add")
     public Mono<ResponseEntity<PetDTO>> addPet(@RequestBody Mono<AddPetDTO> addPetDTOMono){
-        return petService.addPet(addPetDTOMono)
+        return petService.add(addPetDTOMono)
                          .map(mappingUtility::convertToResponseCreated);
     }
 
     @GetMapping("/get/pet/{petId}")
     public Mono<ResponseEntity<PetDTO>> getPet(@PathVariable("petId") String petId){
-        return petService.getPetInfo(Mono.just(petId)).map(mappingUtility::convertToResponse);
+        return petService.getInfo(Mono.just(petId)).map(mappingUtility::convertToResponse);
     }
 
     @GetMapping("/get/all")
     public Flux<PetDTO> getPets(){
-        return petService.getAllPets();
+        return petService.getAll();
     }
 
     @PutMapping("/update/pet/{petId}")
     public Mono<ResponseEntity<PetDTO>> updatePet(@PathVariable("petId") String petId, @RequestBody Mono<UpdatePetDTO> updatePetDTOMono){
-        return petService.updatePetInfo(updatePetDTOMono).map(mappingUtility::convertToResponse);
+        return petService.updateInfo(updatePetDTOMono).map(mappingUtility::convertToResponse);
     }
 
     @DeleteMapping("/delete/pet/{petId}")
     public Mono<ResponseEntity<DeletePetDTO>> deletePet(@PathVariable("petId") String petId){
-        return petService.deletePet(Mono.just(petId)).map(mappingUtility::convertToResponse);
+        return petService.delete(Mono.just(petId)).map(mappingUtility::convertToResponse);
     }
 }

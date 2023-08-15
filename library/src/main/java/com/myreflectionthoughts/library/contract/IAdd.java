@@ -10,5 +10,5 @@ import reactor.core.publisher.Mono;
 
 @FunctionalInterface
 public interface IAdd<T, K> {
-    Mono<K> addPet(Mono<T> requestPayload);
+    Mono<K> add(Mono<T> requestPayload);
 }

@@ -23,7 +23,7 @@ public class PetService extends ServiceProvider implements
         IUpdate<PetDTO,UpdatePetDTO> {
 
     @Override
-    public Mono<PetDTO> addPet(Mono<AddPetDTO> requestPayloadMono) {
+    public Mono<PetDTO> add(Mono<AddPetDTO> requestPayloadMono) {
         return requestPayloadMono
                 .map(mappingUtility::mapToPet)
                 .flatMap(petRepository::save)
@@ -31,7 +31,7 @@ public class PetService extends ServiceProvider implements
     }
 
     @Override
-    public Mono<PetDTO> getPetInfo(Mono<String> petIdMono) {
+    public Mono<PetDTO> getInfo(Mono<String> petIdMono) {
         return petIdMono
                 .flatMap(petRepository::findById)
                 .map(mappingUtility::mapToPetDTO)
@@ -39,14 +39,14 @@ public class PetService extends ServiceProvider implements
     }
 
     @Override
-    public Flux<PetDTO> getAllPets() {
+    public Flux<PetDTO> getAll() {
         return petRepository
                 .findAll()
                 .map(mappingUtility::mapToPetDTO);
     }
 
     @Override
-    public Mono<DeletePetDTO> deletePet(Mono<String> petIdMono) {
+    public Mono<DeletePetDTO> delete(Mono<String> petIdMono) {
         return petIdMono
                 .flatMap(petRepository::findById)
                 .map(this::handleDeletion)
@@ -59,7 +59,7 @@ public class PetService extends ServiceProvider implements
     }
 
     @Override
-    public Mono<PetDTO> updatePetInfo(Mono<UpdatePetDTO> updatePetDTOMono) {
+    public Mono<PetDTO> updateInfo(Mono<UpdatePetDTO> updatePetDTOMono) {
         return updatePetDTOMono.flatMap(this::checkUpdatePetInfo)
                                .map(mappingUtility::mapToPet)
                                .flatMap(petRepository::save)

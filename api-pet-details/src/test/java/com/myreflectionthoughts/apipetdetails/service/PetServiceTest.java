@@ -57,7 +57,7 @@ public class PetServiceTest{
         when(petRepository.save(any(Pet.class))).thenReturn(Mono.just(expectedPetFromAddPetDTO));
         when(mappingUtility.mapToPetDTO(any(Pet.class))).thenReturn(expectedPetDTO);
 
-        Mono<PetDTO> responseMono = petService.addPet(Mono.just(addPetDTO));
+        Mono<PetDTO> responseMono = petService.add(Mono.just(addPetDTO));
 
         StepVerifier.create(responseMono).consumeNextWith(response->{
             assertEquals(expectedPetDTO.getId(), response.getId());
@@ -86,7 +86,7 @@ public class PetServiceTest{
         when(petRepository.findById(anyString())).thenReturn(Mono.just(expectedPet));
         when(mappingUtility.mapToPetDTO(any(Pet.class))).thenReturn(expectedPetDTO);
 
-        Mono<PetDTO> responseMono = petService.getPetInfo(Mono.just(petId));
+        Mono<PetDTO> responseMono = petService.getInfo(Mono.just(petId));
 
         StepVerifier.create(responseMono).consumeNextWith(response-> {
             assertEquals(expectedPetDTO.getId(), response.getId());
@@ -113,7 +113,7 @@ public class PetServiceTest{
         when(petRepository.findById(anyString())).thenReturn(Mono.empty());
         when(mappingUtility.mapToPetDTO(any(Pet.class))).thenReturn(expectedPetDTO);
 
-        StepVerifier.create(petService.getPetInfo(Mono.just(petId))).expectError(PetNotFoundException.class).verify();
+        StepVerifier.create(petService.getInfo(Mono.just(petId))).expectError(PetNotFoundException.class).verify();
 
         verify(petRepository,times(1)).findById(anyString());
         verify(mappingUtility,times(0)).mapToPetDTO(any(Pet.class));
@@ -128,7 +128,7 @@ public class PetServiceTest{
         when(petRepository.findAll()).thenReturn(Flux.just(expectedPet));
         when(mappingUtility.mapToPetDTO(any(Pet.class))).thenReturn(expectedPetDTO);
 
-        StepVerifier.create(petService.getAllPets()).expectNextCount(1).verifyComplete();
+        StepVerifier.create(petService.getAll()).expectNextCount(1).verifyComplete();
 
         verify(petRepository,times(1)).findAll();
         verify(mappingUtility,times(1)).mapToPetDTO(any(Pet.class));
@@ -146,7 +146,7 @@ public class PetServiceTest{
         when(petRepository.deleteById(anyString())).thenReturn(Mono.empty());
         when(mappingUtility.createDeletePetDTO(anyString())).thenReturn(deletePetDTOExpected);
 
-        Mono<DeletePetDTO> responseDTO = petService.deletePet(Mono.just(petId));
+        Mono<DeletePetDTO> responseDTO = petService.delete(Mono.just(petId));
 
         StepVerifier.create(responseDTO).consumeNextWith((response->{
             assertEquals(petId, response.getId());
@@ -165,7 +165,7 @@ public class PetServiceTest{
 
         when(petRepository.findById(anyString())).thenReturn(Mono.empty());
 
-        StepVerifier.create(petService.deletePet(Mono.just(petId))).expectError(PetNotFoundException.class).verify();
+        StepVerifier.create(petService.delete(Mono.just(petId))).expectError(PetNotFoundException.class).verify();
 
         verify(petRepository,times(1)).findById(anyString());
         verify(petRepository,times(0)).delete(any());
@@ -185,7 +185,7 @@ public class PetServiceTest{
         when(petRepository.save(any(Pet.class))).thenReturn(Mono.just(expectedUpdatedPet));
         when(mappingUtility.mapToPetDTO(any(Pet.class))).thenReturn(expectedUpdatedPetDTO);
 
-        Mono<PetDTO> updatedPetDTOMono = petService.updatePetInfo(Mono.just(updatePetDTO));
+        Mono<PetDTO> updatedPetDTOMono = petService.updateInfo(Mono.just(updatePetDTO));
 
         StepVerifier.create(updatedPetDTOMono).consumeNextWith(updatedPetDTO-> assertEquals(expectedUpdatedPetDTO, updatedPetDTO)).verifyComplete();
 
@@ -203,7 +203,7 @@ public class PetServiceTest{
 
         when(petRepository.findById(anyString())).thenReturn(Mono.empty());
 
-        StepVerifier.create(petService.updatePetInfo(Mono.just(updatePetDTO))).expectError(PetNotFoundException.class).verify();
+        StepVerifier.create(petService.updateInfo(Mono.just(updatePetDTO))).expectError(PetNotFoundException.class).verify();
 
         verify(petRepository,times(1)).findById(anyString());
         verify(mappingUtility,times(0)).mapToPet(any(UpdatePetDTO.class));
@@ -230,7 +230,7 @@ public class PetServiceTest{
         when(petRepository.save(any(Pet.class))).thenReturn(Mono.just(expectedUpdatedPet));
         when(mappingUtility.mapToPetDTO(any(Pet.class))).thenReturn(expectedUpdatedPetDTO);
 
-        StepVerifier.create(petService.updatePetInfo(Mono.just(updatePetDTO))).expectError(MappingException.class).verify();
+        StepVerifier.create(petService.updateInfo(Mono.just(updatePetDTO))).expectError(MappingException.class).verify();
 
         verify(petRepository,times(1)).findById(anyString());
         verify(mappingUtility,times(1)).mapToPet(any(UpdatePetDTO.class));
