@@ -8,4 +8,6 @@ public class ServiceConstants {
     public static String VALID_MASTER_PASSWORD = "password@Valid";
     public static  String VALID_MASTER_ADDRESS = "address@Valid";
     public static double VALID_MASTER_AGE = 23.0;
+
+    public static String MASTER_NOT_FOUND_EXCEPTION = "Pet not found";
 }
