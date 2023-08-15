@@ -20,6 +20,8 @@ public class MappingUtilityTest {
     void testMapToMaster() {
         AddMasterDTO addMasterDTO = TestDataGenerator.generateAddMasterDTO();
         Master expectedMaster = TestDataGenerator.generateMaster();
+        // since the addMasterDTO does not contain the id
+        expectedMaster.setId(null);
 
         Master actualMaster = mappingUtility.mapToMaster(addMasterDTO);
 
