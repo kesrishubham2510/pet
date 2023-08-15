@@ -60,15 +60,10 @@ public class PetService extends ServiceProvider implements
 
     @Override
     public Mono<PetDTO> updateInfo(Mono<UpdatePetDTO> updatePetDTOMono) {
-        return updatePetDTOMono.flatMap(this::checkUpdatePetInfo)
+        return updatePetDTOMono.filterWhen(updatePetDTO -> petRepository.existsById(updatePetDTO.getId()))
                                .map(mappingUtility::mapToPet)
                                .flatMap(petRepository::save)
-                               .map(mappingUtility::mapToPetDTO);
-    }
-
-    private Mono<UpdatePetDTO> checkUpdatePetInfo(UpdatePetDTO updatePetDTO) {
-        return petRepository.findById(updatePetDTO.getId())
-                            .map(pet-> updatePetDTO)
-                            .switchIfEmpty(Mono.error(new PetNotFoundException(ServiceConstants.PET_NOT_FOUND_EXCEPTION)));
+                               .map(mappingUtility::mapToPetDTO)
+                               .switchIfEmpty(Mono.error(new PetNotFoundException(ServiceConstants.PET_NOT_FOUND_EXCEPTION))) ;
     }
 }
