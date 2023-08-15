@@ -12,7 +12,6 @@ import com.myreflectionthoughts.library.contract.IUpdate;
 import com.myreflectionthoughts.library.dto.request.AddMasterDTO;
 import com.myreflectionthoughts.library.dto.request.UpdateMasterDTO;
 import com.myreflectionthoughts.library.dto.response.DeleteMasterDTO;
-import com.myreflectionthoughts.library.dto.response.DeletePetDTO;
 import com.myreflectionthoughts.library.dto.response.MasterDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
