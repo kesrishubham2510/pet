@@ -7,6 +7,7 @@ import com.myreflectionthoughts.apimasterdetails.exception.MasterNotFoundExcepti
 import com.myreflectionthoughts.apimasterdetails.repository.MasterRepository;
 import com.myreflectionthoughts.apimasterdetails.utility.MappingUtility;
 import com.myreflectionthoughts.library.dto.request.AddMasterDTO;
+import com.myreflectionthoughts.library.dto.request.UpdateMasterDTO;
 import com.myreflectionthoughts.library.dto.response.MasterDTO;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -74,6 +75,7 @@ public class MasterServiceTest {
         verify(masterRepository, times(1)).findById(any(String.class));
         verify(mappingUtility, times(1)).mapToMasterDTO(any(Master.class));
     }
+
     @Test
     void testGetMasterInfo_Throws_MasterNotFoundException() {
         String masterId = ServiceConstants.VALID_MASTER_ID;
@@ -87,7 +89,7 @@ public class MasterServiceTest {
     }
 
     @Test
-    void testGetAllMasters(){
+    void testGetAllMasters() {
 
         Master expectedMaster = TestDataGenerator.generateMaster();
         MasterDTO expectedMasterDTO = TestDataGenerator.generateMasterDTO();
@@ -98,8 +100,54 @@ public class MasterServiceTest {
         Flux<MasterDTO> actualMasters = masterService.getAll();
         StepVerifier.create(actualMasters).expectNextCount(1).verifyComplete();
 
-        verify(masterRepository,times(1)).findAll();
-        verify(mappingUtility,times(1)).mapToMasterDTO(any(Master.class));
+        verify(masterRepository, times(1)).findAll();
+        verify(mappingUtility, times(1)).mapToMasterDTO(any(Master.class));
 
+    }
+
+    @Test
+    void testUpdateMaster() {
+
+        UpdateMasterDTO updateMasterDTO = TestDataGenerator.generateUpdateMasterDTO();
+        Master expectedUpdatedMaster = TestDataGenerator.generateUpdatedMaster();
+        MasterDTO expectedUpdatedMasterDTO = TestDataGenerator.generateUpdatedMasterDTO();
+
+        when(masterRepository.existsById(anyString())).thenReturn(Mono.just((true)));
+        when(mappingUtility.mapToMaster(any(UpdateMasterDTO.class))).thenReturn(expectedUpdatedMaster);
+        when(masterRepository.save(any(Master.class))).thenReturn(Mono.just(expectedUpdatedMaster));
+        when(mappingUtility.mapToMasterDTO(any(Master.class))).thenReturn(expectedUpdatedMasterDTO);
+
+        Mono<MasterDTO> actualUpdateInfoResponseMono = masterService.updateInfo(Mono.just(updateMasterDTO));
+
+        StepVerifier.create(actualUpdateInfoResponseMono).consumeNextWith(actualUpdateInfoResponse -> {
+            System.out.println(actualUpdateInfoResponse);
+            assertEquals(expectedUpdatedMasterDTO, actualUpdateInfoResponse);
+        }).verifyComplete();
+
+        verify(masterRepository, times(1)).existsById(anyString());
+        verify(mappingUtility, times(1)).mapToMaster(any(UpdateMasterDTO.class));
+        verify(masterRepository, times(1)).save(any(Master.class));
+        verify(mappingUtility, times(1)).mapToMasterDTO(any(Master.class));
+    }
+
+    @Test
+    void testUpdateMaster_Throws_MasterNotFoundException() {
+
+        UpdateMasterDTO updateMasterDTO = TestDataGenerator.generateUpdateMasterDTO();
+        Master expectedUpdatedMaster = TestDataGenerator.generateUpdatedMaster();
+        MasterDTO expectedUpdatedMasterDTO = TestDataGenerator.generateUpdatedMasterDTO();
+
+        when(masterRepository.existsById(anyString())).thenReturn(Mono.just((false)));
+        when(mappingUtility.mapToMaster(any(UpdateMasterDTO.class))).thenReturn(expectedUpdatedMaster);
+        when(masterRepository.save(any(Master.class))).thenReturn(Mono.just(expectedUpdatedMaster));
+        when(mappingUtility.mapToMasterDTO(any(Master.class))).thenReturn(expectedUpdatedMasterDTO);
+
+        StepVerifier.create(masterService.updateInfo(Mono.just(updateMasterDTO)))
+                .expectError(MasterNotFoundException.class).verify();
+
+        verify(masterRepository, times(1)).existsById(anyString());
+        verify(mappingUtility, times(0)).mapToMaster(any(UpdateMasterDTO.class));
+        verify(masterRepository, times(0)).save(any(Master.class));
+        verify(mappingUtility, times(0)).mapToMasterDTO(any(Master.class));
     }
 }
