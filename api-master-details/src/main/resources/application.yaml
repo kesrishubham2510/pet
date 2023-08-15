@@ -1,0 +1,6 @@
+# automatic index creation is by-default off, so this needs to be turned on for
+# @Indexed to work fine
+spring:
+  data:
+    mongodb:
+      auto-index-creation: true
