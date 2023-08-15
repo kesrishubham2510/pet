@@ -1,12 +1,11 @@
 package com.myreflectionthoughts.apipetdetails.service;
 
 import com.myreflectionthoughts.apipetdetails.constant.ServiceConstants;
+import com.myreflectionthoughts.apipetdetails.exception.PetNotFoundException;
 import com.myreflectionthoughts.library.contract.IAdd;
 import com.myreflectionthoughts.library.contract.IDelete;
 import com.myreflectionthoughts.library.contract.IGet;
 import com.myreflectionthoughts.library.contract.IUpdate;
-import com.myreflectionthoughts.apipetdetails.entity.Pet;
-import com.myreflectionthoughts.apipetdetails.exception.PetNotFoundException;
 import com.myreflectionthoughts.library.dto.request.AddPetDTO;
 import com.myreflectionthoughts.library.dto.request.UpdatePetDTO;
 import com.myreflectionthoughts.library.dto.response.DeletePetDTO;
@@ -47,15 +46,14 @@ public class PetService extends ServiceProvider implements
 
     @Override
     public Mono<DeletePetDTO> delete(Mono<String> petIdMono) {
-        return petIdMono
-                .flatMap(petRepository::findById)
+        return petIdMono.filterWhen(petRepository::existsById)
                 .map(this::handleDeletion)
                 .switchIfEmpty(Mono.error(new PetNotFoundException((ServiceConstants.PET_NOT_FOUND_EXCEPTION))));
     }
 
-    private DeletePetDTO handleDeletion(Pet pet){
-        petRepository.deleteById(pet.getId());
-        return mappingUtility.createDeletePetDTO(pet.getId());
+    private DeletePetDTO handleDeletion(String petId){
+        petRepository.deleteById(petId);
+        return mappingUtility.createDeletePetDTO(petId);
     }
 
     @Override

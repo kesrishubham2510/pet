@@ -142,7 +142,7 @@ public class PetServiceTest{
 
         DeletePetDTO deletePetDTOExpected = testDataGenerator.getDeletePetDTO();
 
-        when(petRepository.findById(anyString())).thenReturn(Mono.just(TestDataGenerator.getPet()));
+        when(petRepository.existsById(anyString())).thenReturn(Mono.just(true));
         when(petRepository.deleteById(anyString())).thenReturn(Mono.empty());
         when(mappingUtility.createDeletePetDTO(anyString())).thenReturn(deletePetDTOExpected);
 
@@ -153,7 +153,7 @@ public class PetServiceTest{
             assertEquals(deletePetDTOExpected.getMessage(), response.getMessage());
         })).verifyComplete();
 
-        verify(petRepository,times(1)).findById(anyString());
+        verify(petRepository,times(1)).existsById(anyString());
         verify(petRepository,times(1)).deleteById(anyString());
         verify(mappingUtility,times(1)).createDeletePetDTO(anyString());
     }
@@ -163,12 +163,12 @@ public class PetServiceTest{
 
         String petId = testDataGenerator.getPetId();
 
-        when(petRepository.findById(anyString())).thenReturn(Mono.empty());
+        when(petRepository.existsById(anyString())).thenReturn(Mono.just(false));
 
         StepVerifier.create(petService.delete(Mono.just(petId))).expectError(PetNotFoundException.class).verify();
 
-        verify(petRepository,times(1)).findById(anyString());
-        verify(petRepository,times(0)).delete(any());
+        verify(petRepository,times(1)).existsById(anyString());
+        verify(petRepository,times(0)).deleteById(anyString());
         verify(mappingUtility,times(0)).createDeletePetDTO(anyString());
     }
 
