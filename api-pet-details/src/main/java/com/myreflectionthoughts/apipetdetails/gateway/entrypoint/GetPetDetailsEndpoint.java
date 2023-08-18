@@ -1,7 +1,7 @@
 package com.myreflectionthoughts.apipetdetails.gateway.entrypoint;
 
 import com.myreflectionthoughts.apipetdetails.core.constant.ServiceConstants;
-import com.myreflectionthoughts.apipetdetails.gateway.dataprovider.PetDataProvider;
+import com.myreflectionthoughts.apipetdetails.core.usecase.ReadPetDetailsUseCase;
 import com.myreflectionthoughts.apipetdetails.gateway.dataprovider.utility.MappingUtility;
 import com.myreflectionthoughts.library.dto.response.PetDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,11 +20,10 @@ public class GetPetDetailsEndpoint{
     private MappingUtility mappingUtility;
 
     @Autowired
-    private PetDataProvider petDataProvider;
-
+    private ReadPetDetailsUseCase readPetDetailsUseCase;
 
     @GetMapping("/get/pet/{petId}")
     public Mono<ResponseEntity<PetDTO>> getPet(@PathVariable("petId") String petId){
-        return petDataProvider.getInfo(Mono.just(petId)).map(mappingUtility::convertToResponse);
+        return readPetDetailsUseCase.getDetails(Mono.just(petId)).map(mappingUtility::convertToResponse);
     }
 }

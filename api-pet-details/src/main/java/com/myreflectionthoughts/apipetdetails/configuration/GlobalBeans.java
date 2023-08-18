@@ -1,5 +1,6 @@
 package com.myreflectionthoughts.apipetdetails.configuration;
 
+import com.myreflectionthoughts.apipetdetails.core.usecase.*;
 import com.myreflectionthoughts.apipetdetails.gateway.dataprovider.utility.ConversionUtility;
 import com.myreflectionthoughts.apipetdetails.gateway.dataprovider.utility.ExceptionUtility;
 import com.myreflectionthoughts.apipetdetails.gateway.dataprovider.utility.MappingUtility;
@@ -27,4 +28,15 @@ public class GlobalBeans {
 
     @Bean
     ValidationUtility validationUtility(){ return new ValidationUtility();}
+
+    @Bean
+    CreatePetUseCase createPetUsecase(){ return  new CreatePetUseCase();}
+    @Bean
+    ReadPetDetailsUseCase readPetDetailsUseCase(){ return  new ReadPetDetailsUseCase();}
+    @Bean
+    ReadPetsUseCase readPetsUseCase(){ return  new ReadPetsUseCase();}
+    @Bean
+    UpdatePetDetailsUseCase updatePetDetailsUseCase(){ return  new UpdatePetDetailsUseCase();}
+    @Bean
+    DeletePetDetailsUseCase deletePetDetailsUseCase(){ return  new DeletePetDetailsUseCase();}
 }

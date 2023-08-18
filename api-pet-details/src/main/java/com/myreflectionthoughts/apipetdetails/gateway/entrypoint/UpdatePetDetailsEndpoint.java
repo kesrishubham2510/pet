@@ -1,7 +1,7 @@
 package com.myreflectionthoughts.apipetdetails.gateway.entrypoint;
 
 import com.myreflectionthoughts.apipetdetails.core.constant.ServiceConstants;
-import com.myreflectionthoughts.apipetdetails.gateway.dataprovider.UpdatePetDataProvider;
+import com.myreflectionthoughts.apipetdetails.core.usecase.UpdatePetDetailsUseCase;
 import com.myreflectionthoughts.apipetdetails.gateway.dataprovider.utility.MappingUtility;
 import com.myreflectionthoughts.library.dto.request.UpdatePetDTO;
 import com.myreflectionthoughts.library.dto.response.PetDTO;
@@ -18,10 +18,10 @@ public class UpdatePetDetailsEndpoint{
     private MappingUtility mappingUtility;
 
     @Autowired
-    private UpdatePetDataProvider updatePetDataProvider;
+    private UpdatePetDetailsUseCase updatePetDetailsUseCase;
 
     @PutMapping("/update/pet/{petId}")
     public Mono<ResponseEntity<PetDTO>> updatePet(@PathVariable("petId") String petId, @RequestBody Mono<UpdatePetDTO> updatePetDTOMono){
-        return updatePetDataProvider.updateInfo(updatePetDTOMono).map(mappingUtility::convertToResponse);
+        return updatePetDetailsUseCase.updatePetDetails(updatePetDTOMono).map(mappingUtility::convertToResponse);
     }
 }

@@ -1,7 +1,7 @@
 package com.myreflectionthoughts.apipetdetails.gateway.entrypoint;
 
 import com.myreflectionthoughts.apipetdetails.core.constant.ServiceConstants;
-import com.myreflectionthoughts.apipetdetails.gateway.dataprovider.CreatePetDataProvider;
+import com.myreflectionthoughts.apipetdetails.core.usecase.CreatePetUseCase;
 import com.myreflectionthoughts.apipetdetails.gateway.dataprovider.utility.MappingUtility;
 import com.myreflectionthoughts.library.dto.request.AddPetDTO;
 import com.myreflectionthoughts.library.dto.response.PetDTO;
@@ -19,12 +19,12 @@ public class CreatePetEndpoint{
     private MappingUtility mappingUtility;
 
     @Autowired
-    private CreatePetDataProvider createPetDataProvider;
+    private CreatePetUseCase createPetUseCase;
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/add")
     public Mono<ResponseEntity<PetDTO>> addPet(@RequestBody Mono<AddPetDTO> addPetDTOMono){
-        return createPetDataProvider.add(addPetDTOMono)
+        return createPetUseCase.addPet(addPetDTOMono)
                 .map(mappingUtility::convertToResponseCreated);
     }
 }
