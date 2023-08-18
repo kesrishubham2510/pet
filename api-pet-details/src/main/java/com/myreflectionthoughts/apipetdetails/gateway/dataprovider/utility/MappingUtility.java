@@ -1,4 +1,4 @@
-package com.myreflectionthoughts.apipetdetails.core.utility;
+package com.myreflectionthoughts.apipetdetails.gateway.dataprovider.utility;
 
 import com.myreflectionthoughts.apipetdetails.core.constant.ServiceConstants;
 import com.myreflectionthoughts.apipetdetails.core.entity.Pet;
@@ -25,6 +25,7 @@ public class MappingUtility {
 
     @PostConstruct
     public void configureModelMapper() {
+        System.out.println("Initialised the model mapper....");
         addMappingConfigurations();
         serviceConstants = new ServiceConstants();
     }

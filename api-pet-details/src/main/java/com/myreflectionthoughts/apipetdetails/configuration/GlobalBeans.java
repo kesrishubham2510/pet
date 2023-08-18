@@ -1,9 +1,9 @@
 package com.myreflectionthoughts.apipetdetails.configuration;
 
-import com.myreflectionthoughts.apipetdetails.core.utility.ConversionUtility;
-import com.myreflectionthoughts.apipetdetails.core.utility.ExceptionUtility;
-import com.myreflectionthoughts.apipetdetails.core.utility.MappingUtility;
-import com.myreflectionthoughts.apipetdetails.core.utility.ValidationUtility;
+import com.myreflectionthoughts.apipetdetails.gateway.dataprovider.utility.ConversionUtility;
+import com.myreflectionthoughts.apipetdetails.gateway.dataprovider.utility.ExceptionUtility;
+import com.myreflectionthoughts.apipetdetails.gateway.dataprovider.utility.MappingUtility;
+import com.myreflectionthoughts.apipetdetails.gateway.dataprovider.utility.ValidationUtility;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;

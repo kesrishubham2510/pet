@@ -1,8 +1,8 @@
 package com.myreflectionthoughts.apipetdetails.gateway.entrypoint;
 
 import com.myreflectionthoughts.apipetdetails.core.constant.ServiceConstants;
-import com.myreflectionthoughts.apipetdetails.core.utility.MappingUtility;
-import com.myreflectionthoughts.apipetdetails.gateway.service.PetService;
+import com.myreflectionthoughts.apipetdetails.gateway.dataprovider.AllPetsProvider;
+import com.myreflectionthoughts.apipetdetails.gateway.dataprovider.utility.MappingUtility;
 import com.myreflectionthoughts.library.dto.response.PetDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,10 +18,10 @@ public class GetAllPetsEndpoint{
     private MappingUtility mappingUtility;
 
     @Autowired
-    private PetService petService;
+    private AllPetsProvider allPetsProvider;
 
     @GetMapping("/get/all")
     public Flux<PetDTO> getPets(){
-        return petService.getAll();
+        return allPetsProvider.getAll();
     }
 }

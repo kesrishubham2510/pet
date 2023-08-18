@@ -1,4 +1,4 @@
-package com.myreflectionthoughts.apipetdetails.core.utility;
+package com.myreflectionthoughts.apipetdetails.gateway.dataprovider.utility;
 
 import com.myreflectionthoughts.apipetdetails.core.constant.ServiceConstants;
 import com.myreflectionthoughts.apipetdetails.core.enums.Category;

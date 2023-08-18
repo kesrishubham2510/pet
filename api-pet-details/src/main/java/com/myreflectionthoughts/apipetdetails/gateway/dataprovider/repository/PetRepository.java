@@ -1,4 +1,4 @@
-package com.myreflectionthoughts.apipetdetails.gateway.repository;
+package com.myreflectionthoughts.apipetdetails.gateway.dataprovider.repository;
 
 import com.myreflectionthoughts.apipetdetails.core.entity.Pet;
 import org.springframework.data.mongodb.repository.ReactiveMongoRepository;

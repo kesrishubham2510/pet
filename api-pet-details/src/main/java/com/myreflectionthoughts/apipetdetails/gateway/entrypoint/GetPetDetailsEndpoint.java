@@ -1,8 +1,8 @@
 package com.myreflectionthoughts.apipetdetails.gateway.entrypoint;
 
 import com.myreflectionthoughts.apipetdetails.core.constant.ServiceConstants;
-import com.myreflectionthoughts.apipetdetails.core.utility.MappingUtility;
-import com.myreflectionthoughts.apipetdetails.gateway.service.PetService;
+import com.myreflectionthoughts.apipetdetails.gateway.dataprovider.PetDataProvider;
+import com.myreflectionthoughts.apipetdetails.gateway.dataprovider.utility.MappingUtility;
 import com.myreflectionthoughts.library.dto.response.PetDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,11 +20,11 @@ public class GetPetDetailsEndpoint{
     private MappingUtility mappingUtility;
 
     @Autowired
-    private PetService petService;
+    private PetDataProvider petDataProvider;
 
 
     @GetMapping("/get/pet/{petId}")
     public Mono<ResponseEntity<PetDTO>> getPet(@PathVariable("petId") String petId){
-        return petService.getInfo(Mono.just(petId)).map(mappingUtility::convertToResponse);
+        return petDataProvider.getInfo(Mono.just(petId)).map(mappingUtility::convertToResponse);
     }
 }

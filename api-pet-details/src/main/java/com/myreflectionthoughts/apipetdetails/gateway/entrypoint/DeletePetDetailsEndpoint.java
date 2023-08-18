@@ -1,8 +1,8 @@
 package com.myreflectionthoughts.apipetdetails.gateway.entrypoint;
 
 import com.myreflectionthoughts.apipetdetails.core.constant.ServiceConstants;
-import com.myreflectionthoughts.apipetdetails.core.utility.MappingUtility;
-import com.myreflectionthoughts.apipetdetails.gateway.service.PetService;
+import com.myreflectionthoughts.apipetdetails.gateway.dataprovider.DeletePetDataProvider;
+import com.myreflectionthoughts.apipetdetails.gateway.dataprovider.utility.MappingUtility;
 import com.myreflectionthoughts.library.dto.response.DeletePetDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,10 +20,10 @@ public class DeletePetDetailsEndpoint{
     private MappingUtility mappingUtility;
 
     @Autowired
-    private PetService petService;
+    private DeletePetDataProvider deletePetDataProvider;
 
     @DeleteMapping("/delete/pet/{petId}")
     public Mono<ResponseEntity<DeletePetDTO>> deletePet(@PathVariable("petId") String petId){
-        return petService.delete(Mono.just(petId)).map(mappingUtility::convertToResponse);
+        return deletePetDataProvider.delete(Mono.just(petId)).map(mappingUtility::convertToResponse);
     }
 }

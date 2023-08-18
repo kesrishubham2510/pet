@@ -1,8 +1,8 @@
 package com.myreflectionthoughts.apipetdetails.gateway.entrypoint;
 
 import com.myreflectionthoughts.apipetdetails.core.constant.ServiceConstants;
-import com.myreflectionthoughts.apipetdetails.core.utility.MappingUtility;
-import com.myreflectionthoughts.apipetdetails.gateway.service.PetService;
+import com.myreflectionthoughts.apipetdetails.gateway.dataprovider.CreatePetDataProvider;
+import com.myreflectionthoughts.apipetdetails.gateway.dataprovider.utility.MappingUtility;
 import com.myreflectionthoughts.library.dto.request.AddPetDTO;
 import com.myreflectionthoughts.library.dto.response.PetDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,12 +19,12 @@ public class CreatePetEndpoint{
     private MappingUtility mappingUtility;
 
     @Autowired
-    private PetService petService;
+    private CreatePetDataProvider createPetDataProvider;
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/add")
     public Mono<ResponseEntity<PetDTO>> addPet(@RequestBody Mono<AddPetDTO> addPetDTOMono){
-        return petService.add(addPetDTOMono)
+        return createPetDataProvider.add(addPetDTOMono)
                 .map(mappingUtility::convertToResponseCreated);
     }
 }

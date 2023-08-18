@@ -3,7 +3,7 @@
    modelMapper functionality
 */
 
-package com.myreflectionthoughts.apipetdetails.core.utility;
+package com.myreflectionthoughts.apipetdetails.gateway.dataprovider.utility;
 
 import com.myreflectionthoughts.apipetdetails.core.constant.ServiceConstants;
 import com.myreflectionthoughts.apipetdetails.configuration.TestDataGenerator;
@@ -11,6 +11,7 @@ import com.myreflectionthoughts.apipetdetails.core.entity.Pet;
 import com.myreflectionthoughts.apipetdetails.core.exception.CategoryNotFoundException;
 import com.myreflectionthoughts.apipetdetails.core.exception.ClinicCardStatusNotFoundException;
 import com.myreflectionthoughts.apipetdetails.core.exception.GenderNotFoundException;
+import com.myreflectionthoughts.apipetdetails.gateway.dataprovider.utility.MappingUtility;
 import com.myreflectionthoughts.library.dto.request.AddPetDTO;
 import com.myreflectionthoughts.library.dto.request.UpdatePetDTO;
 import com.myreflectionthoughts.library.dto.response.DeletePetDTO;

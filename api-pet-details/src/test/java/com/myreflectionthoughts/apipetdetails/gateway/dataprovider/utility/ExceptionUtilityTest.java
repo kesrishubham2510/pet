@@ -3,13 +3,14 @@
     of the ExceptionUtility
 */
 
-package com.myreflectionthoughts.apipetdetails.core.utility;
+package com.myreflectionthoughts.apipetdetails.gateway.dataprovider.utility;
 
 import com.myreflectionthoughts.apipetdetails.core.constant.ServiceConstants;
 import com.myreflectionthoughts.apipetdetails.configuration.TestDataGenerator;
 import com.myreflectionthoughts.apipetdetails.core.enums.Category;
 import com.myreflectionthoughts.apipetdetails.core.enums.ClinicCardStatus;
 import com.myreflectionthoughts.apipetdetails.core.enums.Gender;
+import com.myreflectionthoughts.apipetdetails.gateway.dataprovider.utility.ExceptionUtility;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
