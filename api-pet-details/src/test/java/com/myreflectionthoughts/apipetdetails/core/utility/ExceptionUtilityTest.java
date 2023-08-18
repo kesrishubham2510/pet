@@ -6,8 +6,7 @@
 package com.myreflectionthoughts.apipetdetails.core.utility;
 
 import com.myreflectionthoughts.apipetdetails.core.constant.ServiceConstants;
-import com.myreflectionthoughts.apipetdetails.core.utility.ExceptionUtility;
-import com.myreflectionthoughts.apipetdetails.configuration.data.TestDataGenerator;
+import com.myreflectionthoughts.apipetdetails.configuration.TestDataGenerator;
 import com.myreflectionthoughts.apipetdetails.core.enums.Category;
 import com.myreflectionthoughts.apipetdetails.core.enums.ClinicCardStatus;
 import com.myreflectionthoughts.apipetdetails.core.enums.Gender;

@@ -6,8 +6,7 @@
 package com.myreflectionthoughts.apipetdetails.core.utility;
 
 import com.myreflectionthoughts.apipetdetails.core.constant.ServiceConstants;
-import com.myreflectionthoughts.apipetdetails.core.utility.MappingUtility;
-import com.myreflectionthoughts.apipetdetails.configuration.data.TestDataGenerator;
+import com.myreflectionthoughts.apipetdetails.configuration.TestDataGenerator;
 import com.myreflectionthoughts.apipetdetails.core.entity.Pet;
 import com.myreflectionthoughts.apipetdetails.core.exception.CategoryNotFoundException;
 import com.myreflectionthoughts.apipetdetails.core.exception.ClinicCardStatusNotFoundException;

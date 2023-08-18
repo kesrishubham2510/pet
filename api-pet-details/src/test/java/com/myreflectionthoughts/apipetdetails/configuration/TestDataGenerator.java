@@ -1,4 +1,4 @@
-package com.myreflectionthoughts.apipetdetails.configuration.data;
+package com.myreflectionthoughts.apipetdetails.configuration;
 
 import com.myreflectionthoughts.apipetdetails.core.constant.ServiceConstants;
 import com.myreflectionthoughts.apipetdetails.core.entity.Pet;
