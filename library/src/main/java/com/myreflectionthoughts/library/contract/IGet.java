@@ -9,6 +9,4 @@ import reactor.core.publisher.Mono;
 
 public interface IGet<T> {
     Mono<T> getInfo(Mono<String> id);
-
-    Flux<T> getAll();
 }
