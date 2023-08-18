@@ -3,12 +3,13 @@
 */
 package com.myreflectionthoughts.apipetdetails.service;
 
-import com.myreflectionthoughts.apipetdetails.constant.ServiceConstants;
-import com.myreflectionthoughts.apipetdetails.data.TestDataGenerator;
-import com.myreflectionthoughts.apipetdetails.entity.Pet;
-import com.myreflectionthoughts.apipetdetails.exception.PetNotFoundException;
-import com.myreflectionthoughts.apipetdetails.repository.PetRepository;
-import com.myreflectionthoughts.apipetdetails.utility.MappingUtility;
+import com.myreflectionthoughts.apipetdetails.core.constant.ServiceConstants;
+import com.myreflectionthoughts.apipetdetails.configuration.data.TestDataGenerator;
+import com.myreflectionthoughts.apipetdetails.core.entity.Pet;
+import com.myreflectionthoughts.apipetdetails.core.exception.PetNotFoundException;
+import com.myreflectionthoughts.apipetdetails.gateway.repository.PetRepository;
+import com.myreflectionthoughts.apipetdetails.core.utility.MappingUtility;
+import com.myreflectionthoughts.apipetdetails.gateway.service.PetService;
 import com.myreflectionthoughts.library.dto.request.AddPetDTO;
 import com.myreflectionthoughts.library.dto.request.UpdatePetDTO;
 import com.myreflectionthoughts.library.dto.response.DeletePetDTO;
