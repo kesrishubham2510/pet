@@ -1,4 +1,4 @@
-package com.myreflectionthoughts.apipetdetails.gateway.bdd;
+package com.myreflectionthoughts.apipetdetails.gateway.entrypoint;
 
 import com.myreflectionthoughts.apipetdetails.core.constant.ServiceConstants;
 import com.myreflectionthoughts.apipetdetails.core.exception.PetNotFoundException;
