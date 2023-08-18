@@ -1,15 +1,14 @@
 /**
      * Unit test for PetService.java
 */
-package com.myreflectionthoughts.apipetdetails.service;
+package com.myreflectionthoughts.apipetdetails.gateway.service;
 
 import com.myreflectionthoughts.apipetdetails.core.constant.ServiceConstants;
-import com.myreflectionthoughts.apipetdetails.configuration.data.TestDataGenerator;
+import com.myreflectionthoughts.apipetdetails.configuration.TestDataGenerator;
 import com.myreflectionthoughts.apipetdetails.core.entity.Pet;
 import com.myreflectionthoughts.apipetdetails.core.exception.PetNotFoundException;
 import com.myreflectionthoughts.apipetdetails.gateway.repository.PetRepository;
 import com.myreflectionthoughts.apipetdetails.core.utility.MappingUtility;
-import com.myreflectionthoughts.apipetdetails.gateway.service.PetService;
 import com.myreflectionthoughts.library.dto.request.AddPetDTO;
 import com.myreflectionthoughts.library.dto.request.UpdatePetDTO;
 import com.myreflectionthoughts.library.dto.response.DeletePetDTO;
