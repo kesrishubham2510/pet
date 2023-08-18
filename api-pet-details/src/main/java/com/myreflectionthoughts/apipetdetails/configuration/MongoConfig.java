@@ -1,4 +1,4 @@
-package com.myreflectionthoughts.apipetdetails.configuration.component.configurations;
+package com.myreflectionthoughts.apipetdetails.configuration;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.repository.config.EnableReactiveMongoRepositories;

@@ -1,4 +1,4 @@
-package com.myreflectionthoughts.apipetdetails.configuration.component;
+package com.myreflectionthoughts.apipetdetails.configuration;
 
 import com.myreflectionthoughts.apipetdetails.core.utility.ConversionUtility;
 import com.myreflectionthoughts.apipetdetails.core.utility.ExceptionUtility;
