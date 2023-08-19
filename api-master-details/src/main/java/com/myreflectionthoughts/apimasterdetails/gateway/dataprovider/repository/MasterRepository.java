@@ -1,6 +1,6 @@
-package com.myreflectionthoughts.apimasterdetails.repository;
+package com.myreflectionthoughts.apimasterdetails.gateway.dataprovider.repository;
 
-import com.myreflectionthoughts.apimasterdetails.entity.Master;
+import com.myreflectionthoughts.apimasterdetails.core.entity.Master;
 import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
 import org.springframework.stereotype.Repository;
 

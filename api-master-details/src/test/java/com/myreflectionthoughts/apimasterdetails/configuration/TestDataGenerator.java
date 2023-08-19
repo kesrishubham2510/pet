@@ -1,7 +1,7 @@
-package com.myreflectionthoughts.apimasterdetails.data;
+package com.myreflectionthoughts.apimasterdetails.configuration;
 
-import com.myreflectionthoughts.apimasterdetails.constant.ServiceConstants;
-import com.myreflectionthoughts.apimasterdetails.entity.Master;
+import com.myreflectionthoughts.apimasterdetails.core.constant.ServiceConstants;
+import com.myreflectionthoughts.apimasterdetails.core.entity.Master;
 import com.myreflectionthoughts.library.dto.request.AddMasterDTO;
 import com.myreflectionthoughts.library.dto.request.UpdateMasterDTO;
 import com.myreflectionthoughts.library.dto.response.MasterDTO;

@@ -1,4 +1,4 @@
-package com.myreflectionthoughts.apimasterdetails.constant;
+package com.myreflectionthoughts.apimasterdetails.core.constant;
 
 public class ServiceConstants {
 

@@ -1,4 +1,4 @@
-package com.myreflectionthoughts.apimasterdetails.entity;
+package com.myreflectionthoughts.apimasterdetails.core.entity;
 
 import lombok.Data;
 import org.springframework.data.mongodb.core.index.Indexed;
