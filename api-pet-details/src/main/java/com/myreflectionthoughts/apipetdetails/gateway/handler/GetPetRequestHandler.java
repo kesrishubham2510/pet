@@ -1,4 +1,4 @@
-package com.myreflectionthoughts.apipetdetails.gateway.handlers;
+package com.myreflectionthoughts.apipetdetails.gateway.handler;
 
 import com.myreflectionthoughts.apipetdetails.core.usecase.ReadPetDetailsUseCase;
 import org.springframework.beans.factory.annotation.Autowired;

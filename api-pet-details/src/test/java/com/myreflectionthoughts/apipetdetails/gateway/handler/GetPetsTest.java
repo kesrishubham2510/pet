@@ -1,4 +1,4 @@
-package com.myreflectionthoughts.apipetdetails.gateway.handlers;
+package com.myreflectionthoughts.apipetdetails.gateway.handler;
 
 import com.myreflectionthoughts.library.dto.response.PetDTO;
 import org.junit.jupiter.api.Test;

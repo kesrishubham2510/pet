@@ -1,4 +1,4 @@
-package com.myreflectionthoughts.apipetdetails.gateway.handlers;
+package com.myreflectionthoughts.apipetdetails.gateway.handler;
 
 import com.myreflectionthoughts.apipetdetails.configuration.TestDataGenerator;
 import com.myreflectionthoughts.apipetdetails.core.constant.ServiceConstants;

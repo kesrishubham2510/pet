@@ -25,7 +25,6 @@ public class MappingUtility {
 
     @PostConstruct
     public void configureModelMapper() {
-        System.out.println("Initialised the model mapper....");
         addMappingConfigurations();
         serviceConstants = new ServiceConstants();
     }
