@@ -24,7 +24,7 @@ public class DeletePetTest extends TestSetup {
 
      */
     @Test
-    void testAddPetToDatabase(){
+    void testDeletePet(){
 
         ServiceConstants serviceConstants = new ServiceConstants();
         String petId = ServiceConstants.DUMMY_MONGO_DB_ID;
@@ -40,6 +40,20 @@ public class DeletePetTest extends TestSetup {
                     assertEquals(petId, Objects.requireNonNull(receivedDeletePetResponse.getResponseBody()).getId());
                     assertEquals(String.format(serviceConstants.getPET_INFO_DELETED(), petId), Objects.requireNonNull(receivedDeletePetResponse.getResponseBody()).getMessage());
                 });
+
+        // asserting the successful deletion
+        petWebClient.get()
+                .uri(String.format("/%s/get/pet/%s",baseURL,petId))
+                .exchange()
+                .expectStatus()
+                .isBadRequest()
+                .expectBody(ExceptionResponse.class)
+                .consumeWith(exceptionResponse->{
+                    assertNotNull(exceptionResponse);
+                    assertEquals(PetNotFoundException.class.getSimpleName(), Objects.requireNonNull(exceptionResponse.getResponseBody()).getError());
+                    assertEquals(ServiceConstants.PET_NOT_FOUND_EXCEPTION, Objects.requireNonNull(exceptionResponse.getResponseBody()).getErrorMessage());
+                });
+
     }
 
 
@@ -53,7 +67,7 @@ public class DeletePetTest extends TestSetup {
      */
 
     @Test
-    void testAddPetToDatabase_Throws_GenderNotFoundException(){
+    void testDeletePet_Throws_GenderNotFoundException(){
 
         petWebClient.delete()
                 .uri(String.format("/%s/delete/pet/%s",baseURL,ServiceConstants.DUMMY_PET_ID))
