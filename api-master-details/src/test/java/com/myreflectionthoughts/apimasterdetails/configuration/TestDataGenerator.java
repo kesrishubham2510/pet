@@ -28,7 +28,6 @@ public class TestDataGenerator {
         masterDTO.setEmail(ServiceConstants.VALID_MASTER_EMAIL);
         masterDTO.setAddress(ServiceConstants.VALID_MASTER_ADDRESS);
         masterDTO.setAge(ServiceConstants.VALID_MASTER_AGE);
-        masterDTO.setPassword(ServiceConstants.VALID_MASTER_PASSWORD);
         return masterDTO;
     }
 
@@ -72,7 +71,6 @@ public class TestDataGenerator {
         updatedMasterDTO.setEmail(ServiceConstants.VALID_MASTER_EMAIL+"-updated");
         updatedMasterDTO.setAddress(ServiceConstants.VALID_MASTER_ADDRESS+"-updated");
         updatedMasterDTO.setAge(ServiceConstants.VALID_MASTER_AGE);
-        updatedMasterDTO.setPassword(ServiceConstants.VALID_MASTER_PASSWORD+"-updated");
         return updatedMasterDTO;
     }
 

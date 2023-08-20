@@ -7,7 +7,6 @@ public class MasterDTO {
     private String id;
     private String name;
     private String email;
-    private String password;
     private double age;
     private String address;
     private boolean markForDelete;
