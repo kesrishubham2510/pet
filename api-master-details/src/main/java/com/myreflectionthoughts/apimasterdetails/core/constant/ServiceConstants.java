@@ -11,4 +11,6 @@ public class ServiceConstants {
 
     public static String MASTER_NOT_FOUND_EXCEPTION = "Master not found";
     public static String MASTER_DELETION_MESSAGE_TEMPLATE = "The master with id:- %s has been scheduled for delete";
+
+    public static  String API_QUALIFIER = "api-master-details";
 }

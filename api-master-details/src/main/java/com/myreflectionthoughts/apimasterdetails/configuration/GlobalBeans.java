@@ -18,19 +18,4 @@ public class GlobalBeans {
     public MappingUtility mappingUtility() {
         return new MappingUtility();
     }
-
-    @Bean
-    public CreateMasterUseCase createMasterUseCase(){return new CreateMasterUseCase();}
-
-    @Bean
-    public DeleteMasterDetailsUseCase deleteMasterDetailsUseCase(){return new DeleteMasterDetailsUseCase();}
-
-    @Bean
-    public ReadMasterDetailsUseCase readMasterDetailsUseCase(){return new ReadMasterDetailsUseCase();}
-
-    @Bean
-    public ReadMastersUseCase readMastersUseCase(){return new ReadMastersUseCase();}
-
-    @Bean
-    public UpdateMasterDetailsUseCase updateMasterDetailsUseCase(){return new UpdateMasterDetailsUseCase();}
 }
