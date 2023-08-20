@@ -1,4 +1,4 @@
-package com.myreflectionthoughts.apimasterdetails.routers;
+package com.myreflectionthoughts.apimasterdetails.gateway.routers;
 
 import com.myreflectionthoughts.apimasterdetails.core.constant.ServiceConstants;
 import com.myreflectionthoughts.apimasterdetails.gateway.handler.DeleteMasterRequestHandler;

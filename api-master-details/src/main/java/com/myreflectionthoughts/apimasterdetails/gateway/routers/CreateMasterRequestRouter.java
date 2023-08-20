@@ -1,7 +1,7 @@
-package com.myreflectionthoughts.apimasterdetails.routers;
+package com.myreflectionthoughts.apimasterdetails.gateway.routers;
 
 import com.myreflectionthoughts.apimasterdetails.core.constant.ServiceConstants;
-import com.myreflectionthoughts.apimasterdetails.gateway.handler.GetMasterRequestHandler;
+import com.myreflectionthoughts.apimasterdetails.gateway.handler.CreateMasterRequestHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,15 +10,14 @@ import org.springframework.web.reactive.function.server.RouterFunctions;
 import org.springframework.web.reactive.function.server.ServerResponse;
 
 @Configuration
-public class GetMasterRequestRouter {
+public class CreateMasterRequestRouter {
 
     @Autowired
-    private GetMasterRequestHandler getMasterRequestHandler;
+    private CreateMasterRequestHandler createMasterRequestHandler;
 
-    private final String endpoint = ServiceConstants.API_QUALIFIER + "/get/master/{masterId}";
-
+    private final String endpoint = ServiceConstants.API_QUALIFIER+"/add";
     @Bean
-    public RouterFunction<ServerResponse> routeGetMasterRequest(){
-        return RouterFunctions.route().GET(endpoint, getMasterRequestHandler::getMasterDetails).build();
+    public RouterFunction<ServerResponse> routeCreateMasterRequest(){
+        return RouterFunctions.route().POST(endpoint,createMasterRequestHandler::createMaster).build();
     }
 }
