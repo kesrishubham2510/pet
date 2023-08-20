@@ -4,4 +4,6 @@ spring:
       host: localhost
       port: 27017
       database: petDB
+server:
+  port: 8003
 
