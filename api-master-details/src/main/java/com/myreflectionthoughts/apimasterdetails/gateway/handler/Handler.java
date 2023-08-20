@@ -3,6 +3,7 @@ package com.myreflectionthoughts.apimasterdetails.gateway.handler;
 import com.myreflectionthoughts.apimasterdetails.core.constant.ServiceConstants;
 import com.myreflectionthoughts.apimasterdetails.core.exception.MasterNotFoundException;
 import com.myreflectionthoughts.library.dto.response.ExceptionResponse;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
 
@@ -14,11 +15,16 @@ public class Handler {
         ExceptionResponse exceptionResponse = new ExceptionResponse();
 
         if(exception instanceof MasterNotFoundException){
-            exceptionResponse.setError(MasterNotFoundException.class.getSimpleName());
-            exceptionResponse.setErrorMessage(ServiceConstants.MASTER_NOT_FOUND_EXCEPTION);
+            exceptionResponse.setError(exception.getCause().getClass().getSimpleName());
+            exceptionResponse.setErrorMessage(exception.getCause().getMessage());
+        }else if(exception instanceof DuplicateKeyException){
+            exceptionResponse.setError("EmailAlreadyExists");
+            exceptionResponse.setErrorMessage(ServiceConstants.EMAIL_ALREADY_REGISTERED);
+        }else{
+            exceptionResponse.setError("!! Something Went Wrong !!");
+            exceptionResponse.setErrorMessage("Please try again later");
         }
 
         return ServerResponse.badRequest().bodyValue(exceptionResponse);
-
     };
 }
