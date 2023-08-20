@@ -25,7 +25,8 @@ public class DeletePetDataProvider extends DataProvider implements IDelete<Delet
     }
 
     private DeletePetDTO handleDeletion(String petId){
-        petRepository.deleteById(petId);
+        // since reactive pipeline runs only when subscribe
+        petRepository.deleteById(petId).subscribe();
         return mappingUtility.createDeletePetDTO(petId);
     }
 }

@@ -28,7 +28,8 @@ public class DeleteMasterDataProvider extends DataProvider implements IDelete<De
 
     private DeleteMasterDTO handleDeletion(Master master){
         master.setMarkForDelete(true);
-        masterRepository.save(master);
+        // since reactive pipeline runs only when subscribed
+        masterRepository.save(master).subscribe();
         DeleteMasterDTO deleteMasterDTO = new DeleteMasterDTO();
         deleteMasterDTO.setId(master.getId());
         deleteMasterDTO.setMessage(String.format(ServiceConstants.MASTER_DELETION_MESSAGE_TEMPLATE,master.getId()));
