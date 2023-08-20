@@ -15,8 +15,8 @@ public class Handler {
         ExceptionResponse exceptionResponse = new ExceptionResponse();
 
         if(exception instanceof MasterNotFoundException){
-            exceptionResponse.setError(exception.getCause().getClass().getSimpleName());
-            exceptionResponse.setErrorMessage(exception.getCause().getMessage());
+            exceptionResponse.setError(MasterNotFoundException.class.getSimpleName());
+            exceptionResponse.setErrorMessage(exception.getMessage());
         }else if(exception instanceof DuplicateKeyException){
             exceptionResponse.setError("EmailAlreadyExists");
             exceptionResponse.setErrorMessage(ServiceConstants.EMAIL_ALREADY_REGISTERED);
