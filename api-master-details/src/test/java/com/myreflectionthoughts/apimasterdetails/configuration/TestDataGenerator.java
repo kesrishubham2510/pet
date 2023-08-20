@@ -5,6 +5,9 @@ import com.myreflectionthoughts.apimasterdetails.core.entity.Master;
 import com.myreflectionthoughts.library.dto.request.AddMasterDTO;
 import com.myreflectionthoughts.library.dto.request.UpdateMasterDTO;
 import com.myreflectionthoughts.library.dto.response.MasterDTO;
+import org.bson.types.ObjectId;
+
+import java.util.List;
 
 public class TestDataGenerator {
 
@@ -71,5 +74,43 @@ public class TestDataGenerator {
         updatedMasterDTO.setAge(ServiceConstants.VALID_MASTER_AGE);
         updatedMasterDTO.setPassword(ServiceConstants.VALID_MASTER_PASSWORD+"-updated");
         return updatedMasterDTO;
+    }
+
+    public static List<Master> generateDummyMasters(){
+
+        Master master1 = TestDataGenerator.generateMasterWithMongoId();
+        master1.setName("master-1");
+
+        Master master2 = new Master();
+        master2.setId("masterId-2");
+        master2.setName("master2");
+        master2.setEmail("master2@gmail.com");
+        master2.setAddress("address@master2");
+        master2.setAge(20);
+        master2.setPassword(ServiceConstants.VALID_MASTER_PASSWORD);
+
+        Master master3 = new Master();
+        master3.setId("masterId-3");
+        master3.setName("master3");
+        master3.setEmail("master3@gmail.com");
+        master3.setAddress("address@master3");
+        master3.setAge(21);
+        master3.setPassword(ServiceConstants.VALID_MASTER_PASSWORD);
+
+        Master master4 = new Master();
+        master4.setId("masterId-4");
+        master4.setName("master4");
+        master4.setEmail("master4@gmail.com");
+        master4.setAddress("address@master4");
+        master4.setAge(22);
+        master4.setPassword(ServiceConstants.VALID_MASTER_PASSWORD);
+
+        return List.of(master1, master2, master3, master4);
+    }
+
+    public static Master generateMasterWithMongoId(){
+        Master master = TestDataGenerator.generateMaster();
+        master.setId(new ObjectId(ServiceConstants.DUMMY_MONGO_DB_ID).toString());
+        return master;
     }
 }
