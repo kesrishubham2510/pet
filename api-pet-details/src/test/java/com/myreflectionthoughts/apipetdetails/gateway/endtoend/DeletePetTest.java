@@ -67,7 +67,7 @@ public class DeletePetTest extends TestSetup {
      */
 
     @Test
-    void testDeletePet_Throws_GenderNotFoundException(){
+    void testDeletePet_Throws_PetNotFoundException(){
 
         petWebClient.delete()
                 .uri(String.format("/%s/delete/pet/%s",baseURL,ServiceConstants.DUMMY_PET_ID))
