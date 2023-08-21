@@ -30,7 +30,7 @@ public class DeletePetTest extends TestSetup {
         String petId = ServiceConstants.DUMMY_MONGO_DB_ID;
 
         petWebClient.delete()
-                .uri(String.format("/%s/delete/pet/%s",baseURL,petId))
+                .uri(String.format("%s/delete/pet/%s",baseURL,petId))
                 .exchange()
                 .expectStatus()
                 .isOk()
@@ -43,7 +43,7 @@ public class DeletePetTest extends TestSetup {
 
         // asserting the successful deletion
         petWebClient.get()
-                .uri(String.format("/%s/get/pet/%s",baseURL,petId))
+                .uri(String.format("%s/get/pet/%s",baseURL,petId))
                 .exchange()
                 .expectStatus()
                 .isBadRequest()
@@ -70,7 +70,7 @@ public class DeletePetTest extends TestSetup {
     void testDeletePet_Throws_PetNotFoundException(){
 
         petWebClient.delete()
-                .uri(String.format("/%s/delete/pet/%s",baseURL,ServiceConstants.DUMMY_PET_ID))
+                .uri(String.format("%s/delete/pet/%s",baseURL,ServiceConstants.DUMMY_PET_ID))
                 .exchange()
                 .expectStatus()
                 .isBadRequest()

@@ -36,7 +36,7 @@ public class AddPetTest extends  TestSetup{
         AddPetDTO requestPayload = TestDataGenerator.getAddPetDTO();
 
         petWebClient.post()
-                    .uri(String.format("/%s/add",baseURL))
+                    .uri(String.format("%s/add",baseURL))
                     .bodyValue(requestPayload)
                     .exchange()
                     .expectStatus()
@@ -73,7 +73,7 @@ public class AddPetTest extends  TestSetup{
         requestPayload.setCategory(ServiceConstants.VALID_CATEGORY_STRING+"fgr");
 
         petWebClient.post()
-                    .uri(String.format("/%s/add",baseURL))
+                    .uri(String.format("%s/add",baseURL))
                     .bodyValue(requestPayload)
                     .exchange()
                     .expectStatus()
@@ -102,7 +102,7 @@ public class AddPetTest extends  TestSetup{
         requestPayload.setGender(ServiceConstants.VALID_GENDER_CATEGORY+"fgr");
 
         petWebClient.post()
-                    .uri(String.format("/%s/add",baseURL))
+                    .uri(String.format("%s/add",baseURL))
                     .bodyValue(requestPayload)
                     .exchange()
                     .expectStatus()

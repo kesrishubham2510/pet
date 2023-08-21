@@ -29,7 +29,7 @@ public class GetPetTest extends TestSetup{
         Pet expectedPet = TestDataGenerator.generatePetWithDummyMongoDB_ID();
 
         petWebClient.get()
-                    .uri(String.format("/%s/get/pet/%s",baseURL,expectedPet.getId()))
+                    .uri(String.format("%s/get/pet/%s",baseURL,expectedPet.getId()))
                     .exchange()
                     .expectStatus()
                     .isOk()
@@ -60,7 +60,7 @@ public class GetPetTest extends TestSetup{
     void testGetPet_Throws_PetNotFoundException(){
 
         petWebClient.get()
-                    .uri(String.format("/%s/get/pet/%s",baseURL,ServiceConstants.DUMMY_PET_ID))
+                    .uri(String.format("%s/get/pet/%s",baseURL,ServiceConstants.DUMMY_PET_ID))
                     .exchange()
                     .expectStatus()
                     .isBadRequest()

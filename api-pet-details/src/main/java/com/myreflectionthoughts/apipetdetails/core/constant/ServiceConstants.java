@@ -15,6 +15,6 @@ public class ServiceConstants {
     public static final String VALID_CATEGORY_STRING = "DOG";
     public static final String VALID_GENDER_CATEGORY = "MALE";
     public static final String VALID_CLINIC_CARD_STATUS = "NOT_APPLIED";
-    public static final String API_QUALIFIER = "api-pet-details";
+    public static final String API_QUALIFIER = "/api-pet-details";
     public static final String DUMMY_MONGO_DB_ID = "64d748c3492d460f083f08f0";
 }

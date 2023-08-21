@@ -34,7 +34,7 @@ public class UpdatePetTest extends TestSetup{
         requestPayload.setAge(2.5);
 
         petWebClient.put()
-                .uri(String.format("/%s/update/pet/%s",baseURL,petId))
+                .uri(String.format("%s/update/pet/%s",baseURL,petId))
                 .bodyValue(requestPayload)
                 .exchange()
                 .expectStatus()
@@ -55,7 +55,7 @@ public class UpdatePetTest extends TestSetup{
         // asserting the update
 
         petWebClient.get()
-                .uri(String.format("/%s/get/pet/%s",baseURL,petId))
+                .uri(String.format("%s/get/pet/%s",baseURL,petId))
                 .exchange()
                 .expectStatus()
                 .isOk()
@@ -90,7 +90,7 @@ public class UpdatePetTest extends TestSetup{
         requestPayload.setAge(2.5);
 
         petWebClient.put()
-                .uri(String.format("/%s/update/pet/%s",baseURL,ServiceConstants.DUMMY_PET_ID))
+                .uri(String.format("%s/update/pet/%s",baseURL,ServiceConstants.DUMMY_PET_ID))
                 .bodyValue(requestPayload)
                 .exchange()
                 .expectStatus()

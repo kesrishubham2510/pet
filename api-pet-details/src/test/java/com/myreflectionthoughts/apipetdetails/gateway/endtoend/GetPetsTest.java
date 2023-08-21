@@ -17,7 +17,7 @@ public class GetPetsTest extends TestSetup{
     @Test
     void testGetAllPets(){
         petWebClient.get()
-                .uri(String.format("/%s/get/all",baseURL))
+                .uri(String.format("%s/get/all",baseURL))
                 .exchange()
                 .expectStatus()
                 .isOk()
