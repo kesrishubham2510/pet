@@ -20,7 +20,7 @@ public class DeleteMasterTest extends TestSetup{
         String masterId = ServiceConstants.DUMMY_MONGO_DB_ID;
 
         webTestClient.delete()
-                .uri(String.format("/%s/delete/master/%s", ServiceConstants.API_QUALIFIER, masterId))
+                .uri(String.format("%s/delete/master/%s", ServiceConstants.API_QUALIFIER, masterId))
                 .exchange()
                 .expectStatus()
                 .isOk()
@@ -32,7 +32,7 @@ public class DeleteMasterTest extends TestSetup{
 
         // asserting the markForDelete flag
         webTestClient.get()
-                .uri(String.format("/%s/get/master/%s",ServiceConstants.API_QUALIFIER, masterId))
+                .uri(String.format("%s/get/master/%s",ServiceConstants.API_QUALIFIER, masterId))
                 .exchange()
                 .expectStatus()
                 .isOk()
@@ -48,7 +48,7 @@ public class DeleteMasterTest extends TestSetup{
         String masterId = "1223123";
 
         webTestClient.delete()
-                .uri(String.format("/%s/delete/master/%s", ServiceConstants.API_QUALIFIER, masterId))
+                .uri(String.format("%s/delete/master/%s", ServiceConstants.API_QUALIFIER, masterId))
                 .exchange()
                 .expectStatus()
                 .isBadRequest()

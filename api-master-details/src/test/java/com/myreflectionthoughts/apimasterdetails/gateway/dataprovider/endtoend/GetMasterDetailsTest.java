@@ -20,7 +20,7 @@ public  class GetMasterDetailsTest extends TestSetup {
         Master expectedMaster = TestDataGenerator.generateMasterWithMongoId();
 
         webTestClient.get()
-                .uri(String.format("/%s/get/master/%s", ServiceConstants.API_QUALIFIER,ServiceConstants.DUMMY_MONGO_DB_ID))
+                .uri(String.format("%s/get/master/%s", ServiceConstants.API_QUALIFIER,ServiceConstants.DUMMY_MONGO_DB_ID))
                 .exchange()
                 .expectStatus()
                 .isOk()
@@ -40,7 +40,7 @@ public  class GetMasterDetailsTest extends TestSetup {
         String masterId = "123456";
 
         webTestClient.get()
-                .uri(String.format("/%s/get/master/%s", ServiceConstants.API_QUALIFIER,masterId))
+                .uri(String.format("%s/get/master/%s", ServiceConstants.API_QUALIFIER,masterId))
                 .exchange()
                 .expectStatus()
                 .isBadRequest()

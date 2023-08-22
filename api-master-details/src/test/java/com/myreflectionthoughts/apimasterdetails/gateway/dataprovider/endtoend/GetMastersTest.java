@@ -10,7 +10,7 @@ public class GetMastersTest extends TestSetup {
     void testGetMasters(){
 
         webTestClient.get()
-                .uri(String.format("/%s/get/all", ServiceConstants.API_QUALIFIER))
+                .uri(String.format("%s/get/all", ServiceConstants.API_QUALIFIER))
                 .exchange()
                 .expectStatus()
                 .isOk()

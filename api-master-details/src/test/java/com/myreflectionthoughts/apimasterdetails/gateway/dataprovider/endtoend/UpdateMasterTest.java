@@ -25,7 +25,7 @@ public class UpdateMasterTest extends TestSetup {
         MasterDTO expectedMasterResponse = TestDataGenerator.generateUpdatedMasterDTO();
 
         webTestClient.put()
-                .uri(String.format("/%s/update/master/%s", ServiceConstants.API_QUALIFIER, masterId))
+                .uri(String.format("%s/update/master/%s", ServiceConstants.API_QUALIFIER, masterId))
                 .bodyValue(updateMasterDTO)
                 .exchange()
                 .expectStatus()
@@ -46,7 +46,7 @@ public class UpdateMasterTest extends TestSetup {
         UpdateMasterDTO updateMasterDTO = TestDataGenerator.generateUpdateMasterDTO();
 
         webTestClient.put()
-                .uri(String.format("/%s/update/master/%s", ServiceConstants.API_QUALIFIER, masterId))
+                .uri(String.format("%s/update/master/%s", ServiceConstants.API_QUALIFIER, masterId))
                 .bodyValue(updateMasterDTO)
                 .exchange()
                 .expectStatus()

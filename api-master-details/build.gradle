@@ -31,6 +31,10 @@ dependencies {
 	testImplementation 'io.projectreactor:reactor-test'
 	implementation project(path: ':library')
 	implementation 'org.modelmapper:modelmapper:3.1.1'
+
+	implementation 'org.springdoc:springdoc-openapi-webflux-core:1.7.0'
+	implementation 'org.springdoc:springdoc-openapi-webflux-ui:1.7.0'
+
 }
 
 tasks.named('test') {

@@ -22,7 +22,7 @@ public class AddMasterTest extends TestSetup {
         requestPayload.setEmail("newMaster@gmail.com");
 
         webTestClient.post()
-                .uri(String.format("/%s/add", ServiceConstants.API_QUALIFIER))
+                .uri(String.format("%s/add", ServiceConstants.API_QUALIFIER))
                 .bodyValue(requestPayload)
                 .exchange()
                 .expectStatus()
@@ -46,7 +46,7 @@ public class AddMasterTest extends TestSetup {
         requestPayload.setEmail("master@gmail.com");
 
         webTestClient.post()
-                .uri(String.format("/%s/add", ServiceConstants.API_QUALIFIER))
+                .uri(String.format("%s/add", ServiceConstants.API_QUALIFIER))
                 .bodyValue(requestPayload)
                 .exchange()
                 .expectStatus()
