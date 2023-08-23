@@ -1,0 +1,46 @@
+plugins{
+    id 'java'
+    id 'org.springframework.boot' version '2.7.14'
+    id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+}
+
+//central place for common dependencies
+allprojects {
+
+    apply plugin: 'java'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
+
+    group = 'com.myreflectionthoughts'
+    version = '0.0.1-SNAPSHOT'
+
+    java {
+        sourceCompatibility = '11'
+    }
+
+    repositories {
+        mavenCentral()
+    }
+}
+
+
+// central place for common dependencies of all projects except the root
+subprojects {
+
+    dependencies {
+
+        implementation 'org.springframework.boot:spring-boot-starter-webflux'
+        testImplementation 'org.springframework.boot:spring-boot-starter-test'
+        testImplementation 'io.projectreactor:reactor-test'
+        implementation 'org.springframework.boot:spring-boot-starter-data-mongodb-reactive'
+        implementation 'org.modelmapper:modelmapper:3.1.1'
+        implementation 'org.springdoc:springdoc-openapi-webflux-core:1.7.0'
+        implementation 'org.springdoc:springdoc-openapi-webflux-ui:1.7.0'
+        developmentOnly 'org.springframework.boot:spring-boot-devtools'
+        implementation 'org.projectlombok:lombok:1.18.26'
+        compileOnly('org.projectlombok:lombok')
+        annotationProcessor('org.projectlombok:lombok')
+        testCompileOnly('org.projectlombok:lombok')
+        testAnnotationProcessor('org.projectlombok:lombok')
+    }
+}

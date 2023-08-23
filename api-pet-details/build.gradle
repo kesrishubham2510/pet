@@ -1,40 +1,6 @@
-plugins {
-	id 'java'
-	id 'org.springframework.boot' version '2.7.14'
-	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
-}
-
-group = 'com.myreflectionthoughts'
-version = '0.0.1-SNAPSHOT'
-
-java {
-	sourceCompatibility = '11'
-}
-
-repositories {
-	mavenCentral()
-}
-
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-webflux'
-    // to let gradle know that we need to have this at runtime
-	implementation project(path: ':library')
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb-reactive'
-	testImplementation 'io.projectreactor:reactor-test'
-	implementation 'org.modelmapper:modelmapper:3.1.1'
-
-	implementation 'org.projectlombok:lombok:1.18.26'
-	compileOnly('org.projectlombok:lombok')
-	annotationProcessor('org.projectlombok:lombok')
-	testCompileOnly('org.projectlombok:lombok')
-	testAnnotationProcessor('org.projectlombok:lombok')
-	developmentOnly 'org.springframework.boot:spring-boot-devtools'
-	implementation 'org.springdoc:springdoc-openapi-webflux-core:1.7.0'
-	implementation 'org.springdoc:springdoc-openapi-webflux-ui:1.7.0'
-
+	implementation(project(":library"))
 }
-
 tasks.named('test') {
 	useJUnitPlatform()
 }
