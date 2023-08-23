@@ -1,8 +1,16 @@
+
 plugins{
     id 'java'
     id 'org.springframework.boot' version '2.7.14'
     id 'io.spring.dependency-management' version '1.0.15.RELEASE'
 }
+
+ext.versions =[
+    springBootVersion : '2.7.14',
+    springDependencyManagemnetVersion : '1.0.15.RELEASE',
+    appVersion : '0.0.1',
+    group : 'com.myreflectionthoughts'
+]
 
 //central place for common dependencies
 allprojects {
@@ -11,8 +19,8 @@ allprojects {
     apply plugin: 'org.springframework.boot'
     apply plugin: 'io.spring.dependency-management'
 
-    group = 'com.myreflectionthoughts'
-    version = '0.0.1-SNAPSHOT'
+    group = "${versions.group}"
+    version = "${versions.appVersion}"
 
     java {
         sourceCompatibility = '11'
