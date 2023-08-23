@@ -44,7 +44,8 @@ public class DeleteMasterRequestRouter {
                                     name = "masterId",
                                     required = true,
                                     in = ParameterIn.PATH,
-                                    schema = @Schema(type = "string")
+                                    description = "id of the master",
+                                    schema = @Schema(implementation = String.class)
                             )
                     },
                     responses = {

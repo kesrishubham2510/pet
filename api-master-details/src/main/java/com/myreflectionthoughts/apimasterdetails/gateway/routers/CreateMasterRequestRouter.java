@@ -46,12 +46,12 @@ public class CreateMasterRequestRouter {
                     responses = {
                             @ApiResponse(
                                     responseCode = "200",
-                                    description = "successfully added",
+                                    description = ServiceConstants.API_RESPONSE_200_MESSAGE,
                                     content = @Content(schema = @Schema(implementation = MasterDTO.class))
                             ),
                             @ApiResponse(
                                     responseCode = "400",
-                                    description = "The information provided in the request payload does not satisfy our criteria",
+                                    description = ServiceConstants.API_RESPONSE_400_MESSAGE,
                                     content = @Content(schema = @Schema(implementation = ExceptionResponse.class))
                             )
                     }

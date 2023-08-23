@@ -39,7 +39,7 @@ public class GetMastersRequestRouter {
                             @ApiResponse(
                                     responseCode = "200",
                                     content = @Content(array = @ArraySchema( schema = @Schema(implementation = MasterDTO.class))),
-                                    description = "Successfully retrieved masters"
+                                    description = ServiceConstants.API_RESPONSE_200_MESSAGE
                             )
                     }
             )

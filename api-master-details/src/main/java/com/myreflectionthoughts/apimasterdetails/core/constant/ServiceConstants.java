@@ -14,4 +14,6 @@ public class ServiceConstants {
     public static final String API_QUALIFIER = "/api-master-details";
     public static String EMAIL_ALREADY_REGISTERED = "A User with the provided email is already a member";
     public static final String DUMMY_MONGO_DB_ID = "64d748c3492d460f083f08f0";
+    public static final String API_RESPONSE_200_MESSAGE = "Operation successful";
+    public static final String API_RESPONSE_400_MESSAGE = "Something is wrong, please check message for details";
 }

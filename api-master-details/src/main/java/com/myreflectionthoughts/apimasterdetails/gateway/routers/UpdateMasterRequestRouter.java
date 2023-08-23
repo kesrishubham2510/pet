@@ -49,6 +49,7 @@ public class UpdateMasterRequestRouter {
                             in = ParameterIn.PATH
                     ),
                     requestBody = @RequestBody(
+                            required = true,
                             content = @Content(schema = @Schema(implementation = UpdateMasterDTO.class))
                     ),
                     responses = {

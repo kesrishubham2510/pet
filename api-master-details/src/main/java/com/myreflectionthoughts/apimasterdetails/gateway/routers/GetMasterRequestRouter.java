@@ -44,18 +44,18 @@ public class GetMasterRequestRouter {
                             name = "masterId",
                             in = ParameterIn.PATH,
                             required = true,
-                            schema = @Schema(type = "string"),
-                            description = "Id of the master you wanna retrieve"
+                            description = "id of the master",
+                            schema = @Schema(implementation = String.class)
                     ),
                     responses = {
                             @ApiResponse(
                                     responseCode = "200",
-                                    description = "successfully retrieved the information",
+                                    description = ServiceConstants.API_RESPONSE_200_MESSAGE,
                                     content = @Content(schema = @Schema(implementation = MasterDTO.class))
                             ),
                             @ApiResponse(
                                     responseCode = "400",
-                                    description = "wrong masterId provided",
+                                    description = ServiceConstants.API_RESPONSE_400_MESSAGE,
                                     content = @Content(schema = @Schema(implementation = ExceptionResponse.class))
                             )
                      }
