@@ -40,7 +40,7 @@ public class GetPetsRequestRouter {
                 responses = {
                         @ApiResponse(
                                 responseCode = "200",
-                                description = "Retrieve pets registered in the database",
+                                description = ServiceConstants.API_RESPONSE_200_MESSAGE,
                                 content = @Content(array = @ArraySchema(schema = @Schema(implementation = PetDTO.class)))
                         )
                 }

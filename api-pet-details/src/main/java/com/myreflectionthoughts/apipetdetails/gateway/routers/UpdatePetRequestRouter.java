@@ -43,7 +43,10 @@ public class UpdatePetRequestRouter {
                    description = "Updates the pet with the provided request payload",
                    parameters = @Parameter(
                            name = "petId",
-                           in = ParameterIn.PATH
+                           in = ParameterIn.PATH,
+                           description = "id of the pet",
+                           required = true,
+                           schema = @Schema( implementation = String.class)
                    ),
                    requestBody = @RequestBody(
                            content = @Content(schema = @Schema(implementation = UpdatePetDTO.class)),
@@ -52,12 +55,12 @@ public class UpdatePetRequestRouter {
                    responses = {
                            @ApiResponse(
                                   responseCode = "200",
-                                  description = "Updated Successful",
+                                  description = ServiceConstants.API_RESPONSE_200_MESSAGE,
                                   content = @Content(schema = @Schema(implementation = PetDTO.class))
                            ),
                            @ApiResponse(
                                    responseCode = "400",
-                                   description = "Pet with specified id not found",
+                                   description = ServiceConstants.API_RESPONSE_400_MESSAGE,
                                    content = @Content(schema = @Schema(implementation = ExceptionResponse.class))
                            )
                    }

@@ -40,19 +40,19 @@ public class CreatePetRequestRouter {
             operation = @Operation(
                     operationId = "addPet",
                     summary = "Add a pet",
-                    description = "Adds a Pet with information provided in request payload, and returns the saved information",
+                    description = "Adds a Pet with information provided in request payload, and return details along with unique petId",
                     requestBody = @RequestBody(required = true, content = @Content(schema = @Schema(implementation = AddPetDTO.class))),
                     responses = {
                             @ApiResponse(
                                     responseCode = "200",
-                                    description = "successful operation",
+                                    description = ServiceConstants.API_RESPONSE_200_MESSAGE,
                                     content = @Content(schema = @Schema(
                                             implementation = PetDTO.class
                                     ))
                             ),
                             @ApiResponse(
                                     responseCode = "400",
-                                    description = "Pet was not added because some data didn't met criteria",
+                                    description = ServiceConstants.API_RESPONSE_400_MESSAGE,
                                     content = @Content(schema = @Schema(
                                             implementation = ExceptionResponse.class
                                     ))

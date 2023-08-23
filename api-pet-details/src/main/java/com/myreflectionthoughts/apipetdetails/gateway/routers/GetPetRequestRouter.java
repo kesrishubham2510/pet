@@ -37,25 +37,25 @@ public class GetPetRequestRouter {
             operation = @Operation(
                     operationId = "getPet",
                     summary = "Get pet's information",
-                    description = "Retrieve the details of the pet by petId",
+                    description = "Retrieve the details of the pet using petId",
                     parameters = {
                             @Parameter(
                                   name = "petId",
                                   in = ParameterIn.PATH,
                                   description = "id of the pet",
                                   required = true,
-                                  schema = @Schema(type = "string")
+                                  schema = @Schema( implementation = String.class)
                             )
                     },
                     responses = {
                             @ApiResponse(
                                     responseCode = "200",
-                                    description = "successfully retrieved the information",
+                                    description =  ServiceConstants.API_RESPONSE_200_MESSAGE,
                                     content = @Content(schema = @Schema(implementation = PetDTO.class))
                             ),
                             @ApiResponse(
                                     responseCode = "400",
-                                    description = "wrong petId provided",
+                                    description = ServiceConstants.API_RESPONSE_400_MESSAGE,
                                     content = @Content(schema = @Schema(implementation = ExceptionResponse.class))
                             )
                     }

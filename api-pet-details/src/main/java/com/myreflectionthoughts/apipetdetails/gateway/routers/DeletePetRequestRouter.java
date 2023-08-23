@@ -40,17 +40,22 @@ public class DeletePetRequestRouter {
                     summary = "Delete the pet",
                     description = "Deletes the pet with specified id",
                     parameters = {
-                            @Parameter(name = "petId", in = ParameterIn.PATH, description = "id of the pet", required = true, schema = @Schema(format = "String"))
+                            @Parameter(
+                                    name = "petId",
+                                    in = ParameterIn.PATH,
+                                    description = "id of the pet",
+                                    required = true,
+                                    schema = @Schema(implementation = String.class))
                     },
                     responses = {
                             @ApiResponse(
                                     responseCode = "200",
-                                    description = "Pet deleted successfully",
+                                    description = ServiceConstants.API_RESPONSE_200_MESSAGE,
                                     content = @Content(schema = @Schema(implementation = DeletePetDTO.class))
                             ),
                             @ApiResponse(
                                     responseCode = "400",
-                                    description = "The pet id is wrong",
+                                    description = ServiceConstants.API_RESPONSE_400_MESSAGE,
                                     content = @Content(schema = @Schema(implementation = ExceptionResponse.class))
                             )
                     }
