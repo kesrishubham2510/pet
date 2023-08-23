@@ -8,8 +8,12 @@ plugins{
 ext.versions =[
     springBootVersion : '2.7.14',
     springDependencyManagemnetVersion : '1.0.15.RELEASE',
+    modelmapper : '3.1.1',
+    springdocOpenAPI : '1.7.0',
+    lombok: '1.18.26',
     appVersion : '0.0.1',
     group : 'com.myreflectionthoughts'
+
 ]
 
 //central place for common dependencies
@@ -41,11 +45,11 @@ subprojects {
         testImplementation 'org.springframework.boot:spring-boot-starter-test'
         testImplementation 'io.projectreactor:reactor-test'
         implementation 'org.springframework.boot:spring-boot-starter-data-mongodb-reactive'
-        implementation 'org.modelmapper:modelmapper:3.1.1'
-        implementation 'org.springdoc:springdoc-openapi-webflux-core:1.7.0'
-        implementation 'org.springdoc:springdoc-openapi-webflux-ui:1.7.0'
+        implementation "org.modelmapper:modelmapper:${versions.modelmapper}"
+        implementation "org.springdoc:springdoc-openapi-webflux-core:${versions.springdocOpenAPI}"
+        implementation "org.springdoc:springdoc-openapi-webflux-ui:${versions.springdocOpenAPI}"
         developmentOnly 'org.springframework.boot:spring-boot-devtools'
-        implementation 'org.projectlombok:lombok:1.18.26'
+        implementation "org.projectlombok:lombok:${versions.lombok}"
         compileOnly('org.projectlombok:lombok')
         annotationProcessor('org.projectlombok:lombok')
         testCompileOnly('org.projectlombok:lombok')
