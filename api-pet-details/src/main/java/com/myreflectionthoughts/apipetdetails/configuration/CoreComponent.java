@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 @Component
-public class UseCaseComponent {
+public class CoreComponent {
     @Bean
     CreatePetUseCase createPetUsecase(){ return  new CreatePetUseCase();}
     @Bean
