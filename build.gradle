@@ -12,7 +12,8 @@ ext.versions =[
     springdocOpenAPI : '1.7.0',
     lombok: '1.18.26',
     appVersion : '0.0.1',
-    group : 'com.myreflectionthoughts'
+    group : 'com.myreflectionthoughts',
+    archTestVersion: '1.1.0'
 
 ]
 
@@ -54,5 +55,6 @@ subprojects {
         annotationProcessor('org.projectlombok:lombok')
         testCompileOnly('org.projectlombok:lombok')
         testAnnotationProcessor('org.projectlombok:lombok')
+        testImplementation "com.tngtech.archunit:archunit:${versions.archTestVersion}"
     }
 }

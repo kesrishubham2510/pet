@@ -1,4 +1,4 @@
-package com.myreflectionthoughts.apipetdetails.configuration;
+package com.myreflectionthoughts.apipetdetails.core.component;
 
 import com.myreflectionthoughts.apipetdetails.core.usecase.*;
 import org.springframework.context.annotation.Bean;

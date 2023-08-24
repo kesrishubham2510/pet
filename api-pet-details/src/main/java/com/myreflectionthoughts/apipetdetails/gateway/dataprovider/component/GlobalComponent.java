@@ -1,4 +1,4 @@
-package com.myreflectionthoughts.apipetdetails.configuration;
+package com.myreflectionthoughts.apipetdetails.gateway.dataprovider.component;
 
 import com.myreflectionthoughts.apipetdetails.core.usecase.*;
 import com.myreflectionthoughts.apipetdetails.gateway.dataprovider.utility.ConversionUtility;
