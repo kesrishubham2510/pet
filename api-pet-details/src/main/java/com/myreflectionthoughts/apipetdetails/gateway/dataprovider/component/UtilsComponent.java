@@ -1,6 +1,5 @@
 package com.myreflectionthoughts.apipetdetails.gateway.dataprovider.component;
 
-import com.myreflectionthoughts.apipetdetails.core.usecase.*;
 import com.myreflectionthoughts.apipetdetails.gateway.dataprovider.utility.ConversionUtility;
 import com.myreflectionthoughts.apipetdetails.gateway.dataprovider.utility.ExceptionUtility;
 import com.myreflectionthoughts.apipetdetails.gateway.dataprovider.utility.MappingUtility;
@@ -10,7 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 @Component
-public class GlobalComponent {
+public class UtilsComponent {
 
     @Bean
     public ModelMapper modelMapper() {

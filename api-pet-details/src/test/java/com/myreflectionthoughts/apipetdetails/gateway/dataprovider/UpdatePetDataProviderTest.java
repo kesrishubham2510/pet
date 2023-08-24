@@ -1,6 +1,5 @@
 package com.myreflectionthoughts.apipetdetails.gateway.dataprovider;
 
-import com.myreflectionthoughts.apipetdetails.configuration.TestDataGenerator;
 import com.myreflectionthoughts.apipetdetails.core.entity.Pet;
 import com.myreflectionthoughts.apipetdetails.core.exception.PetNotFoundException;
 import com.myreflectionthoughts.apipetdetails.gateway.dataprovider.repository.PetRepository;

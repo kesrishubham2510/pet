@@ -1,7 +1,7 @@
 package com.myreflectionthoughts.apipetdetails.gateway.endtoend;
 
 import com.myreflectionthoughts.apipetdetails.core.constant.ServiceConstants;
-import com.myreflectionthoughts.apipetdetails.configuration.TestDataGenerator;
+import com.myreflectionthoughts.apipetdetails.gateway.dataprovider.TestDataGenerator;
 import com.myreflectionthoughts.apipetdetails.core.entity.Pet;
 import com.myreflectionthoughts.apipetdetails.gateway.dataprovider.repository.PetRepository;
 import com.myreflectionthoughts.apipetdetails.gateway.dataprovider.utility.ExceptionUtility;
