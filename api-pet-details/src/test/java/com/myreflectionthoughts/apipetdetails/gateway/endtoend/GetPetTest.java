@@ -7,7 +7,6 @@ import com.myreflectionthoughts.apipetdetails.gateway.dataprovider.TestDataGener
 import com.myreflectionthoughts.library.dto.response.ExceptionResponse;
 import com.myreflectionthoughts.library.dto.response.PetDTO;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -25,13 +24,6 @@ public class GetPetTest extends TestSetup{
         petRepository.saveAll(TestDataGenerator.generateDummyPets()).subscribe(petConsumer);
     }
 
-
-    //  cleans the DB records inserted/updated
-    @AfterEach
-    public void cleanUp(){
-        Consumer<Void> documentConsumer = x-> log.info("Documents deleted:- ");
-        petRepository.deleteAll().subscribe(documentConsumer);
-    }
 
     /**
      *  When a request is made to the /api-pet-details/get/pet/{petId} then the controller should
