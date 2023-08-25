@@ -4,10 +4,13 @@ import com.myreflectionthoughts.apipetdetails.gateway.dataprovider.TestDataGener
 import com.myreflectionthoughts.apipetdetails.core.constant.ServiceConstants;
 import com.myreflectionthoughts.apipetdetails.core.enums.ClinicCardStatus;
 import com.myreflectionthoughts.apipetdetails.core.exception.PetNotFoundException;
+import com.myreflectionthoughts.library.dto.request.AddPetDTO;
 import com.myreflectionthoughts.library.dto.request.UpdatePetDTO;
 import com.myreflectionthoughts.library.dto.response.ExceptionResponse;
 import com.myreflectionthoughts.library.dto.response.PetDTO;
 import org.junit.jupiter.api.Test;
+import org.springframework.http.HttpStatus;
+import org.springframework.test.web.reactive.server.EntityExchangeResult;
 
 import java.util.Objects;
 
@@ -28,14 +31,45 @@ public class UpdatePetTest extends TestSetup{
      */
     @Test
     void testUpdatePetInfo(){
-        String petId = ServiceConstants.DUMMY_MONGO_DB_ID;
-        UpdatePetDTO requestPayload = TestDataGenerator.getUpdatePetDTO();
-        requestPayload.setId(petId);
-        requestPayload.setAge(2.5);
+
+        String petId;
+        AddPetDTO addPetRequestPayload = TestDataGenerator.getAddPetDTO();
+
+        // Adding a pet to the database
+        EntityExchangeResult<PetDTO> recievedAddPetResponse = petWebClient.post()
+                .uri(String.format("%s/add",baseURL))
+                .bodyValue(addPetRequestPayload)
+                .exchange()
+                .expectStatus()
+                .isCreated()
+                .expectBody(PetDTO.class)
+                .returnResult();
+
+        petId = recievedAddPetResponse.getResponseBody().getId();
+
+        // asserting the created pet's details with the payload sent
+
+        assertNotNull(recievedAddPetResponse.getResponseBody());
+        assertNotNull(Objects.requireNonNull(recievedAddPetResponse.getResponseBody()).getId());
+        assertEquals(addPetRequestPayload.getName(), Objects.requireNonNull(recievedAddPetResponse.getResponseBody()).getName());
+        assertEquals(addPetRequestPayload.getAge(), Objects.requireNonNull(recievedAddPetResponse.getResponseBody()).getAge());
+        assertEquals(addPetRequestPayload.getCategory().toUpperCase(), Objects.requireNonNull(recievedAddPetResponse.getResponseBody()).getCategory());
+        assertEquals(addPetRequestPayload.getMaster(), Objects.requireNonNull(recievedAddPetResponse.getResponseBody()).getMaster());
+        assertEquals(addPetRequestPayload.getGender().toUpperCase(), Objects.requireNonNull(recievedAddPetResponse.getResponseBody()).getGender());
+        assertEquals(ClinicCardStatus.NOT_APPLIED.toString(), Objects.requireNonNull(recievedAddPetResponse.getResponseBody()).getClinicCardStatus().toUpperCase());
+        assertEquals(ClinicCardStatus.NOT_APPLIED.getMessage(), Objects.requireNonNull(recievedAddPetResponse.getResponseBody()).getClinicCardStatusMessage());
+        assertEquals(HttpStatus.CREATED,recievedAddPetResponse.getStatus());
+        assertEquals(HttpStatus.CREATED,recievedAddPetResponse.getStatus());
+
+        // updating the pet with new details
+        UpdatePetDTO updatePetRequestPayload = TestDataGenerator.getUpdatePetDTO();
+
+        updatePetRequestPayload.setId(petId);
+        updatePetRequestPayload.setAge(2.5);
 
         petWebClient.put()
                 .uri(String.format("%s/update/pet/%s",baseURL,petId))
-                .bodyValue(requestPayload)
+                .bodyValue(updatePetRequestPayload)
                 .exchange()
                 .expectStatus()
                 .isOk()
@@ -43,13 +77,13 @@ public class UpdatePetTest extends TestSetup{
                 .consumeWith(receivedUpdatedPetResponse->{
                     assertNotNull(receivedUpdatedPetResponse);
                     assertNotNull(Objects.requireNonNull(receivedUpdatedPetResponse.getResponseBody()).getId());
-                    assertEquals(requestPayload.getName(), Objects.requireNonNull(receivedUpdatedPetResponse.getResponseBody()).getName());
-                    assertEquals(requestPayload.getAge(), Objects.requireNonNull(receivedUpdatedPetResponse.getResponseBody()).getAge());
-                    assertEquals(requestPayload.getCategory().toUpperCase(), Objects.requireNonNull(receivedUpdatedPetResponse.getResponseBody()).getCategory());
-                    assertEquals(requestPayload.getMaster(), Objects.requireNonNull(receivedUpdatedPetResponse.getResponseBody()).getMaster());
-                    assertEquals(requestPayload.getGender().toUpperCase(), Objects.requireNonNull(receivedUpdatedPetResponse.getResponseBody()).getGender());
-                    assertEquals(requestPayload.getClinicCardStatus().toUpperCase(), Objects.requireNonNull(receivedUpdatedPetResponse.getResponseBody()).getClinicCardStatus().toUpperCase());
-                    assertEquals(ClinicCardStatus.valueOf(requestPayload.getClinicCardStatus().toUpperCase()).getMessage(), Objects.requireNonNull(receivedUpdatedPetResponse.getResponseBody()).getClinicCardStatusMessage());
+                    assertEquals(updatePetRequestPayload.getName(), Objects.requireNonNull(receivedUpdatedPetResponse.getResponseBody()).getName());
+                    assertEquals(updatePetRequestPayload.getAge(), Objects.requireNonNull(receivedUpdatedPetResponse.getResponseBody()).getAge());
+                    assertEquals(updatePetRequestPayload.getCategory().toUpperCase(), Objects.requireNonNull(receivedUpdatedPetResponse.getResponseBody()).getCategory());
+                    assertEquals(updatePetRequestPayload.getMaster(), Objects.requireNonNull(receivedUpdatedPetResponse.getResponseBody()).getMaster());
+                    assertEquals(updatePetRequestPayload.getGender().toUpperCase(), Objects.requireNonNull(receivedUpdatedPetResponse.getResponseBody()).getGender());
+                    assertEquals(updatePetRequestPayload.getClinicCardStatus().toUpperCase(), Objects.requireNonNull(receivedUpdatedPetResponse.getResponseBody()).getClinicCardStatus().toUpperCase());
+                    assertEquals(ClinicCardStatus.valueOf(updatePetRequestPayload.getClinicCardStatus().toUpperCase()).getMessage(), Objects.requireNonNull(receivedUpdatedPetResponse.getResponseBody()).getClinicCardStatusMessage());
                 });
 
         // asserting the update
@@ -63,13 +97,13 @@ public class UpdatePetTest extends TestSetup{
                 .consumeWith(receivedUpdatedPetResponse->{
                     assertNotNull(receivedUpdatedPetResponse);
                     assertNotNull(Objects.requireNonNull(receivedUpdatedPetResponse.getResponseBody()).getId());
-                    assertEquals(requestPayload.getName(), Objects.requireNonNull(receivedUpdatedPetResponse.getResponseBody()).getName());
-                    assertEquals(requestPayload.getAge(), Objects.requireNonNull(receivedUpdatedPetResponse.getResponseBody()).getAge());
-                    assertEquals(requestPayload.getCategory().toUpperCase(), Objects.requireNonNull(receivedUpdatedPetResponse.getResponseBody()).getCategory());
-                    assertEquals(requestPayload.getMaster(), Objects.requireNonNull(receivedUpdatedPetResponse.getResponseBody()).getMaster());
-                    assertEquals(requestPayload.getGender().toUpperCase(), Objects.requireNonNull(receivedUpdatedPetResponse.getResponseBody()).getGender());
-                    assertEquals(requestPayload.getClinicCardStatus().toUpperCase(), Objects.requireNonNull(receivedUpdatedPetResponse.getResponseBody()).getClinicCardStatus().toUpperCase());
-                    assertEquals(ClinicCardStatus.valueOf(requestPayload.getClinicCardStatus().toUpperCase()).getMessage(), Objects.requireNonNull(receivedUpdatedPetResponse.getResponseBody()).getClinicCardStatusMessage());
+                    assertEquals(updatePetRequestPayload.getName(), Objects.requireNonNull(receivedUpdatedPetResponse.getResponseBody()).getName());
+                    assertEquals(updatePetRequestPayload.getAge(), Objects.requireNonNull(receivedUpdatedPetResponse.getResponseBody()).getAge());
+                    assertEquals(updatePetRequestPayload.getCategory().toUpperCase(), Objects.requireNonNull(receivedUpdatedPetResponse.getResponseBody()).getCategory());
+                    assertEquals(updatePetRequestPayload.getMaster(), Objects.requireNonNull(receivedUpdatedPetResponse.getResponseBody()).getMaster());
+                    assertEquals(updatePetRequestPayload.getGender().toUpperCase(), Objects.requireNonNull(receivedUpdatedPetResponse.getResponseBody()).getGender());
+                    assertEquals(updatePetRequestPayload.getClinicCardStatus().toUpperCase(), Objects.requireNonNull(receivedUpdatedPetResponse.getResponseBody()).getClinicCardStatus().toUpperCase());
+                    assertEquals(ClinicCardStatus.valueOf(updatePetRequestPayload.getClinicCardStatus().toUpperCase()).getMessage(), Objects.requireNonNull(receivedUpdatedPetResponse.getResponseBody()).getClinicCardStatusMessage());
                 });
 
 

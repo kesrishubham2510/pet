@@ -1,10 +1,16 @@
 package com.myreflectionthoughts.apipetdetails.gateway.endtoend;
 
 import com.myreflectionthoughts.apipetdetails.core.constant.ServiceConstants;
+import com.myreflectionthoughts.apipetdetails.core.enums.ClinicCardStatus;
 import com.myreflectionthoughts.apipetdetails.core.exception.PetNotFoundException;
+import com.myreflectionthoughts.apipetdetails.gateway.dataprovider.TestDataGenerator;
+import com.myreflectionthoughts.library.dto.request.AddPetDTO;
 import com.myreflectionthoughts.library.dto.response.DeletePetDTO;
 import com.myreflectionthoughts.library.dto.response.ExceptionResponse;
+import com.myreflectionthoughts.library.dto.response.PetDTO;
 import org.junit.jupiter.api.Test;
+import org.springframework.http.HttpStatus;
+import org.springframework.test.web.reactive.server.EntityExchangeResult;
 
 import java.util.Objects;
 
@@ -27,8 +33,38 @@ public class DeletePetTest extends TestSetup {
     void testDeletePet(){
 
         ServiceConstants serviceConstants = new ServiceConstants();
-        String petId = ServiceConstants.DUMMY_MONGO_DB_ID;
+        String petId;
 
+        // Adding the pet to be deleted
+
+        AddPetDTO requestPayload = TestDataGenerator.getAddPetDTO();
+
+        EntityExchangeResult<PetDTO> recievedAddPetResponse = petWebClient.post()
+                .uri(String.format("%s/add",baseURL))
+                .bodyValue(requestPayload)
+                .exchange()
+                .expectStatus()
+                .isCreated()
+                .expectBody(PetDTO.class)
+                .returnResult();
+
+        petId = recievedAddPetResponse.getResponseBody().getId();
+
+        // asserting the created pet's details with the payload sent
+
+        assertNotNull(recievedAddPetResponse.getResponseBody());
+        assertNotNull(Objects.requireNonNull(recievedAddPetResponse.getResponseBody()).getId());
+        assertEquals(requestPayload.getName(), Objects.requireNonNull(recievedAddPetResponse.getResponseBody()).getName());
+        assertEquals(requestPayload.getAge(), Objects.requireNonNull(recievedAddPetResponse.getResponseBody()).getAge());
+        assertEquals(requestPayload.getCategory().toUpperCase(), Objects.requireNonNull(recievedAddPetResponse.getResponseBody()).getCategory());
+        assertEquals(requestPayload.getMaster(), Objects.requireNonNull(recievedAddPetResponse.getResponseBody()).getMaster());
+        assertEquals(requestPayload.getGender().toUpperCase(), Objects.requireNonNull(recievedAddPetResponse.getResponseBody()).getGender());
+        assertEquals(ClinicCardStatus.NOT_APPLIED.toString(), Objects.requireNonNull(recievedAddPetResponse.getResponseBody()).getClinicCardStatus().toUpperCase());
+        assertEquals(ClinicCardStatus.NOT_APPLIED.getMessage(), Objects.requireNonNull(recievedAddPetResponse.getResponseBody()).getClinicCardStatusMessage());
+        assertEquals(HttpStatus.CREATED,recievedAddPetResponse.getStatus());
+        assertEquals(HttpStatus.CREATED,recievedAddPetResponse.getStatus());
+
+        // deleting the pet
         petWebClient.delete()
                 .uri(String.format("%s/delete/pet/%s",baseURL,petId))
                 .exchange()
@@ -70,7 +106,7 @@ public class DeletePetTest extends TestSetup {
     void testDeletePet_Throws_PetNotFoundException(){
 
         petWebClient.delete()
-                .uri(String.format("%s/delete/pet/%s",baseURL,ServiceConstants.DUMMY_PET_ID))
+                .uri(String.format("%s/delete/pet/%s",baseURL,"1234"))
                 .exchange()
                 .expectStatus()
                 .isBadRequest()

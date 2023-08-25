@@ -16,7 +16,6 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 
 import java.util.function.Consumer;
 
-@Slf4j
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @AutoConfigureWebTestClient
@@ -25,25 +24,11 @@ public class TestSetup {
     protected String baseURL = ServiceConstants.API_QUALIFIER;
 
     @Autowired
-    private PetRepository petRepository;
+    protected PetRepository petRepository;
 
     @Autowired
     protected WebTestClient petWebClient;
 
     @Autowired
     protected ExceptionUtility exceptionUtility;
-
-    @BeforeEach
-    public void TestDataSetUp(){
-        Consumer<Pet> petConsumer = document-> log.info("Document inserted:- "+document);
-        petRepository.saveAll(TestDataGenerator.generateDummyPets()).subscribe(petConsumer);
-    }
-
-
-    //  cleans the DB records inserted/updated
-    @AfterEach
-    public void cleanUp(){
-        Consumer<Void> documentConsumer = x-> log.info("Documents deleted:- ");
-        petRepository.deleteAll().subscribe(documentConsumer);
-    }
 }
