@@ -14,7 +14,5 @@ public class UtilsComponent {
     }
 
     @Bean
-    public MappingUtility mappingUtility() {
-        return new MappingUtility();
-    }
+    public MappingUtility mappingUtility() { return new MappingUtility(); }
 }

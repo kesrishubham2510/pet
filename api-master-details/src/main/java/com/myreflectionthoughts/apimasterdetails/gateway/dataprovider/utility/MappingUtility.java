@@ -5,12 +5,14 @@ import com.myreflectionthoughts.library.dto.request.AddMasterDTO;
 import com.myreflectionthoughts.library.dto.request.UpdateMasterDTO;
 import com.myreflectionthoughts.library.dto.response.MasterDTO;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 
 public class MappingUtility {
+    private final ModelMapper modelMapper;
 
-    @Autowired
-    private ModelMapper modelMapper;
+    public MappingUtility() {
+        this.modelMapper = new ModelMapper();
+    }
+
 
     public Master mapToMaster(AddMasterDTO addMasterDTO) {
         return modelMapper.map(addMasterDTO, Master.class);
@@ -20,8 +22,7 @@ public class MappingUtility {
         return modelMapper.map(master, MasterDTO.class);
     }
 
-    public Master mapToMaster(UpdateMasterDTO updateMasterDTO){
+    public Master mapToMaster(UpdateMasterDTO updateMasterDTO) {
         return modelMapper.map(updateMasterDTO, Master.class);
     }
-
 }

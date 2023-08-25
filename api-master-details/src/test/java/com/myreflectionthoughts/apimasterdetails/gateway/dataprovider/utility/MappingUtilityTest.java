@@ -1,12 +1,11 @@
 package com.myreflectionthoughts.apimasterdetails.gateway.dataprovider.utility;
 
-import com.myreflectionthoughts.apimasterdetails.gateway.dataprovider.TestDataGenerator;
 import com.myreflectionthoughts.apimasterdetails.core.entity.Master;
+import com.myreflectionthoughts.apimasterdetails.gateway.dataprovider.TestDataGenerator;
 import com.myreflectionthoughts.library.dto.request.AddMasterDTO;
 import com.myreflectionthoughts.library.dto.request.UpdateMasterDTO;
 import com.myreflectionthoughts.library.dto.response.MasterDTO;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -14,8 +13,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @SpringBootTest
 public class MappingUtilityTest {
 
-    @Autowired
-    private MappingUtility mappingUtility;
+    private final MappingUtility mappingUtility;
+
+    public MappingUtilityTest() {
+        mappingUtility = new MappingUtility();
+    }
 
     @Test
     void testMapToMaster() {
