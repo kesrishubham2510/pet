@@ -1,6 +1,6 @@
 package com.myreflectionthoughts.apimasterdetails.core.usecase;
 
-import com.myreflectionthoughts.apimasterdetails.configuration.TestDataGenerator;
+import com.myreflectionthoughts.apimasterdetails.core.constant.ServiceConstants;
 import com.myreflectionthoughts.library.contract.IAdd;
 import com.myreflectionthoughts.library.dto.request.AddMasterDTO;
 import com.myreflectionthoughts.library.dto.response.MasterDTO;
@@ -26,8 +26,8 @@ public class CreateMasterUseCaseTest {
     @Test
     void testCreateMaster(){
 
-        AddMasterDTO addMasterDTO = TestDataGenerator.generateAddMasterDTO();
-        MasterDTO expectedMasterDTO = TestDataGenerator.generateMasterDTO();
+        AddMasterDTO addMasterDTO = generateAddMasterDTO();
+        MasterDTO expectedMasterDTO = generateMasterDTO();
 
         when(iAdd.add(any(Mono.class))).thenReturn(Mono.just(expectedMasterDTO));
         Mono<MasterDTO> actualResponseMono = createMasterUseCase.createMaster(Mono.just(addMasterDTO));
@@ -38,4 +38,25 @@ public class CreateMasterUseCaseTest {
 
         verify(iAdd,times(1)).add(any());
     }
+
+    private AddMasterDTO generateAddMasterDTO(){
+        AddMasterDTO addMasterDTO = new AddMasterDTO();
+        addMasterDTO.setName(ServiceConstants.VALID_MASTER_NAME);
+        addMasterDTO.setEmail(ServiceConstants.VALID_MASTER_EMAIL);
+        addMasterDTO.setAddress(ServiceConstants.VALID_MASTER_ADDRESS);
+        addMasterDTO.setAge(ServiceConstants.VALID_MASTER_AGE);
+        addMasterDTO.setPassword(ServiceConstants.VALID_MASTER_PASSWORD);
+        return addMasterDTO;
+    }
+
+    private MasterDTO generateMasterDTO(){
+        MasterDTO masterDTO = new MasterDTO();
+        masterDTO.setId(ServiceConstants.VALID_MASTER_ID);
+        masterDTO.setName(ServiceConstants.VALID_MASTER_NAME);
+        masterDTO.setEmail(ServiceConstants.VALID_MASTER_EMAIL);
+        masterDTO.setAddress(ServiceConstants.VALID_MASTER_ADDRESS);
+        masterDTO.setAge(ServiceConstants.VALID_MASTER_AGE);
+        return masterDTO;
+    }
+
 }

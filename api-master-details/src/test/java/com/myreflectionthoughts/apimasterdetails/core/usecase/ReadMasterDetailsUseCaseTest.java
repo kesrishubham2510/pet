@@ -1,6 +1,5 @@
 package com.myreflectionthoughts.apimasterdetails.core.usecase;
 
-import com.myreflectionthoughts.apimasterdetails.configuration.TestDataGenerator;
 import com.myreflectionthoughts.apimasterdetails.core.constant.ServiceConstants;
 import com.myreflectionthoughts.library.contract.IGet;
 import com.myreflectionthoughts.library.dto.response.MasterDTO;
@@ -13,9 +12,7 @@ import reactor.test.StepVerifier;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest
 public class ReadMasterDetailsUseCaseTest {
@@ -30,7 +27,7 @@ public class ReadMasterDetailsUseCaseTest {
     void testReadMasterDetails(){
 
         String masterId = ServiceConstants.VALID_MASTER_ID;
-        MasterDTO expectedMasterDTO = TestDataGenerator.generateMasterDTO();
+        MasterDTO expectedMasterDTO = generateMasterDTO();
 
         when(iGet.getInfo(any(Mono.class))).thenReturn(Mono.just(expectedMasterDTO));
         Mono<MasterDTO> actualMasterDTOResponseMono = readMasterDetailsUseCase.readMasterDetails(Mono.just(masterId));
@@ -39,5 +36,15 @@ public class ReadMasterDetailsUseCaseTest {
             assertEquals(expectedMasterDTO, actualMasterDTOResponse);
         }).verifyComplete();
         verify(iGet,times(1)).getInfo(any(Mono.class));
+    }
+
+    private MasterDTO generateMasterDTO(){
+        MasterDTO masterDTO = new MasterDTO();
+        masterDTO.setId(ServiceConstants.VALID_MASTER_ID);
+        masterDTO.setName(ServiceConstants.VALID_MASTER_NAME);
+        masterDTO.setEmail(ServiceConstants.VALID_MASTER_EMAIL);
+        masterDTO.setAddress(ServiceConstants.VALID_MASTER_ADDRESS);
+        masterDTO.setAge(ServiceConstants.VALID_MASTER_AGE);
+        return masterDTO;
     }
 }
