@@ -10,6 +10,7 @@ import com.myreflectionthoughts.library.dto.response.ExceptionResponse;
 import com.myreflectionthoughts.library.dto.response.PetDTO;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
+import org.springframework.test.web.reactive.server.EntityExchangeResult;
 
 import java.util.Objects;
 
@@ -33,28 +34,53 @@ public class AddPetTest extends  TestSetup{
     @Test
     void testAddPetToDatabase(){
 
+        String petId;
         AddPetDTO requestPayload = TestDataGenerator.getAddPetDTO();
 
-        petWebClient.post()
+        // Adding a pet to the database
+        EntityExchangeResult<PetDTO> recievedAddPetResponse = petWebClient.post()
                     .uri(String.format("%s/add",baseURL))
                     .bodyValue(requestPayload)
                     .exchange()
                     .expectStatus()
                     .isCreated()
                     .expectBody(PetDTO.class)
-                    .consumeWith(receivedAddPetResponse->{
-                        assertNotNull(receivedAddPetResponse);
-                        assertNotNull(Objects.requireNonNull(receivedAddPetResponse.getResponseBody()).getId());
-                        assertEquals(requestPayload.getName(), Objects.requireNonNull(receivedAddPetResponse.getResponseBody()).getName());
-                        assertEquals(requestPayload.getAge(), Objects.requireNonNull(receivedAddPetResponse.getResponseBody()).getAge());
-                        assertEquals(requestPayload.getCategory().toUpperCase(), Objects.requireNonNull(receivedAddPetResponse.getResponseBody()).getCategory());
-                        assertEquals(requestPayload.getMaster(), Objects.requireNonNull(receivedAddPetResponse.getResponseBody()).getMaster());
-                        assertEquals(requestPayload.getGender().toUpperCase(), Objects.requireNonNull(receivedAddPetResponse.getResponseBody()).getGender());
-                        assertEquals(ClinicCardStatus.NOT_APPLIED.toString(), Objects.requireNonNull(receivedAddPetResponse.getResponseBody()).getClinicCardStatus().toUpperCase());
-                        assertEquals(ClinicCardStatus.NOT_APPLIED.getMessage(), Objects.requireNonNull(receivedAddPetResponse.getResponseBody()).getClinicCardStatusMessage());
-                        assertEquals(HttpStatus.CREATED,receivedAddPetResponse.getStatus());
-                        assertEquals(HttpStatus.CREATED,receivedAddPetResponse.getStatus());
-                    });
+                    .returnResult();
+        
+        petId = recievedAddPetResponse.getResponseBody().getId();
+        
+        // asserting the created pet's details with the payload sent
+        
+        assertNotNull(recievedAddPetResponse.getResponseBody());
+        assertNotNull(Objects.requireNonNull(recievedAddPetResponse.getResponseBody()).getId());
+        assertEquals(requestPayload.getName(), Objects.requireNonNull(recievedAddPetResponse.getResponseBody()).getName());
+        assertEquals(requestPayload.getAge(), Objects.requireNonNull(recievedAddPetResponse.getResponseBody()).getAge());
+        assertEquals(requestPayload.getCategory().toUpperCase(), Objects.requireNonNull(recievedAddPetResponse.getResponseBody()).getCategory());
+        assertEquals(requestPayload.getMaster(), Objects.requireNonNull(recievedAddPetResponse.getResponseBody()).getMaster());
+        assertEquals(requestPayload.getGender().toUpperCase(), Objects.requireNonNull(recievedAddPetResponse.getResponseBody()).getGender());
+        assertEquals(ClinicCardStatus.NOT_APPLIED.toString(), Objects.requireNonNull(recievedAddPetResponse.getResponseBody()).getClinicCardStatus().toUpperCase());
+        assertEquals(ClinicCardStatus.NOT_APPLIED.getMessage(), Objects.requireNonNull(recievedAddPetResponse.getResponseBody()).getClinicCardStatusMessage());
+        assertEquals(HttpStatus.CREATED,recievedAddPetResponse.getStatus());
+        assertEquals(HttpStatus.CREATED,recievedAddPetResponse.getStatus());
+        
+        // retrieving the pet to assert the flow for saving the details
+
+        petWebClient.get()
+                .uri(String.format("%s/get/pet/%s",baseURL,petId))
+                .exchange()
+                .expectStatus()
+                .isOk()
+                .expectBody(PetDTO.class)
+                .consumeWith(receivedPetResponse->{
+                    assertEquals(recievedAddPetResponse.getResponseBody().getName(), Objects.requireNonNull(receivedPetResponse.getResponseBody()).getName());
+                    assertEquals(recievedAddPetResponse.getResponseBody().getAge(), Objects.requireNonNull(receivedPetResponse.getResponseBody()).getAge());
+                    assertEquals(recievedAddPetResponse.getResponseBody().getCategory().toString(), Objects.requireNonNull(receivedPetResponse.getResponseBody()).getCategory().toUpperCase());
+                    assertEquals(recievedAddPetResponse.getResponseBody().getMaster(), Objects.requireNonNull(receivedPetResponse.getResponseBody()).getMaster());
+                    assertEquals(recievedAddPetResponse.getResponseBody().getGender().toString(), Objects.requireNonNull(receivedPetResponse.getResponseBody()).getGender().toUpperCase());
+                    assertEquals(recievedAddPetResponse.getResponseBody().getId(), Objects.requireNonNull(receivedPetResponse.getResponseBody()).getId());
+                    assertEquals(recievedAddPetResponse.getResponseBody().getClinicCardStatus().toString(), Objects.requireNonNull(receivedPetResponse.getResponseBody()).getClinicCardStatus().toUpperCase());
+                    assertEquals(recievedAddPetResponse.getResponseBody().getClinicCardStatusMessage(), Objects.requireNonNull(receivedPetResponse.getResponseBody()).getClinicCardStatusMessage());
+                });
     }
 
     /**
