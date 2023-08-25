@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 @Component
-public class UseCaseComponent {
+public class CoreComponent {
 
     @Bean
     public CreateMasterUseCase createMasterUseCase(IAdd<AddMasterDTO, MasterDTO> iAdd){return new CreateMasterUseCase(iAdd);}
