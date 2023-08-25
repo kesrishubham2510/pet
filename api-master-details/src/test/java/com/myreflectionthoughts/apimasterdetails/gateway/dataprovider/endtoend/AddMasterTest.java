@@ -6,6 +6,7 @@ import com.myreflectionthoughts.library.dto.request.AddMasterDTO;
 import com.myreflectionthoughts.library.dto.response.ExceptionResponse;
 import com.myreflectionthoughts.library.dto.response.MasterDTO;
 import org.junit.jupiter.api.Test;
+import org.springframework.test.web.reactive.server.EntityExchangeResult;
 
 import java.util.Objects;
 
@@ -18,33 +19,69 @@ public class AddMasterTest extends TestSetup {
     @Test
     void testAddMaster(){
 
+        // Adding a Master
         AddMasterDTO requestPayload = TestDataGenerator.generateAddMasterDTO();
         requestPayload.setEmail("newMaster@gmail.com");
 
-        webTestClient.post()
+        EntityExchangeResult<MasterDTO> addMasterResponse = webTestClient.post()
                 .uri(String.format("%s/add", ServiceConstants.API_QUALIFIER))
                 .bodyValue(requestPayload)
                 .exchange()
                 .expectStatus()
                 .isCreated()
                 .expectBody(MasterDTO.class)
-                .consumeWith(response->{
-                    assertNotNull(response);
-                    assertNotNull(response.getResponseBody().getId());
-                    assertEquals(requestPayload.getName(),Objects.requireNonNull(response.getResponseBody()).getName());
-                    assertEquals(requestPayload.getEmail(),Objects.requireNonNull(response.getResponseBody()).getEmail());
-                    assertEquals(requestPayload.getAge(),response.getResponseBody().getAge());
-                    assertEquals(requestPayload.getAddress(),Objects.requireNonNull(response.getResponseBody()).getAddress());
+                .returnResult();
+
+
+        assertNotNull(addMasterResponse);
+        assertNotNull(addMasterResponse.getResponseBody().getId());
+        assertEquals(requestPayload.getName(),Objects.requireNonNull(addMasterResponse.getResponseBody()).getName());
+        assertEquals(requestPayload.getEmail(),Objects.requireNonNull(addMasterResponse.getResponseBody()).getEmail());
+        assertEquals(requestPayload.getAge(),addMasterResponse.getResponseBody().getAge());
+        assertEquals(requestPayload.getAddress(),Objects.requireNonNull(addMasterResponse.getResponseBody()).getAddress());
+
+        // asserting the added master details
+        String addedMasterId = addMasterResponse.getResponseBody().getId();
+
+        webTestClient.get()
+                .uri(String.format("%s/get/master/%s", ServiceConstants.API_QUALIFIER,addedMasterId))
+                .exchange()
+                .expectStatus()
+                .isOk()
+                .expectBody(MasterDTO.class)
+                .consumeWith(masterDetailsResponse->{
+                    assertEquals(addMasterResponse.getResponseBody(), Objects.requireNonNull(masterDetailsResponse.getResponseBody()));
                 });
     }
 
     @Test
     void testAddMaster_Throws_MasterAlreadyExistsException(){
 
-        AddMasterDTO requestPayload = TestDataGenerator.generateAddMasterDTO();
-        // this is email value for one of the pre-inserted data
-        requestPayload.setEmail("master@gmail.com");
+        String emailID = "newMaster@gmail.com";
 
+        // Adding a Master
+        AddMasterDTO requestPayload = TestDataGenerator.generateAddMasterDTO();
+        requestPayload.setEmail(emailID);
+
+        EntityExchangeResult<MasterDTO> addMasterResponse = webTestClient.post()
+                .uri(String.format("%s/add", ServiceConstants.API_QUALIFIER))
+                .bodyValue(requestPayload)
+                .exchange()
+                .expectStatus()
+                .isCreated()
+                .expectBody(MasterDTO.class)
+                .returnResult();
+
+
+        assertNotNull(addMasterResponse);
+        assertNotNull(addMasterResponse.getResponseBody().getId());
+        assertEquals(requestPayload.getName(),Objects.requireNonNull(addMasterResponse.getResponseBody()).getName());
+        assertEquals(requestPayload.getEmail(),Objects.requireNonNull(addMasterResponse.getResponseBody()).getEmail());
+        assertEquals(requestPayload.getAge(),addMasterResponse.getResponseBody().getAge());
+        assertEquals(requestPayload.getAddress(),Objects.requireNonNull(addMasterResponse.getResponseBody()).getAddress());
+
+
+        // adding a newMaster with sameEmail ID
         webTestClient.post()
                 .uri(String.format("%s/add", ServiceConstants.API_QUALIFIER))
                 .bodyValue(requestPayload)

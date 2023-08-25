@@ -6,13 +6,25 @@ import com.myreflectionthoughts.apimasterdetails.core.entity.Master;
 import com.myreflectionthoughts.apimasterdetails.core.exception.MasterNotFoundException;
 import com.myreflectionthoughts.library.dto.response.ExceptionResponse;
 import com.myreflectionthoughts.library.dto.response.MasterDTO;
+import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Objects;
+import java.util.function.Consumer;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+@Slf4j
 public  class GetMasterDetailsTest extends TestSetup {
+
+
+    @BeforeEach
+    void setUp(){
+        Consumer<Master> masterConsumer = (master)-> log.info("Inserted master:- "+master);
+        masterRepository.saveAll(TestDataGenerator.generateDummyMasters()).subscribe(masterConsumer);
+    }
+
 
     @Test
     void testGetMasterDetails(){

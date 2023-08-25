@@ -3,14 +3,17 @@ package com.myreflectionthoughts.apimasterdetails.gateway.dataprovider.endtoend;
 import com.myreflectionthoughts.apimasterdetails.configuration.TestDataGenerator;
 import com.myreflectionthoughts.apimasterdetails.core.constant.ServiceConstants;
 import com.myreflectionthoughts.apimasterdetails.core.exception.MasterNotFoundException;
+import com.myreflectionthoughts.library.dto.request.AddMasterDTO;
 import com.myreflectionthoughts.library.dto.request.UpdateMasterDTO;
 import com.myreflectionthoughts.library.dto.response.ExceptionResponse;
 import com.myreflectionthoughts.library.dto.response.MasterDTO;
 import org.junit.jupiter.api.Test;
+import org.springframework.test.web.reactive.server.EntityExchangeResult;
 
 import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class UpdateMasterTest extends TestSetup {
 
@@ -18,7 +21,31 @@ public class UpdateMasterTest extends TestSetup {
     @Test
     void testUpdateMasterDetails(){
 
-        String masterId = ServiceConstants.DUMMY_MONGO_DB_ID;
+        // Adding a Master
+        AddMasterDTO requestPayload = TestDataGenerator.generateAddMasterDTO();
+        requestPayload.setEmail("newMaster@gmail.com");
+
+        EntityExchangeResult<MasterDTO> addMasterResponse = webTestClient.post()
+                .uri(String.format("%s/add", ServiceConstants.API_QUALIFIER))
+                .bodyValue(requestPayload)
+                .exchange()
+                .expectStatus()
+                .isCreated()
+                .expectBody(MasterDTO.class)
+                .returnResult();
+
+
+        assertNotNull(addMasterResponse);
+        assertNotNull(addMasterResponse.getResponseBody().getId());
+        assertEquals(requestPayload.getName(),Objects.requireNonNull(addMasterResponse.getResponseBody()).getName());
+        assertEquals(requestPayload.getEmail(),Objects.requireNonNull(addMasterResponse.getResponseBody()).getEmail());
+        assertEquals(requestPayload.getAge(),addMasterResponse.getResponseBody().getAge());
+        assertEquals(requestPayload.getAddress(),Objects.requireNonNull(addMasterResponse.getResponseBody()).getAddress());
+
+
+        // updating the previously added master with new details
+        String masterId = addMasterResponse.getResponseBody().getId();
+
         UpdateMasterDTO updateMasterDTO = TestDataGenerator.generateUpdateMasterDTO();
         updateMasterDTO.setId(masterId);
 
