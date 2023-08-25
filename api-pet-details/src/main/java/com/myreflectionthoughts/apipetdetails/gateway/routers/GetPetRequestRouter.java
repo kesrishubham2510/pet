@@ -11,7 +11,6 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springdoc.core.annotations.RouterOperation;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
@@ -23,10 +22,13 @@ import org.springframework.web.reactive.function.server.ServerResponse;
 @Configuration
 public class GetPetRequestRouter {
 
-    @Autowired
-    private GetPetRequestHandler getPetRequestHandler;
+    private final GetPetRequestHandler getPetRequestHandler;
 
     private final String endPoint = ServiceConstants.API_QUALIFIER+"/get/pet/{petId}";
+
+    public GetPetRequestRouter(GetPetRequestHandler getPetRequestHandler) {
+        this.getPetRequestHandler = getPetRequestHandler;
+    }
 
     @RouterOperation(
             path = endPoint,

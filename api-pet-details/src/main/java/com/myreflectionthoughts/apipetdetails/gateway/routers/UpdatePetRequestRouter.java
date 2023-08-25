@@ -13,7 +13,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springdoc.core.annotations.RouterOperation;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
@@ -25,10 +24,13 @@ import org.springframework.web.reactive.function.server.ServerResponse;
 @Configuration
 public class UpdatePetRequestRouter {
 
-    @Autowired
-    private UpdatePetRequestHandler updatePetRequestHandler;
+    private final UpdatePetRequestHandler updatePetRequestHandler;
 
     private final String endPoint = ServiceConstants.API_QUALIFIER+"/update/pet/{petId}";
+
+    public UpdatePetRequestRouter(UpdatePetRequestHandler updatePetRequestHandler) {
+        this.updatePetRequestHandler = updatePetRequestHandler;
+    }
 
     @RouterOperation(
            path = endPoint,

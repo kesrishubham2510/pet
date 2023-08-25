@@ -12,7 +12,6 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springdoc.core.annotations.RouterOperation;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
@@ -23,11 +22,14 @@ import org.springframework.web.reactive.function.server.ServerResponse;
 
 @Configuration
 public class DeletePetRequestRouter {
-    @Autowired
-    private DeletePetRequestHandler deletePetRequestHandler;
+
+    private final DeletePetRequestHandler deletePetRequestHandler;
+
+    public DeletePetRequestRouter(DeletePetRequestHandler deletePetRequestHandler) {
+        this.deletePetRequestHandler = deletePetRequestHandler;
+    }
 
     private final String endPoint = ServiceConstants.API_QUALIFIER+"/delete/pet/{petId}";
-
 
     @RouterOperation(
             path = endPoint,

@@ -1,7 +1,6 @@
 package com.myreflectionthoughts.apipetdetails.gateway.handler;
 
 import com.myreflectionthoughts.apipetdetails.core.usecase.DeletePetDetailsUseCase;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
@@ -10,8 +9,11 @@ import reactor.core.publisher.Mono;
 @Service
 public class DeletePetRequestHandler extends Handler{
 
-    @Autowired
-    private DeletePetDetailsUseCase deletePetDetailsUseCase;
+    private final DeletePetDetailsUseCase deletePetDetailsUseCase;
+
+    public DeletePetRequestHandler(DeletePetDetailsUseCase deletePetDetailsUseCase) {
+        this.deletePetDetailsUseCase = deletePetDetailsUseCase;
+    }
 
     public Mono<ServerResponse> deletePet(ServerRequest serverRequest){
         String petId = serverRequest.pathVariable("petId");
