@@ -1,13 +1,12 @@
-package com.myreflectionthoughts.apimasterdetails.configuration;
+package com.myreflectionthoughts.apimasterdetails.gateway.dataprovider.component;
 
-import com.myreflectionthoughts.apimasterdetails.core.usecase.*;
 import com.myreflectionthoughts.apimasterdetails.gateway.dataprovider.utility.MappingUtility;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 @Component
-public class GlobalBeans {
+public class UtilsComponent {
 
     @Bean
     public ModelMapper modelMapper() {

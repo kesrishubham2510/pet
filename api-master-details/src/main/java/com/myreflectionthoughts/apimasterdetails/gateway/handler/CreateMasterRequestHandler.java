@@ -12,8 +12,11 @@ import reactor.core.publisher.Mono;
 @Service
 public class CreateMasterRequestHandler extends Handler{
 
-    @Autowired
-    private CreateMasterUseCase createMasterUseCase;
+    private final CreateMasterUseCase createMasterUseCase;
+
+    public CreateMasterRequestHandler(CreateMasterUseCase createMasterUseCase) {
+        this.createMasterUseCase = createMasterUseCase;
+    }
 
     public Mono<ServerResponse> createMaster(ServerRequest serverRequest){
         Mono<AddMasterDTO> addMasterDTOMono = serverRequest.bodyToMono(AddMasterDTO.class);

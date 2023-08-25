@@ -8,8 +8,11 @@ import reactor.core.publisher.Mono;
 
 public class CreateMasterUseCase {
 
-    @Autowired
-    private IAdd<AddMasterDTO, MasterDTO> iAdd;
+    private final IAdd<AddMasterDTO, MasterDTO> iAdd;
+
+    public CreateMasterUseCase(IAdd<AddMasterDTO, MasterDTO> iAdd) {
+        this.iAdd = iAdd;
+    }
 
     public Mono<MasterDTO> createMaster(Mono<AddMasterDTO> addMasterDTOMono){
         return iAdd.add(addMasterDTOMono);

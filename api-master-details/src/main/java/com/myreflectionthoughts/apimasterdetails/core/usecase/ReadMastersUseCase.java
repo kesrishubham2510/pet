@@ -7,8 +7,11 @@ import reactor.core.publisher.Flux;
 
 public class ReadMastersUseCase {
 
-    @Autowired
-    private IGetAll<MasterDTO> iGetAll;
+    private final IGetAll<MasterDTO> iGetAll;
+
+    public ReadMastersUseCase(IGetAll<MasterDTO> iGetAll) {
+        this.iGetAll = iGetAll;
+    }
 
     public Flux<MasterDTO> readMasters() {
         return iGetAll.getAll();

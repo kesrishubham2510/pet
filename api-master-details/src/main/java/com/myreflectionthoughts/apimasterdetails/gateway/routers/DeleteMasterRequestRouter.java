@@ -24,10 +24,13 @@ import org.springframework.web.reactive.function.server.ServerResponse;
 @Configuration
 public class DeleteMasterRequestRouter {
 
-    @Autowired
-    private DeleteMasterRequestHandler deleteMasterRequestHandler;
+    private final DeleteMasterRequestHandler deleteMasterRequestHandler;
 
     private final String endpoint = ServiceConstants.API_QUALIFIER+ "/delete/master/{masterId}";
+
+    public DeleteMasterRequestRouter(DeleteMasterRequestHandler deleteMasterRequestHandler){
+        this.deleteMasterRequestHandler = deleteMasterRequestHandler;
+    }
 
     @RouterOperation(
             path = endpoint,

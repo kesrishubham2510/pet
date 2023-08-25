@@ -25,10 +25,13 @@ import org.springframework.web.reactive.function.server.ServerResponse;
 @Configuration
 public class UpdateMasterRequestRouter {
 
-    @Autowired
-    private UpdateMasterRequestHandler updateMasterRequestHandler;
+    private final UpdateMasterRequestHandler updateMasterRequestHandler;
 
     private final String endpoint = ServiceConstants.API_QUALIFIER + "/update/master/{masterId}";
+
+    public UpdateMasterRequestRouter(UpdateMasterRequestHandler updateMasterRequestHandler) {
+        this.updateMasterRequestHandler = updateMasterRequestHandler;
+    }
 
     @RouterOperation(
             path = endpoint,

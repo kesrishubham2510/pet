@@ -23,10 +23,13 @@ import org.springframework.web.reactive.function.server.ServerResponse;
 @Configuration
 public class CreateMasterRequestRouter {
 
-    @Autowired
-    private CreateMasterRequestHandler createMasterRequestHandler;
+    private final CreateMasterRequestHandler createMasterRequestHandler;
 
     private final String endpoint = ServiceConstants.API_QUALIFIER+"/add";
+
+    public CreateMasterRequestRouter(CreateMasterRequestHandler createMasterRequestHandler) {
+        this.createMasterRequestHandler = createMasterRequestHandler;
+    }
 
     @RouterOperation(
             path = endpoint,

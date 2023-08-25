@@ -11,8 +11,11 @@ import reactor.core.publisher.Mono;
 @Service
 public class GetMasterRequestHandler extends Handler {
 
-    @Autowired
-    private ReadMasterDetailsUseCase readMasterDetailsUseCase;
+    private final ReadMasterDetailsUseCase readMasterDetailsUseCase;
+
+    public GetMasterRequestHandler(ReadMasterDetailsUseCase readMasterDetailsUseCase) {
+        this.readMasterDetailsUseCase = readMasterDetailsUseCase;
+    }
 
     public Mono<ServerResponse> getMasterDetails(ServerRequest serverRequest){
         String masterId = serverRequest.pathVariable("masterId");

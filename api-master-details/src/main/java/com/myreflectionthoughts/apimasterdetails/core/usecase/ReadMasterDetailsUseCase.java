@@ -7,8 +7,11 @@ import reactor.core.publisher.Mono;
 
 public class ReadMasterDetailsUseCase {
 
-    @Autowired
-    private IGet<MasterDTO> iGet;
+    private final IGet<MasterDTO> iGet;
+
+    public ReadMasterDetailsUseCase(IGet<MasterDTO> iGet) {
+        this.iGet = iGet;
+    }
 
     public Mono<MasterDTO> readMasterDetails(Mono<String> masterId){
         return iGet.getInfo(masterId);

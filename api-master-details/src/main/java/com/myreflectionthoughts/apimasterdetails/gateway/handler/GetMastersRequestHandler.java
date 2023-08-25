@@ -11,8 +11,11 @@ import reactor.core.publisher.Mono;
 @Service
 public class GetMastersRequestHandler{
 
-    @Autowired
-    private ReadMastersUseCase readMastersUseCase;
+    private final ReadMastersUseCase readMastersUseCase;
+
+    public GetMastersRequestHandler(ReadMastersUseCase readMastersUseCase) {
+        this.readMastersUseCase = readMastersUseCase;
+    }
 
     public Mono<ServerResponse> getMasters(ServerRequest serverRequest){
         return ServerResponse.ok().body(readMastersUseCase.readMasters(), MasterDTO.class);

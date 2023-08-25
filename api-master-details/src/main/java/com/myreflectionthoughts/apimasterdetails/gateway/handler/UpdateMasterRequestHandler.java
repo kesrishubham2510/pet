@@ -11,8 +11,11 @@ import reactor.core.publisher.Mono;
 @Service
 public class UpdateMasterRequestHandler extends Handler {
 
-    @Autowired
-    private UpdateMasterDetailsUseCase updateMasterDetailsUseCase;
+    private final UpdateMasterDetailsUseCase updateMasterDetailsUseCase;
+
+    public UpdateMasterRequestHandler(UpdateMasterDetailsUseCase updateMasterDetailsUseCase) {
+        this.updateMasterDetailsUseCase = updateMasterDetailsUseCase;
+    }
 
     public Mono<ServerResponse> updateMasterDetails(ServerRequest serverRequest){
         Mono<UpdateMasterDTO> updateMasterDTOMono = serverRequest.bodyToMono(UpdateMasterDTO.class);
