@@ -22,12 +22,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @SpringBootTest
 public class ExceptionUtilityTest {
 
-    @Autowired
-    private ExceptionUtility exceptionUtility;
+    private final ExceptionUtility exceptionUtility;
     private final TestDataGenerator testDataGenerator;
-    private StringBuilder stringBuilder;
+    private final StringBuilder stringBuilder;
 
     public ExceptionUtilityTest() {
+        exceptionUtility = new ExceptionUtility();
         testDataGenerator = new TestDataGenerator();
         stringBuilder = new StringBuilder();
     }

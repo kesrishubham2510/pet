@@ -15,7 +15,7 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 @AutoConfigureWebTestClient
 public class TestSetup {
 
-    protected String baseURL = ServiceConstants.API_QUALIFIER;
+    protected final String baseURL;
 
     @Autowired
     protected PetRepository petRepository;
@@ -23,13 +23,17 @@ public class TestSetup {
     @Autowired
     protected WebTestClient petWebClient;
 
-    @Autowired
-    protected ExceptionUtility exceptionUtility;
+    protected final ExceptionUtility exceptionUtility;
+
+
+    public TestSetup() {
+        baseURL = ServiceConstants.API_QUALIFIER;
+        exceptionUtility = new ExceptionUtility();
+    }
 
     //  cleans the DB records inserted/updated
     @AfterEach
     public void cleanUp(){
         petRepository.deleteAll().subscribe();
     }
-
 }

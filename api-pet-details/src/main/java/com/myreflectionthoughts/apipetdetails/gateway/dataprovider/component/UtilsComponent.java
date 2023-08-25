@@ -12,19 +12,15 @@ import org.springframework.stereotype.Component;
 public class UtilsComponent {
 
     @Bean
-    public ModelMapper modelMapper() {
-        return new ModelMapper();
-    }
+    public ModelMapper modelMapper() { return new ModelMapper(); }
 
     @Bean
-    public ExceptionUtility exceptionUtility(){ return  new ExceptionUtility();}
+    public ConversionUtility conversionUtility(){ return new ConversionUtility(validationUtility());}
 
     @Bean
-    public ConversionUtility conversionUtility(){ return new ConversionUtility();}
+    public MappingUtility mappingUtility(ModelMapper modelMapper, ConversionUtility conversionUtility){ return new MappingUtility(conversionUtility, modelMapper);}
 
-    @Bean
-    public MappingUtility mappingUtility(){ return new MappingUtility();}
+    private ExceptionUtility exceptionUtility(){ return  new ExceptionUtility();}
 
-    @Bean
-    ValidationUtility validationUtility(){ return new ValidationUtility();}
+    private ValidationUtility validationUtility(){ return new ValidationUtility(exceptionUtility());}
 }

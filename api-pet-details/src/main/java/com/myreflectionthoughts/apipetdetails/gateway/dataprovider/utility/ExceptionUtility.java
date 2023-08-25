@@ -12,14 +12,10 @@ import java.util.Arrays;
 public class ExceptionUtility {
 
     private final StringBuilder stringBuilder;
-    private ServiceConstants serviceConstants;
+    private final ServiceConstants serviceConstants;
 
     public ExceptionUtility() {
         stringBuilder = new StringBuilder();
-    }
-
-    @PostConstruct
-    public void setUp() {
         serviceConstants = new ServiceConstants();
     }
 

@@ -6,17 +6,18 @@ import com.myreflectionthoughts.apipetdetails.core.enums.Gender;
 import com.myreflectionthoughts.apipetdetails.core.exception.CategoryNotFoundException;
 import com.myreflectionthoughts.apipetdetails.core.exception.ClinicCardStatusNotFoundException;
 import com.myreflectionthoughts.apipetdetails.core.exception.GenderNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
 public class ValidationUtility {
 
-    @Autowired
-    private ExceptionUtility exceptionUtility;
+    private final ExceptionUtility exceptionUtility;
+
+    public ValidationUtility(ExceptionUtility exceptionUtility) {
+        this.exceptionUtility = exceptionUtility;
+    }
 
     protected Category validateCategory(String categoryString) {
 

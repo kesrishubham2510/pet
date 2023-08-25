@@ -15,18 +15,16 @@ import javax.annotation.PostConstruct;
 
 public class MappingUtility {
 
-    @Autowired
-    private ConversionUtility conversionUtility;
-    @Autowired
-    private ModelMapper modelMapper;
-    private ServiceConstants serviceConstants;
+    private final ConversionUtility conversionUtility;
+    private final ModelMapper modelMapper;
+    private final ServiceConstants serviceConstants;
 
-    @PostConstruct
-    public void configureModelMapper() {
+    public MappingUtility(ConversionUtility conversionUtility, ModelMapper modelMapper) {
+        this.conversionUtility = conversionUtility;
+        this.modelMapper = modelMapper;
         addMappingConfigurations();
         serviceConstants = new ServiceConstants();
     }
-
 
     public Pet mapToPet(AddPetDTO addPetDTO) {
         Pet pet = modelMapper.map(addPetDTO, Pet.class);

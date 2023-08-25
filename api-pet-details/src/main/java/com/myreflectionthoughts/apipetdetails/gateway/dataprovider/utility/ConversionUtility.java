@@ -5,13 +5,14 @@ import com.myreflectionthoughts.apipetdetails.core.enums.ClinicCardStatus;
 import com.myreflectionthoughts.apipetdetails.core.enums.Gender;
 import org.modelmapper.AbstractConverter;
 import org.modelmapper.Converter;
-import org.springframework.beans.factory.annotation.Autowired;
-
 
 public class ConversionUtility {
 
-    @Autowired
-    private ValidationUtility validationUtility;
+    private final ValidationUtility validationUtility;
+
+    public ConversionUtility(ValidationUtility validationUtility) {
+        this.validationUtility = validationUtility;
+    }
 
     protected Converter<Gender, String> gender_To_stringConverter = new AbstractConverter<>() {
         @Override
