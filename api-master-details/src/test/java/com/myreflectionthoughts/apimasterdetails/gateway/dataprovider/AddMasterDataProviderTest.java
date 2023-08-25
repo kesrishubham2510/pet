@@ -1,6 +1,5 @@
 package com.myreflectionthoughts.apimasterdetails.gateway.dataprovider;
 
-import com.myreflectionthoughts.apimasterdetails.configuration.TestDataGenerator;
 import com.myreflectionthoughts.apimasterdetails.core.entity.Master;
 import com.myreflectionthoughts.apimasterdetails.gateway.dataprovider.repository.MasterRepository;
 import com.myreflectionthoughts.apimasterdetails.gateway.dataprovider.utility.MappingUtility;

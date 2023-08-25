@@ -1,6 +1,6 @@
 package com.myreflectionthoughts.apimasterdetails.gateway.dataprovider.endtoend;
 
-import com.myreflectionthoughts.apimasterdetails.configuration.TestDataGenerator;
+import com.myreflectionthoughts.apimasterdetails.gateway.dataprovider.TestDataGenerator;
 import com.myreflectionthoughts.apimasterdetails.core.constant.ServiceConstants;
 import com.myreflectionthoughts.apimasterdetails.core.entity.Master;
 import com.myreflectionthoughts.apimasterdetails.core.exception.MasterNotFoundException;

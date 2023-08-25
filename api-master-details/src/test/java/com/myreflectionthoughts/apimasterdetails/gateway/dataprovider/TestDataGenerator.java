@@ -1,4 +1,4 @@
-package com.myreflectionthoughts.apimasterdetails.configuration;
+package com.myreflectionthoughts.apimasterdetails.gateway.dataprovider;
 
 import com.myreflectionthoughts.apimasterdetails.core.constant.ServiceConstants;
 import com.myreflectionthoughts.apimasterdetails.core.entity.Master;

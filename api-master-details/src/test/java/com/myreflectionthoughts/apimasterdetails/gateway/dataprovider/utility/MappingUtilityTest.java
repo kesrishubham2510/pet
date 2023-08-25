@@ -1,6 +1,6 @@
 package com.myreflectionthoughts.apimasterdetails.gateway.dataprovider.utility;
 
-import com.myreflectionthoughts.apimasterdetails.configuration.TestDataGenerator;
+import com.myreflectionthoughts.apimasterdetails.gateway.dataprovider.TestDataGenerator;
 import com.myreflectionthoughts.apimasterdetails.core.entity.Master;
 import com.myreflectionthoughts.library.dto.request.AddMasterDTO;
 import com.myreflectionthoughts.library.dto.request.UpdateMasterDTO;
