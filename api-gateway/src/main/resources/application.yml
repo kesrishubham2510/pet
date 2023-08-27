@@ -1,1 +1,4 @@
+restClient:
+  masterService: http://localhost:8002/api-master-details/
+  petService: http://localhost:8003/api-pet-details/
 
