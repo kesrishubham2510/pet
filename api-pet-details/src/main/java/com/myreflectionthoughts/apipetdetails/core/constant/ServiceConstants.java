@@ -12,6 +12,7 @@ public class ServiceConstants {
 
     public static final String PET_NOT_FOUND_EXCEPTION = "Pet not found";
     public static final String DUMMY_PET_ID = "id-1";
+    public static final String DUMMY_MASTER_ID = "master-id-1";
     public static final String VALID_CATEGORY_STRING = "DOG";
     public static final String VALID_GENDER_CATEGORY = "MALE";
     public static final String VALID_CLINIC_CARD_STATUS = "NOT_APPLIED";

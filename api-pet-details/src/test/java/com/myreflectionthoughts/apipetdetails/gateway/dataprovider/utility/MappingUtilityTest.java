@@ -26,6 +26,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class MappingUtilityTest {
 
     private final String petId;
+    private final String masterId;
     private final TestDataGenerator testDataGenerator;
     private final ServiceConstants serviceConstants;
 
@@ -34,6 +35,7 @@ public class MappingUtilityTest {
 
     public MappingUtilityTest() {
         petId = ServiceConstants.DUMMY_PET_ID;
+        masterId = ServiceConstants.DUMMY_MASTER_ID;
         testDataGenerator = new TestDataGenerator();
         serviceConstants = new ServiceConstants();
     }
@@ -49,6 +51,7 @@ public class MappingUtilityTest {
         assertNotNull(actualPet.getCategory());
         assertNotNull(actualPet.getGender());
         assertNotNull(actualPet.getClinicCardStatus());
+        assertEquals(expectedPet.getMasterId(), actualPet.getMasterId());
         assertEquals(expectedPet.getName(), actualPet.getName());
         assertEquals(expectedPet.getMaster(), actualPet.getMaster());
         assertEquals(expectedPet.getCategory(), actualPet.getCategory());
@@ -87,6 +90,7 @@ public class MappingUtilityTest {
         assertNotNull(actualPetDTO.getGender());
         assertNotNull(actualPetDTO.getClinicCardStatus());
         assertEquals(petId, actualPetDTO.getId());
+        assertEquals(masterId, actualPetDTO.getMasterId());
         assertEquals(expectedPetDTO.getName(), actualPetDTO.getName());
         assertEquals(expectedPetDTO.getMaster(), actualPetDTO.getMaster());
         assertEquals(expectedPetDTO.getCategory(), actualPetDTO.getCategory());

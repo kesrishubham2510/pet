@@ -5,6 +5,8 @@ import lombok.Data;
 @Data
 public class PetDTO {
     private String id;
+    // to map a pet With master
+    private String masterId;
     private String name;
     private String master;
     private String category;

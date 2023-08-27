@@ -25,8 +25,11 @@ public class CreatePetUseCaseTest {
     private IAdd<AddPetDTO, PetDTO> iAdd;
 
     private final String petId;
+    private final String masterId;
+
     public CreatePetUseCaseTest() {
         petId = ServiceConstants.DUMMY_PET_ID;
+        masterId = ServiceConstants.DUMMY_MASTER_ID;
     }
 
     @Test
@@ -48,6 +51,7 @@ public class CreatePetUseCaseTest {
 
     private AddPetDTO getAddPetDTO() {
         AddPetDTO addPetDTO = new AddPetDTO();
+        addPetDTO.setMasterId(masterId);
         addPetDTO.setAge(1.0);
         addPetDTO.setCategory("dog");
         addPetDTO.setGender("female");
@@ -59,6 +63,7 @@ public class CreatePetUseCaseTest {
     private PetDTO getPetDTO() {
         PetDTO pet = new PetDTO();
         pet.setId(petId);
+        pet.setMasterId(masterId);
         pet.setAge(1.0);
         pet.setCategory("DOG");
         pet.setGender("FEMALE");

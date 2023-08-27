@@ -51,6 +51,8 @@ public class PetDataProviderTest {
         Mono<PetDTO> responseMono = petDataProvider.getInfo(Mono.just(petId));
 
         StepVerifier.create(responseMono).consumeNextWith(response-> {
+
+            assertEquals(expectedPetDTO.getMasterId(), response.getMasterId());
             assertEquals(expectedPetDTO.getId(), response.getId());
             assertEquals(expectedPetDTO.getName(), response.getName());
             assertEquals(expectedPetDTO.getMaster(), response.getMaster());

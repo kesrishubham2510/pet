@@ -10,6 +10,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Data
 public class Pet {
     private String id;
+    // to map a pet With master
+    private String masterId;
     private String name;
     private String master;
     private Category category;

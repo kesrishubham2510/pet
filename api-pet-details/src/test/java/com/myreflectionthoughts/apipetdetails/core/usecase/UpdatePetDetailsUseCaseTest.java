@@ -26,9 +26,11 @@ public class UpdatePetDetailsUseCaseTest {
     private IUpdate<PetDTO, UpdatePetDTO> iUpdate;
 
     private final String petId;
+    private final String masterId;
 
     public UpdatePetDetailsUseCaseTest() {
         this.petId = ServiceConstants.DUMMY_PET_ID;
+        this.masterId = ServiceConstants.DUMMY_MASTER_ID;
     }
 
     @Test
@@ -49,6 +51,7 @@ public class UpdatePetDetailsUseCaseTest {
 
     private PetDTO getUpdatedPetDTO(){
         PetDTO updatedPetDTO = new PetDTO();
+        updatedPetDTO.setMasterId(masterId);
         updatedPetDTO.setId(petId);
         updatedPetDTO.setAge(1.0);
         updatedPetDTO.setCategory("DOG");
@@ -63,6 +66,7 @@ public class UpdatePetDetailsUseCaseTest {
 
     private UpdatePetDTO getUpdatePetDTO(){
         UpdatePetDTO updatePetDTO = new UpdatePetDTO();
+        updatePetDTO.setMasterId(masterId);
         updatePetDTO.setId(petId);
         updatePetDTO.setAge(1.0);
         updatePetDTO.setCategory("DOG");

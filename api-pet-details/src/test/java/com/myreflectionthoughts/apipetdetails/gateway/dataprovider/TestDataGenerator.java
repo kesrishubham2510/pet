@@ -17,9 +17,11 @@ import java.util.List;
 public class TestDataGenerator {
 
     private final static String petId;
+    private final static String masterId;
 
     static {
         petId = ServiceConstants.DUMMY_PET_ID;
+        masterId = ServiceConstants.DUMMY_MASTER_ID;
     }
 
     private final ServiceConstants serviceConstants;
@@ -30,6 +32,7 @@ public class TestDataGenerator {
 
     public static AddPetDTO getAddPetDTO() {
         AddPetDTO addPetDTO = new AddPetDTO();
+        addPetDTO.setMasterId(masterId);
         addPetDTO.setAge(1.0);
         addPetDTO.setCategory("dog");
         addPetDTO.setGender("female");
@@ -40,6 +43,7 @@ public class TestDataGenerator {
 
     public static Pet getPet() {
         Pet pet = new Pet();
+        pet.setMasterId(masterId);
         pet.setId(petId);
         pet.setAge(1.0);
         pet.setCategory(Category.DOG);
@@ -52,6 +56,7 @@ public class TestDataGenerator {
 
     public static PetDTO getPetDTO() {
         PetDTO pet = new PetDTO();
+        pet.setMasterId(masterId);
         pet.setId(petId);
         pet.setAge(1.0);
         pet.setCategory("DOG");
@@ -71,6 +76,7 @@ public class TestDataGenerator {
 
     public static UpdatePetDTO getUpdatePetDTO(){
         UpdatePetDTO updatePetDTO = new UpdatePetDTO();
+        updatePetDTO.setMasterId(masterId);
         updatePetDTO.setId(petId);
         updatePetDTO.setAge(1.0);
         updatePetDTO.setCategory("DOG");
@@ -83,6 +89,7 @@ public class TestDataGenerator {
 
     public static Pet getUpdatedPet(){
         Pet updatedPet = new Pet();
+        updatedPet.setMasterId(masterId);
         updatedPet.setId(petId);
         updatedPet.setAge(1.0);
         updatedPet.setCategory(Category.DOG);
@@ -95,6 +102,7 @@ public class TestDataGenerator {
 
     public static PetDTO getUpdatedPetDTO(){
         PetDTO updatedPetDTO = new PetDTO();
+        updatedPetDTO.setMasterId(masterId);
         updatedPetDTO.setId(petId);
         updatedPetDTO.setAge(1.0);
         updatedPetDTO.setCategory("DOG");
@@ -132,6 +140,7 @@ public class TestDataGenerator {
 
         Pet pet2 = new Pet();
         pet2.setId((new ObjectId()).toString());
+        pet2.setMasterId(masterId);
         pet2.setAge(2.0);
         pet2.setCategory(Category.CAT);
         pet2.setGender(Gender.MALE);
@@ -141,6 +150,7 @@ public class TestDataGenerator {
 
         Pet pet3 = new Pet();
         pet3.setId((new ObjectId()).toString());
+        pet3.setMasterId(masterId);
         pet3.setAge(3.0);
         pet3.setCategory(Category.RABBIT);
         pet3.setGender(Gender.MALE);
@@ -150,6 +160,7 @@ public class TestDataGenerator {
 
         Pet pet4 = new Pet();
         pet4.setId((new ObjectId()).toString());
+        pet4.setMasterId(masterId);
         pet4.setAge(3.0);
         pet4.setCategory(Category.HAMSTER);
         pet4.setGender(Gender.FEMALE);
@@ -163,6 +174,7 @@ public class TestDataGenerator {
     public static Pet generatePetWithDummyMongoDB_ID(){
         Pet pet = new Pet();
         pet.setId((new ObjectId(ServiceConstants.DUMMY_MONGO_DB_ID)).toString());
+        pet.setMasterId(masterId);
         pet.setAge(1.0);
         pet.setCategory(Category.DOG);
         pet.setGender(Gender.FEMALE);

@@ -22,9 +22,11 @@ public class ReadPetsUseCaseTest {
     private IGetAll<PetDTO> iGetAll;
 
     private final String petId;
+    private final String masterId;
 
     public ReadPetsUseCaseTest() {
         petId = ServiceConstants.DUMMY_PET_ID;
+        masterId = ServiceConstants.DUMMY_MASTER_ID;
     }
     @Test
     void testGetPets() {
@@ -38,6 +40,7 @@ public class ReadPetsUseCaseTest {
 
     private PetDTO getPetDTO() {
         PetDTO pet = new PetDTO();
+        pet.setMasterId(masterId);
         pet.setId(petId);
         pet.setAge(1.0);
         pet.setCategory("DOG");
