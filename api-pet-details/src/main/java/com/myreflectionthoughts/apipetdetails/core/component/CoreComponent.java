@@ -12,13 +12,32 @@ import org.springframework.stereotype.Component;
 @Component
 public class CoreComponent {
     @Bean
-    CreatePetUseCase createPetUsecase(IAdd<AddPetDTO, PetDTO> iAddPet){ return  new CreatePetUseCase(iAddPet);}
+    CreatePetUseCase createPetUsecase(IAdd<AddPetDTO, PetDTO> iAddPet) {
+        return new CreatePetUseCase(iAddPet);
+    }
+
     @Bean
-    ReadPetDetailsUseCase readPetDetailsUseCase(IGet<PetDTO> iGet){ return  new ReadPetDetailsUseCase(iGet);}
+    ReadPetDetailsUseCase readPetDetailsUseCase(IGet<PetDTO> iGet) {
+        return new ReadPetDetailsUseCase(iGet);
+    }
+
     @Bean
-    ReadPetsUseCase readPetsUseCase(IGetAll<PetDTO> iGetAll){ return  new ReadPetsUseCase(iGetAll);}
+    ReadPetsUseCase readPetsUseCase(IGetAll<PetDTO> iGetAll) {
+        return new ReadPetsUseCase(iGetAll);
+    }
+
     @Bean
-    UpdatePetDetailsUseCase updatePetDetailsUseCase(IUpdate<PetDTO, UpdatePetDTO> iUpdate){ return  new UpdatePetDetailsUseCase(iUpdate);}
+    UpdatePetDetailsUseCase updatePetDetailsUseCase(IUpdate<PetDTO, UpdatePetDTO> iUpdate) {
+        return new UpdatePetDetailsUseCase(iUpdate);
+    }
+
     @Bean
-    DeletePetDetailsUseCase deletePetDetailsUseCase(IDelete<DeletePetDTO> iDelete){ return  new DeletePetDetailsUseCase(iDelete);}
+    DeletePetDetailsUseCase deletePetDetailsUseCase(IDelete<DeletePetDTO> iDelete) {
+        return new DeletePetDetailsUseCase(iDelete);
+    }
+
+    @Bean
+    ReadPetsOfMasterUseCase readAllPetsOfMasterUseCase(IGetByCommonAttribute<String, PetDTO> iGetByCommonAttribute) {
+        return new ReadPetsOfMasterUseCase(iGetByCommonAttribute);
+    }
 }
