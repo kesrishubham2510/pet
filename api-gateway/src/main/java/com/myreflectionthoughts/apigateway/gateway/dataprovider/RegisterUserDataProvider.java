@@ -19,7 +19,7 @@ public class RegisterUserDataProvider extends DataProvider implements IAdd<AddUs
     }
 
     @Override
-    public Mono<UserDTO> add(Mono<AddUserDTO> requestPayload) {
-        return null;
+    public Mono<UserDTO> add(Mono<AddUserDTO> addUserDTOMono) {
+        return addUser(addUserDTOMono);
     }
 }

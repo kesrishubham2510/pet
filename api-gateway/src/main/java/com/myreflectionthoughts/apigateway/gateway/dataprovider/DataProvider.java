@@ -23,24 +23,22 @@ public class DataProvider {
           this.petServiceClient = petServiceClient;
      }
 
-     protected Mono<UserDTO> addUser(Mono<AddUserDTO> addUserDTOMono){
+    protected Mono<UserDTO> addUser(Mono<AddUserDTO> addUserDTOMono) {
 
 
-         return addUserDTOMono.flatMap(addUserDTO -> {
-                return addMaster(addUserDTO.getAddMasterDTO()).flatMap(addedMaster->{
+        return addUserDTOMono.flatMap(addUserDTO -> {
+            return addMaster(addUserDTO.getAddMasterDTO()).flatMap(addedMaster -> {
 
-                     return handlePets("thisIsMasterId",addUserDTO.getAddPetDTO()).map(addedPets->{
-                           UserDTO userDTO = new UserDTO();
-                           userDTO.setMasterDTO(addedMaster);
-                           userDTO.setPetDTO(addedPets);
+                return handlePets(addedMaster.getId(), addedMaster.getName(), addUserDTO.getAddPetDTO()).map(addedPets -> {
+                    UserDTO userDTO = new UserDTO();
+                    userDTO.setMasterDTO(addedMaster);
+                    userDTO.setPetDTO(addedPets);
 
-                           return userDTO;
-                      });
-
-                 });
-
-          });
-     }
+                    return userDTO;
+                });
+            });
+        });
+    }
 
 
      private Mono<MasterDTO> addMaster(AddMasterDTO addMasterDTO){
@@ -52,11 +50,16 @@ public class DataProvider {
                   .bodyToMono(MasterDTO.class);
      }
 
-     private Mono<List<PetDTO>> handlePets(String masterId,List<AddPetDTO> addPetDTOs){
-         return Flux.fromIterable(addPetDTOs).flatMap(this::addPet).collectList();
-     }
+    private Mono<List<PetDTO>> handlePets(String masterId,String masterName, List<AddPetDTO> addPetDTOs) {
+        return Flux.fromIterable(addPetDTOs)
+                .map(addPetDTO -> {
+                    addPetDTO.setMasterId(masterId);
+                    addPetDTO.setMaster(masterName);
+                    return addPetDTO;
+                }).flatMap(this::addPet).collectList();
+    }
 
-     private Mono<PetDTO> addPet(AddPetDTO addPetDTO){
+    private Mono<PetDTO> addPet(AddPetDTO addPetDTO){
           return petServiceClient.post()
                   .uri("/add")
                   .bodyValue(addPetDTO)
