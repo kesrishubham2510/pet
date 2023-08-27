@@ -27,12 +27,12 @@ public class DataProvider {
 
 
         return addUserDTOMono.flatMap(addUserDTO -> {
-            return addMaster(addUserDTO.getAddMasterDTO()).flatMap(addedMaster -> {
+            return addMaster(addUserDTO.getMaster()).flatMap(addedMaster -> {
 
-                return handlePets(addedMaster.getId(), addedMaster.getName(), addUserDTO.getAddPetDTO()).map(addedPets -> {
+                return handlePets(addedMaster.getId(), addedMaster.getName(), addUserDTO.getPets()).map(addedPets -> {
                     UserDTO userDTO = new UserDTO();
-                    userDTO.setMasterDTO(addedMaster);
-                    userDTO.setPetDTO(addedPets);
+                    userDTO.setMaster(addedMaster);
+                    userDTO.setPets(addedPets);
 
                     return userDTO;
                 });

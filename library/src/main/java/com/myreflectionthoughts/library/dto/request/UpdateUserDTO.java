@@ -4,6 +4,6 @@ import java.util.List;
 
 public class UpdateUserDTO {
 
-    private UpdateUserDTO updateUserDTO;
-    private List<UpdatePetDTO> updatePetDTOList;
+    private UpdateUserDTO latestUserInfo;
+    private List<UpdatePetDTO> latestPetsInfo;
 }

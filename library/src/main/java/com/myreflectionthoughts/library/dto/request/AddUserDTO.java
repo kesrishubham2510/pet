@@ -6,6 +6,6 @@ import java.util.List;
 
 @Data
 public class AddUserDTO {
-    private AddMasterDTO addMasterDTO;
-    private List<AddPetDTO> addPetDTO;
+    private AddMasterDTO master;
+    private List<AddPetDTO> pets;
 }
