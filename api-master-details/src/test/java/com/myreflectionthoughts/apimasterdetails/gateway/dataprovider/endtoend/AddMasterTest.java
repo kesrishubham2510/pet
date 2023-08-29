@@ -1,7 +1,7 @@
 package com.myreflectionthoughts.apimasterdetails.gateway.dataprovider.endtoend;
 
-import com.myreflectionthoughts.apimasterdetails.gateway.dataprovider.TestDataGenerator;
 import com.myreflectionthoughts.apimasterdetails.core.constant.ServiceConstants;
+import com.myreflectionthoughts.apimasterdetails.gateway.dataprovider.TestDataGenerator;
 import com.myreflectionthoughts.library.dto.request.AddMasterDTO;
 import com.myreflectionthoughts.library.dto.response.ExceptionResponse;
 import com.myreflectionthoughts.library.dto.response.MasterDTO;
@@ -17,7 +17,7 @@ public class AddMasterTest extends TestSetup {
 
 
     @Test
-    void testAddMaster(){
+    void testAddMaster() {
 
         // Adding a Master
         AddMasterDTO requestPayload = TestDataGenerator.generateAddMasterDTO();
@@ -35,27 +35,27 @@ public class AddMasterTest extends TestSetup {
 
         assertNotNull(addMasterResponse);
         assertNotNull(addMasterResponse.getResponseBody().getId());
-        assertEquals(requestPayload.getName(),Objects.requireNonNull(addMasterResponse.getResponseBody()).getName());
-        assertEquals(requestPayload.getEmail(),Objects.requireNonNull(addMasterResponse.getResponseBody()).getEmail());
-        assertEquals(requestPayload.getAge(),addMasterResponse.getResponseBody().getAge());
-        assertEquals(requestPayload.getAddress(),Objects.requireNonNull(addMasterResponse.getResponseBody()).getAddress());
+        assertEquals(requestPayload.getName(), Objects.requireNonNull(addMasterResponse.getResponseBody()).getName());
+        assertEquals(requestPayload.getEmail(), Objects.requireNonNull(addMasterResponse.getResponseBody()).getEmail());
+        assertEquals(requestPayload.getAge(), addMasterResponse.getResponseBody().getAge());
+        assertEquals(requestPayload.getAddress(), Objects.requireNonNull(addMasterResponse.getResponseBody()).getAddress());
 
         // asserting the added master details
         String addedMasterId = addMasterResponse.getResponseBody().getId();
 
         webTestClient.get()
-                .uri(String.format("%s/get/master/%s", ServiceConstants.API_QUALIFIER,addedMasterId))
+                .uri(String.format("%s/get/master/%s", ServiceConstants.API_QUALIFIER, addedMasterId))
                 .exchange()
                 .expectStatus()
                 .isOk()
                 .expectBody(MasterDTO.class)
-                .consumeWith(masterDetailsResponse->{
+                .consumeWith(masterDetailsResponse -> {
                     assertEquals(addMasterResponse.getResponseBody(), Objects.requireNonNull(masterDetailsResponse.getResponseBody()));
                 });
     }
 
     @Test
-    void testAddMaster_Throws_MasterAlreadyExistsException(){
+    void testAddMaster_Throws_MasterAlreadyExistsException() {
 
         String emailID = "newMaster@gmail.com";
 
@@ -75,10 +75,10 @@ public class AddMasterTest extends TestSetup {
 
         assertNotNull(addMasterResponse);
         assertNotNull(addMasterResponse.getResponseBody().getId());
-        assertEquals(requestPayload.getName(),Objects.requireNonNull(addMasterResponse.getResponseBody()).getName());
-        assertEquals(requestPayload.getEmail(),Objects.requireNonNull(addMasterResponse.getResponseBody()).getEmail());
-        assertEquals(requestPayload.getAge(),addMasterResponse.getResponseBody().getAge());
-        assertEquals(requestPayload.getAddress(),Objects.requireNonNull(addMasterResponse.getResponseBody()).getAddress());
+        assertEquals(requestPayload.getName(), Objects.requireNonNull(addMasterResponse.getResponseBody()).getName());
+        assertEquals(requestPayload.getEmail(), Objects.requireNonNull(addMasterResponse.getResponseBody()).getEmail());
+        assertEquals(requestPayload.getAge(), addMasterResponse.getResponseBody().getAge());
+        assertEquals(requestPayload.getAddress(), Objects.requireNonNull(addMasterResponse.getResponseBody()).getAddress());
 
 
         // adding a newMaster with sameEmail ID
@@ -89,10 +89,10 @@ public class AddMasterTest extends TestSetup {
                 .expectStatus()
                 .isBadRequest()
                 .expectBody(ExceptionResponse.class)
-                .consumeWith(exceptionResponse->{
+                .consumeWith(exceptionResponse -> {
                     assertNotNull(exceptionResponse);
-                    assertEquals("EmailAlreadyExists",Objects.requireNonNull(exceptionResponse.getResponseBody()).getError());
-                    assertEquals(ServiceConstants.EMAIL_ALREADY_REGISTERED,Objects.requireNonNull(exceptionResponse.getResponseBody()).getErrorMessage());
+                    assertEquals("EmailAlreadyExists", Objects.requireNonNull(exceptionResponse.getResponseBody()).getError());
+                    assertEquals(ServiceConstants.EMAIL_ALREADY_REGISTERED, Objects.requireNonNull(exceptionResponse.getResponseBody()).getErrorMessage());
                 });
     }
 }

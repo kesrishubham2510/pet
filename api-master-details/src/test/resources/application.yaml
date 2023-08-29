@@ -1,9 +1,13 @@
+# setting these dynamically, since application looks for mongoDB to connect on the
+# local machine despite tests being configured to use testcontainers
+
 # automatic index creation is by-default off, so this needs to be turned on for
 # @Indexed to work fine
-spring:
-  data:
-    mongodb:
-      auto-index-creation: true
-      host: localhost
-      port: 27017
-      database: masterDBTest
+
+#spring:
+#  data:
+#    mongodb:
+#      auto-index-creation: true
+#      host: localhost
+#      port:
+#      database: masterDBTest
