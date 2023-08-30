@@ -19,6 +19,7 @@ public class GetPetsOfMasterDataProvider extends DataProvider implements IGetByC
 
     @Override
     public Flux<PetDTO> retrieveByAttribute(Mono<String> attribute) {
-        return attribute.flatMapMany(petRepository::findAllByMaster);
+        return attribute.flatMapMany(petRepository::findAllByMaster)
+                .map(mappingUtility::setClinicCardStatus);
     }
 }

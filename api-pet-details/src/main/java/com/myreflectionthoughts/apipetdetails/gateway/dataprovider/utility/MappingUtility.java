@@ -9,9 +9,6 @@ import com.myreflectionthoughts.library.dto.response.DeletePetDTO;
 import com.myreflectionthoughts.library.dto.response.PetDTO;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeMap;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import javax.annotation.PostConstruct;
 
 public class MappingUtility {
 
@@ -32,7 +29,7 @@ public class MappingUtility {
         return pet;
     }
 
-    public Pet mapToPet(UpdatePetDTO updatePetDTO){
+    public Pet mapToPet(UpdatePetDTO updatePetDTO) {
         return modelMapper.map(updatePetDTO, Pet.class);
     }
 
@@ -49,11 +46,18 @@ public class MappingUtility {
         return deletePetDTO;
     }
 
+    public PetDTO setClinicCardStatus(PetDTO petDTO) {
+        petDTO.setClinicCardStatusMessage(
+                ClinicCardStatus.valueOf(petDTO.getClinicCardStatus()).getMessage()
+        );
+        return petDTO;
+    }
+
     private void addMappingConfigurations() {
 
         TypeMap<AddPetDTO, Pet> addPetDTO_To_Pet_Mapper = modelMapper.createTypeMap(AddPetDTO.class, Pet.class);
         TypeMap<Pet, PetDTO> pet_To_PetTDTO_Mapper = modelMapper.createTypeMap(Pet.class, PetDTO.class);
-        TypeMap<UpdatePetDTO,Pet> updatePetDTO_To_Pet_Mapper = modelMapper.createTypeMap(UpdatePetDTO.class, Pet.class);
+        TypeMap<UpdatePetDTO, Pet> updatePetDTO_To_Pet_Mapper = modelMapper.createTypeMap(UpdatePetDTO.class, Pet.class);
 
         addPetDTO_To_Pet_Mapper.addMappings(
                 mapper -> mapper.using(conversionUtility.string_To_categoryConverter).map(
@@ -86,7 +90,7 @@ public class MappingUtility {
         );
 
         updatePetDTO_To_Pet_Mapper.addMappings(
-                mapper-> mapper.using(conversionUtility.string_To_clinicCardStatusConverter).map(
+                mapper -> mapper.using(conversionUtility.string_To_clinicCardStatusConverter).map(
                         UpdatePetDTO::getClinicCardStatus, Pet::setClinicCardStatus
                 )
         );

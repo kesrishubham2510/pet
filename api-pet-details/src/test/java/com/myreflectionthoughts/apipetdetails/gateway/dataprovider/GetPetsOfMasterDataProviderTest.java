@@ -1,7 +1,9 @@
 package com.myreflectionthoughts.apipetdetails.gateway.dataprovider;
 
 import com.myreflectionthoughts.apipetdetails.core.constant.ServiceConstants;
+import com.myreflectionthoughts.apipetdetails.core.enums.ClinicCardStatus;
 import com.myreflectionthoughts.apipetdetails.gateway.dataprovider.repository.PetRepository;
+import com.myreflectionthoughts.apipetdetails.gateway.dataprovider.utility.MappingUtility;
 import com.myreflectionthoughts.library.dto.response.PetDTO;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -24,6 +26,8 @@ public class GetPetsOfMasterDataProviderTest {
     private GetPetsOfMasterDataProvider getPetsOfMasterDataProvider;
     @Mock
     private PetRepository petRepository;
+    @Mock
+    private MappingUtility mappingUtility;
 
     public GetPetsOfMasterDataProviderTest() {
         this.petId = ServiceConstants.DUMMY_PET_ID;
@@ -33,10 +37,13 @@ public class GetPetsOfMasterDataProviderTest {
     @Test
     void testRetrieveByAttribute() {
         when(petRepository.findAllByMaster(anyString())).thenReturn(Flux.just(getPetDTO()));
+        when(mappingUtility.setClinicCardStatus(any(PetDTO.class))).thenReturn(getPetDTO());
+
         Flux<PetDTO> petsOfMasterFlux = getPetsOfMasterDataProvider.retrieveByAttribute(Mono.just(masterId));
 
         StepVerifier.create(petsOfMasterFlux).expectNextCount(1).verifyComplete();
         verify(petRepository, times(1)).findAllByMaster(anyString());
+        verify(mappingUtility, times(1)).setClinicCardStatus(any(PetDTO.class));
     }
 
     private PetDTO getPetDTO() {
@@ -48,6 +55,7 @@ public class GetPetsOfMasterDataProviderTest {
         pet.setGender("FEMALE");
         pet.setName("pet-name");
         pet.setClinicCardStatus("NOT_APPLIED");
+        pet.setClinicCardStatusMessage(ClinicCardStatus.NOT_APPLIED.getMessage());
         return pet;
     }
 }
