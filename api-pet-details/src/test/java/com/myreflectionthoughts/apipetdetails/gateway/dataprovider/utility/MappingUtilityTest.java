@@ -7,6 +7,7 @@ package com.myreflectionthoughts.apipetdetails.gateway.dataprovider.utility;
 
 import com.myreflectionthoughts.apipetdetails.core.constant.ServiceConstants;
 import com.myreflectionthoughts.apipetdetails.core.entity.Pet;
+import com.myreflectionthoughts.apipetdetails.core.enums.ClinicCardStatus;
 import com.myreflectionthoughts.apipetdetails.core.exception.CategoryNotFoundException;
 import com.myreflectionthoughts.apipetdetails.core.exception.ClinicCardStatusNotFoundException;
 import com.myreflectionthoughts.apipetdetails.core.exception.GenderNotFoundException;
@@ -124,5 +125,16 @@ public class MappingUtilityTest {
 
         MappingException thrownException = assertThrows(MappingException.class, () -> mapper.mapToPet(updatePetDTO));
         assertEquals(thrownException.getCause().getClass(), ClinicCardStatusNotFoundException.class);
+    }
+
+    @Test
+    public void testSetClinicCardStatus() {
+
+        PetDTO petDTO = TestDataGenerator.getPetDTO();
+        assertNull(petDTO.getClinicCardStatusMessage());
+
+        petDTO = mapper.setClinicCardStatus(petDTO);
+        assertNotNull(petDTO.getClinicCardStatusMessage());
+        assertEquals(ClinicCardStatus.NOT_APPLIED.getMessage(), petDTO.getClinicCardStatusMessage());
     }
 }
