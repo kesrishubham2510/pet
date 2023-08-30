@@ -32,11 +32,11 @@ public class GetPetsOfMasterDataProviderTest {
 
     @Test
     void testRetrieveByAttribute() {
-        when(petRepository.findAllByMasterId(anyString())).thenReturn(Flux.just(getPetDTO()));
+        when(petRepository.findAllByMaster(anyString())).thenReturn(Flux.just(getPetDTO()));
         Flux<PetDTO> petsOfMasterFlux = getPetsOfMasterDataProvider.retrieveByAttribute(Mono.just(masterId));
 
         StepVerifier.create(petsOfMasterFlux).expectNextCount(1).verifyComplete();
-        verify(petRepository, times(1)).findAllByMasterId(anyString());
+        verify(petRepository, times(1)).findAllByMaster(anyString());
     }
 
     private PetDTO getPetDTO() {

@@ -9,5 +9,5 @@ import reactor.core.publisher.Flux;
 @Repository
 public interface PetRepository extends ReactiveMongoRepository<Pet, String> {
 
-    public Flux<PetDTO> findAllByMasterId(String masterId);
+    public Flux<PetDTO> findAllByMaster(String masterId);
 }
