@@ -18,14 +18,12 @@ import static org.mockito.Mockito.*;
 @SpringBootTest
 public class GetPetsOfMasterDataProviderTest {
 
-    @InjectMocks
-    private GetPetsOfMasterDataProvider getPetsOfMasterDataProvider;
-
-    @Mock
-    private PetRepository petRepository;
-
     private final String petId;
     private final String masterId;
+    @InjectMocks
+    private GetPetsOfMasterDataProvider getPetsOfMasterDataProvider;
+    @Mock
+    private PetRepository petRepository;
 
     public GetPetsOfMasterDataProviderTest() {
         this.petId = ServiceConstants.DUMMY_PET_ID;
@@ -49,7 +47,6 @@ public class GetPetsOfMasterDataProviderTest {
         pet.setCategory("DOG");
         pet.setGender("FEMALE");
         pet.setName("pet-name");
-        pet.setMaster("master");
         pet.setClinicCardStatus("NOT_APPLIED");
         return pet;
     }

@@ -19,14 +19,12 @@ import static org.mockito.Mockito.*;
 @SpringBootTest
 public class UpdatePetDetailsUseCaseTest {
 
-    @InjectMocks
-    private UpdatePetDetailsUseCase updatePetDetailsUseCase;
-
-    @Mock
-    private IUpdate<PetDTO, UpdatePetDTO> iUpdate;
-
     private final String petId;
     private final String masterId;
+    @InjectMocks
+    private UpdatePetDetailsUseCase updatePetDetailsUseCase;
+    @Mock
+    private IUpdate<PetDTO, UpdatePetDTO> iUpdate;
 
     public UpdatePetDetailsUseCaseTest() {
         this.petId = ServiceConstants.DUMMY_PET_ID;
@@ -34,7 +32,7 @@ public class UpdatePetDetailsUseCaseTest {
     }
 
     @Test
-    void testUpdateDetails(){
+    void testUpdateDetails() {
 
         UpdatePetDTO updatePetDTO = getUpdatePetDTO();
         PetDTO expectedUpdatedPetDTO = getUpdatedPetDTO();
@@ -42,14 +40,14 @@ public class UpdatePetDetailsUseCaseTest {
 
         Mono<PetDTO> actualUpdatedPetDTOMono = updatePetDetailsUseCase.updatePetDetails(Mono.just(updatePetDTO));
 
-        StepVerifier.create(actualUpdatedPetDTOMono).consumeNextWith(actualUpdatedPetDTO->{
+        StepVerifier.create(actualUpdatedPetDTOMono).consumeNextWith(actualUpdatedPetDTO -> {
             assertEquals(expectedUpdatedPetDTO, actualUpdatedPetDTO);
         }).verifyComplete();
 
-        verify(iUpdate,times(1)).updateInfo(any(Mono.class));
+        verify(iUpdate, times(1)).updateInfo(any(Mono.class));
     }
 
-    private PetDTO getUpdatedPetDTO(){
+    private PetDTO getUpdatedPetDTO() {
         PetDTO updatedPetDTO = new PetDTO();
         updatedPetDTO.setMasterId(masterId);
         updatedPetDTO.setId(petId);
@@ -57,14 +55,13 @@ public class UpdatePetDetailsUseCaseTest {
         updatedPetDTO.setCategory("DOG");
         updatedPetDTO.setGender("FEMALE");
         updatedPetDTO.setName("pet-name-updated");
-        updatedPetDTO.setMaster("master-updated");
         updatedPetDTO.setClinicCardStatus("UNDER_PROGRESS");
         updatedPetDTO.setClinicCardStatusMessage(ClinicCardStatus.valueOf(ServiceConstants.VALID_CLINIC_CARD_STATUS).getMessage());
         return updatedPetDTO;
     }
 
 
-    private UpdatePetDTO getUpdatePetDTO(){
+    private UpdatePetDTO getUpdatePetDTO() {
         UpdatePetDTO updatePetDTO = new UpdatePetDTO();
         updatePetDTO.setMasterId(masterId);
         updatePetDTO.setId(petId);
@@ -72,7 +69,6 @@ public class UpdatePetDetailsUseCaseTest {
         updatePetDTO.setCategory("DOG");
         updatePetDTO.setGender("FEMALE");
         updatePetDTO.setName("pet-name-updated");
-        updatePetDTO.setMaster("master-updated");
         updatePetDTO.setClinicCardStatus("UNDER_PRogrESS");
         return updatePetDTO;
     }

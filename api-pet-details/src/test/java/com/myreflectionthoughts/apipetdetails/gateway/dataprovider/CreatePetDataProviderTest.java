@@ -19,23 +19,20 @@ import static org.mockito.Mockito.*;
 @SpringBootTest
 public class CreatePetDataProviderTest {
 
+    TestDataGenerator testDataGenerator;
     @InjectMocks
     private CreatePetDataProvider createPetDataProvider;
-
     @Mock
     private PetRepository petRepository;
-
     @Mock
     private MappingUtility mappingUtility;
-
-    TestDataGenerator testDataGenerator;
 
     public CreatePetDataProviderTest() {
         this.testDataGenerator = new TestDataGenerator();
     }
 
     @Test
-    void testAddPet(){
+    void testAddPet() {
 
         Pet expectedPetFromAddPetDTO = TestDataGenerator.getPet();
         PetDTO expectedPetDTO = TestDataGenerator.getPetDTO();
@@ -48,10 +45,9 @@ public class CreatePetDataProviderTest {
 
         Mono<PetDTO> responseMono = createPetDataProvider.add(Mono.just(addPetDTO));
 
-        StepVerifier.create(responseMono).consumeNextWith(response->{
+        StepVerifier.create(responseMono).consumeNextWith(response -> {
             assertEquals(expectedPetDTO.getId(), response.getId());
             assertEquals(expectedPetDTO.getName(), response.getName());
-            assertEquals(expectedPetDTO.getMaster(), response.getMaster());
             assertEquals(expectedPetDTO.getCategory(), response.getCategory());
             assertEquals(expectedPetDTO.getGender(), response.getGender());
             assertEquals(expectedPetDTO.getClinicCardStatus(), response.getClinicCardStatus());
@@ -59,9 +55,9 @@ public class CreatePetDataProviderTest {
             assertEquals(expectedPetDTO.getAge(), response.getAge());
         }).verifyComplete();
 
-        verify(mappingUtility,times(1)).mapToPet(any(AddPetDTO.class));
-        verify(petRepository,times(1)).save(any(Pet.class));
-        verify(mappingUtility,times(1)).mapToPetDTO(any(Pet.class));
+        verify(mappingUtility, times(1)).mapToPet(any(AddPetDTO.class));
+        verify(petRepository, times(1)).save(any(Pet.class));
+        verify(mappingUtility, times(1)).mapToPetDTO(any(Pet.class));
     }
 
 

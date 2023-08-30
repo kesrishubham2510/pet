@@ -17,14 +17,12 @@ import static org.mockito.Mockito.*;
 @SpringBootTest
 public class ReadPetsOfMasterUseCaseTest {
 
-    @InjectMocks
-    private ReadPetsOfMasterUseCase readAllPetsOfMasterUseCase;
-
-    @Mock
-    private IGetByCommonAttribute<String, PetDTO> iGetByCommonAttribute;
-
     private final String petId;
     private final String masterId;
+    @InjectMocks
+    private ReadPetsOfMasterUseCase readAllPetsOfMasterUseCase;
+    @Mock
+    private IGetByCommonAttribute<String, PetDTO> iGetByCommonAttribute;
 
     public ReadPetsOfMasterUseCaseTest() {
         this.petId = ServiceConstants.DUMMY_PET_ID;
@@ -50,7 +48,6 @@ public class ReadPetsOfMasterUseCaseTest {
         pet.setCategory("DOG");
         pet.setGender("FEMALE");
         pet.setName("pet-name");
-        pet.setMaster("master");
         pet.setClinicCardStatus("NOT_APPLIED");
         return pet;
     }

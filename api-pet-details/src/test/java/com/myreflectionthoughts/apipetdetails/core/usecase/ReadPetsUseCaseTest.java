@@ -15,19 +15,18 @@ import static org.mockito.Mockito.*;
 @SpringBootTest
 public class ReadPetsUseCaseTest {
 
-    @InjectMocks
-    private ReadPetsUseCase readPetsUseCase;
-
-    @Mock
-    private IGetAll<PetDTO> iGetAll;
-
     private final String petId;
     private final String masterId;
+    @InjectMocks
+    private ReadPetsUseCase readPetsUseCase;
+    @Mock
+    private IGetAll<PetDTO> iGetAll;
 
     public ReadPetsUseCaseTest() {
         petId = ServiceConstants.DUMMY_PET_ID;
         masterId = ServiceConstants.DUMMY_MASTER_ID;
     }
+
     @Test
     void testGetPets() {
 
@@ -46,7 +45,6 @@ public class ReadPetsUseCaseTest {
         pet.setCategory("DOG");
         pet.setGender("FEMALE");
         pet.setName("pet-name");
-        pet.setMaster("master");
         pet.setClinicCardStatus("NOT_APPLIED");
         return pet;
     }

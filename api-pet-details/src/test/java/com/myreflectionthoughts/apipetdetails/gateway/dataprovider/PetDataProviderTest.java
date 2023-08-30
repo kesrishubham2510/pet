@@ -17,28 +17,25 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.times;
 
 @SpringBootTest
 public class PetDataProviderTest {
 
+    TestDataGenerator testDataGenerator;
     @InjectMocks
     private PetDataProvider petDataProvider;
-
     @Mock
     private PetRepository petRepository;
-
     @Mock
     private MappingUtility mappingUtility;
-
-    TestDataGenerator testDataGenerator;
 
 
     public PetDataProviderTest() {
         this.testDataGenerator = new TestDataGenerator();
     }
+
     @Test
-    void getPetInfo_Successful(){
+    void getPetInfo_Successful() {
 
         String petId = ServiceConstants.DUMMY_PET_ID;
 
@@ -50,12 +47,11 @@ public class PetDataProviderTest {
 
         Mono<PetDTO> responseMono = petDataProvider.getInfo(Mono.just(petId));
 
-        StepVerifier.create(responseMono).consumeNextWith(response-> {
+        StepVerifier.create(responseMono).consumeNextWith(response -> {
 
             assertEquals(expectedPetDTO.getMasterId(), response.getMasterId());
             assertEquals(expectedPetDTO.getId(), response.getId());
             assertEquals(expectedPetDTO.getName(), response.getName());
-            assertEquals(expectedPetDTO.getMaster(), response.getMaster());
             assertEquals(expectedPetDTO.getCategory(), response.getCategory());
             assertEquals(expectedPetDTO.getGender(), response.getGender());
             assertEquals(expectedPetDTO.getClinicCardStatus(), response.getClinicCardStatus());
@@ -63,13 +59,13 @@ public class PetDataProviderTest {
             assertEquals(expectedPetDTO.getAge(), response.getAge());
         }).verifyComplete();
 
-        verify(petRepository,times(1)).findById(anyString());
-        verify(mappingUtility,times(1)).mapToPetDTO(any(Pet.class));
+        verify(petRepository, times(1)).findById(anyString());
+        verify(mappingUtility, times(1)).mapToPetDTO(any(Pet.class));
     }
 
 
     @Test
-    void getPetInfo_ThrowsPetNotFoundException(){
+    void getPetInfo_ThrowsPetNotFoundException() {
 
         String petId = ServiceConstants.DUMMY_PET_ID;
 
@@ -80,8 +76,8 @@ public class PetDataProviderTest {
 
         StepVerifier.create(petDataProvider.getInfo(Mono.just(petId))).expectError(PetNotFoundException.class).verify();
 
-        verify(petRepository,times(1)).findById(anyString());
-        verify(mappingUtility,times(0)).mapToPetDTO(any(Pet.class));
+        verify(petRepository, times(1)).findById(anyString());
+        verify(mappingUtility, times(0)).mapToPetDTO(any(Pet.class));
     }
 
 }

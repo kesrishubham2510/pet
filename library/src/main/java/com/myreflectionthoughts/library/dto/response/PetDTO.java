@@ -8,7 +8,6 @@ public class PetDTO {
     // to map a pet With master
     private String masterId;
     private String name;
-    private String master;
     private String category;
     private String gender;
     private String clinicCardStatus;

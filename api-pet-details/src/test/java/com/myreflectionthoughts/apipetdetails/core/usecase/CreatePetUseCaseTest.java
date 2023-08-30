@@ -18,14 +18,12 @@ import static org.mockito.Mockito.*;
 @SpringBootTest
 public class CreatePetUseCaseTest {
 
-    @InjectMocks
-    private CreatePetUseCase createPetUseCase;
-
-    @Mock
-    private IAdd<AddPetDTO, PetDTO> iAdd;
-
     private final String petId;
     private final String masterId;
+    @InjectMocks
+    private CreatePetUseCase createPetUseCase;
+    @Mock
+    private IAdd<AddPetDTO, PetDTO> iAdd;
 
     public CreatePetUseCaseTest() {
         petId = ServiceConstants.DUMMY_PET_ID;
@@ -33,7 +31,7 @@ public class CreatePetUseCaseTest {
     }
 
     @Test
-    void testAddPet(){
+    void testAddPet() {
 
         AddPetDTO addPetDTO = getAddPetDTO();
         PetDTO expectedPetDTO = getPetDTO();
@@ -42,11 +40,11 @@ public class CreatePetUseCaseTest {
 
         Mono<PetDTO> actualPetDTOMono = createPetUseCase.addPet(Mono.just(addPetDTO));
 
-        StepVerifier.create(actualPetDTOMono).consumeNextWith(actualPetDTO->{
+        StepVerifier.create(actualPetDTOMono).consumeNextWith(actualPetDTO -> {
             assertEquals(expectedPetDTO, actualPetDTO);
         }).verifyComplete();
 
-        verify(iAdd,times(1)).add(any(Mono.class));
+        verify(iAdd, times(1)).add(any(Mono.class));
     }
 
     private AddPetDTO getAddPetDTO() {
@@ -56,7 +54,6 @@ public class CreatePetUseCaseTest {
         addPetDTO.setCategory("dog");
         addPetDTO.setGender("female");
         addPetDTO.setName("pet-name");
-        addPetDTO.setMaster("master");
         return addPetDTO;
     }
 
@@ -68,7 +65,6 @@ public class CreatePetUseCaseTest {
         pet.setCategory("DOG");
         pet.setGender("FEMALE");
         pet.setName("pet-name");
-        pet.setMaster("master");
         pet.setClinicCardStatus("NOT_APPLIED");
         return pet;
     }

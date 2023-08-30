@@ -13,7 +13,6 @@ public class Pet {
     // to map a pet With master
     private String masterId;
     private String name;
-    private String master;
     private Category category;
     private Gender gender;
     private ClinicCardStatus clinicCardStatus;

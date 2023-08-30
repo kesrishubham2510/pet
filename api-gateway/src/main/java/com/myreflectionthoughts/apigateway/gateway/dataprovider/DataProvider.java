@@ -15,13 +15,13 @@ import reactor.core.publisher.Mono;
 import java.util.List;
 
 public class DataProvider {
-     protected final WebClient masterServiceClient;
-     protected final WebClient petServiceClient;
+    protected final WebClient masterServiceClient;
+    protected final WebClient petServiceClient;
 
-     public DataProvider(WebClient masterServiceClient, WebClient petServiceClient) {
-          this.masterServiceClient = masterServiceClient;
-          this.petServiceClient = petServiceClient;
-     }
+    public DataProvider(WebClient masterServiceClient, WebClient petServiceClient) {
+        this.masterServiceClient = masterServiceClient;
+        this.petServiceClient = petServiceClient;
+    }
 
     protected Mono<UserDTO> addUser(Mono<AddUserDTO> addUserDTOMono) {
 
@@ -31,7 +31,6 @@ public class DataProvider {
 
                 return handlePets(addedMaster.getId(), addedMaster.getName(), addUserDTO.getPets()).map(addedPets -> {
                     UserDTO userDTO = new UserDTO();
-                    userDTO.setMaster(addedMaster);
                     userDTO.setPets(addedPets);
 
                     return userDTO;
@@ -41,31 +40,30 @@ public class DataProvider {
     }
 
 
-     private Mono<MasterDTO> addMaster(AddMasterDTO addMasterDTO){
-          return masterServiceClient.post()
-                  .uri("/add")
-                  .bodyValue(addMasterDTO)
-                  .retrieve()
-                  .onStatus(HttpStatus::is4xxClientError, clientResponse ->  clientResponse.bodyToMono(ReceivedException.class))
-                  .bodyToMono(MasterDTO.class);
-     }
+    private Mono<MasterDTO> addMaster(AddMasterDTO addMasterDTO) {
+        return masterServiceClient.post()
+                .uri("/add")
+                .bodyValue(addMasterDTO)
+                .retrieve()
+                .onStatus(HttpStatus::is4xxClientError, clientResponse -> clientResponse.bodyToMono(ReceivedException.class))
+                .bodyToMono(MasterDTO.class);
+    }
 
-    private Mono<List<PetDTO>> handlePets(String masterId,String masterName, List<AddPetDTO> addPetDTOs) {
+    private Mono<List<PetDTO>> handlePets(String masterId, String masterName, List<AddPetDTO> addPetDTOs) {
         return Flux.fromIterable(addPetDTOs)
                 .map(addPetDTO -> {
                     addPetDTO.setMasterId(masterId);
-                    addPetDTO.setMaster(masterName);
                     return addPetDTO;
                 }).flatMap(this::addPet).collectList();
     }
 
-    private Mono<PetDTO> addPet(AddPetDTO addPetDTO){
-          return petServiceClient.post()
-                  .uri("/add")
-                  .bodyValue(addPetDTO)
-                  .retrieve()
-                  .onStatus(HttpStatus::is4xxClientError, clientResponse -> clientResponse.bodyToMono(ReceivedException.class))
-                  .bodyToMono(PetDTO.class);
-     }
+    private Mono<PetDTO> addPet(AddPetDTO addPetDTO) {
+        return petServiceClient.post()
+                .uri("/add")
+                .bodyValue(addPetDTO)
+                .retrieve()
+                .onStatus(HttpStatus::is4xxClientError, clientResponse -> clientResponse.bodyToMono(ReceivedException.class))
+                .bodyToMono(PetDTO.class);
+    }
 }
 
