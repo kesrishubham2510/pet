@@ -28,15 +28,24 @@ public class DataProvider {
 
         return addUserDTOMono.flatMap(addUserDTO -> {
             return addMaster(addUserDTO.getMaster()).flatMap(addedMaster -> {
-
-                return handlePets(addedMaster.getId(), addedMaster.getName(), addUserDTO.getPets()).map(addedPets -> {
+                return handlePets(addedMaster.getId(), addUserDTO.getPets()).map(addedPets -> {
                     UserDTO userDTO = new UserDTO();
                     userDTO.setPets(addedPets);
-
                     return userDTO;
                 });
             });
         });
+    }
+
+    protected Flux<PetDTO> getAllPetsOfUser(Mono<String> masterId) {
+        return masterId.flatMapMany(this::handleAllPetsOfUserRetrieval);
+    }
+
+    private Flux<PetDTO> handleAllPetsOfUserRetrieval(String masterId) {
+        return petServiceClient.get()
+                .uri(String.format("/get/pets/%s", masterId))
+                .retrieve()
+                .bodyToFlux(PetDTO.class);
     }
 
 
@@ -49,7 +58,7 @@ public class DataProvider {
                 .bodyToMono(MasterDTO.class);
     }
 
-    private Mono<List<PetDTO>> handlePets(String masterId, String masterName, List<AddPetDTO> addPetDTOs) {
+    private Mono<List<PetDTO>> handlePets(String masterId, List<AddPetDTO> addPetDTOs) {
         return Flux.fromIterable(addPetDTOs)
                 .map(addPetDTO -> {
                     addPetDTO.setMaster(masterId);
