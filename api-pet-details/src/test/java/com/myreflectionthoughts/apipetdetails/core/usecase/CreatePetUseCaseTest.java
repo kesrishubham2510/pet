@@ -49,7 +49,7 @@ public class CreatePetUseCaseTest {
 
     private AddPetDTO getAddPetDTO() {
         AddPetDTO addPetDTO = new AddPetDTO();
-        addPetDTO.setMasterId(masterId);
+        addPetDTO.setMaster(masterId);
         addPetDTO.setAge(1.0);
         addPetDTO.setCategory("dog");
         addPetDTO.setGender("female");
@@ -60,7 +60,7 @@ public class CreatePetUseCaseTest {
     private PetDTO getPetDTO() {
         PetDTO pet = new PetDTO();
         pet.setId(petId);
-        pet.setMasterId(masterId);
+        pet.setMaster(masterId);
         pet.setAge(1.0);
         pet.setCategory("DOG");
         pet.setGender("FEMALE");

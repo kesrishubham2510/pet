@@ -47,7 +47,7 @@ public class ReadPetDetailsUseCaseTest {
 
     private PetDTO getPetDTO() {
         PetDTO pet = new PetDTO();
-        pet.setMasterId(masterId);
+        pet.setMaster(masterId);
         pet.setId(petId);
         pet.setAge(1.0);
         pet.setCategory("DOG");

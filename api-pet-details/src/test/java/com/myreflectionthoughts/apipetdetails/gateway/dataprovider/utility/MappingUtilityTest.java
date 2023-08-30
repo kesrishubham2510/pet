@@ -51,7 +51,7 @@ public class MappingUtilityTest {
         assertNotNull(actualPet.getCategory());
         assertNotNull(actualPet.getGender());
         assertNotNull(actualPet.getClinicCardStatus());
-        assertEquals(expectedPet.getMasterId(), actualPet.getMasterId());
+        assertEquals(expectedPet.getMaster(), actualPet.getMaster());
         assertEquals(expectedPet.getName(), actualPet.getName());
         assertEquals(expectedPet.getCategory(), actualPet.getCategory());
         assertEquals(expectedPet.getAge(), actualPet.getAge());
@@ -89,7 +89,7 @@ public class MappingUtilityTest {
         assertNotNull(actualPetDTO.getGender());
         assertNotNull(actualPetDTO.getClinicCardStatus());
         assertEquals(petId, actualPetDTO.getId());
-        assertEquals(masterId, actualPetDTO.getMasterId());
+        assertEquals(masterId, actualPetDTO.getMaster());
         assertEquals(expectedPetDTO.getName(), actualPetDTO.getName());
         assertEquals(expectedPetDTO.getCategory(), actualPetDTO.getCategory());
         assertEquals(expectedPetDTO.getAge(), actualPetDTO.getAge());

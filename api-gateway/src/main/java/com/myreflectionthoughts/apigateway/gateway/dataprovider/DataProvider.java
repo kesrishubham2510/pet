@@ -52,7 +52,7 @@ public class DataProvider {
     private Mono<List<PetDTO>> handlePets(String masterId, String masterName, List<AddPetDTO> addPetDTOs) {
         return Flux.fromIterable(addPetDTOs)
                 .map(addPetDTO -> {
-                    addPetDTO.setMasterId(masterId);
+                    addPetDTO.setMaster(masterId);
                     return addPetDTO;
                 }).flatMap(this::addPet).collectList();
     }

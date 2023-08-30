@@ -49,7 +49,7 @@ public class PetDataProviderTest {
 
         StepVerifier.create(responseMono).consumeNextWith(response -> {
 
-            assertEquals(expectedPetDTO.getMasterId(), response.getMasterId());
+            assertEquals(expectedPetDTO.getMaster(), response.getMaster());
             assertEquals(expectedPetDTO.getId(), response.getId());
             assertEquals(expectedPetDTO.getName(), response.getName());
             assertEquals(expectedPetDTO.getCategory(), response.getCategory());

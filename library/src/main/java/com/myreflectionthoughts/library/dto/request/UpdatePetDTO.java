@@ -6,7 +6,7 @@ import lombok.Data;
 public class UpdatePetDTO {
     private String id;
     // to map a pet With master
-    private String masterId;
+    private String master;
     private String name;
     private String category;
     private String gender;

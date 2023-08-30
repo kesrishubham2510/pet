@@ -11,7 +11,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Pet {
     private String id;
     // to map a pet With master
-    private String masterId;
+    private String master;
     private String name;
     private Category category;
     private Gender gender;
