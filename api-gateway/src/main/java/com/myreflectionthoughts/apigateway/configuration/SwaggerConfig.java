@@ -1,4 +1,4 @@
-package com.myreflectionthoughts.apipetdetails.configuration;
+package com.myreflectionthoughts.apigateway.configuration;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Contact;
@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-@Configuration
+@Configuration(value = "SwaggerConfig")
 public class SwaggerConfig {
 
     @Value("${SwaggerConfig.info.description}")
@@ -32,22 +32,22 @@ public class SwaggerConfig {
 
     @Bean
     public OpenAPI openAPI() {
-        OpenAPI apiPetDetails = new OpenAPI();
+        OpenAPI apiGateway = new OpenAPI();
 
-        apiPetDetails.setInfo(getInfo());
-        return apiPetDetails;
+        apiGateway.setInfo(getInfo());
+        return apiGateway;
     }
 
     private Info getInfo() {
-        Info apiPetDetailsInfo = new Info();
+        Info apiGatewayInfo = new Info();
 
-        apiPetDetailsInfo.setDescription(description);
-        apiPetDetailsInfo.setSummary(summary);
-        apiPetDetailsInfo.setTitle(title);
-        apiPetDetailsInfo.setVersion(version);
-        apiPetDetailsInfo.setContact(getContact());
+        apiGatewayInfo.setDescription(description);
+        apiGatewayInfo.setSummary(summary);
+        apiGatewayInfo.setTitle(title);
+        apiGatewayInfo.setVersion(version);
+        apiGatewayInfo.setContact(getContact());
 
-        return apiPetDetailsInfo;
+        return apiGatewayInfo;
     }
 
     private Contact getContact() {

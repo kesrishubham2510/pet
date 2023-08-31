@@ -1,7 +1,25 @@
 restClient:
   masterService: http://localhost:8002/api-master-details/
   petService: http://localhost:8003/api-pet-details/
+
 server:
   port: 8000
+
+SwaggerConfig:
+  info:
+    title: "Pet Micro-service API Contract"
+    summary: ""
+    description: "REST api contract for Pet micro-service project"
+    version: "0.0.1"
+  contact:
+    name: "Shubham Kesri"
+    email: "shubhamkeshari90@gmail.com"
+    url: "https://www.linkedin.com/in/shubhamkesri"
+  servers:
+    - url: "http:localhost:8000"
+      description: "The local server spun up on the local machine"
+
+
+
 
 

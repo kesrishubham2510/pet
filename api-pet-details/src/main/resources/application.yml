@@ -4,6 +4,21 @@ spring:
       host: localhost
       port: 27017
       database: petDB
+
 server:
   port: 8003
+
+SwaggerConfig:
+  info:
+    title: "Pet Micro-service API"
+    summary: ""
+    description: "REST api documentation for Pet micro-service"
+    version: "0.0.1"
+  contact:
+    name: "Shubham Kesri"
+    email: "shubhamkeshari90@gmail.com"
+    url: "https://www.linkedin.com/in/shubhamkesri"
+  servers:
+    - url: "http:localhost:8003"
+      description: "The local server spun up on the local machine"
 

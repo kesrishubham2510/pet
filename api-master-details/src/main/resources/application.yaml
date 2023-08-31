@@ -7,5 +7,20 @@ spring:
       host: localhost
       port: 27017
       database: masterDB
+
 server:
   port: 8002
+
+SwaggerConfig:
+  info:
+    title: "Master Micro-service API"
+    summary: ""
+    description: "REST api documentation for Master micro-service"
+    version: "0.0.1"
+  contact:
+    name: "Shubham Kesri"
+    email: "shubhamkeshari90@gmail.com"
+    url: "https://www.linkedin.com/in/shubhamkesri"
+  servers:
+    - url: "http:localhost:8002"
+      description: "The local server spun up on the local machine"
