@@ -19,6 +19,6 @@ public class RetrieveUserDataProvider extends DataProvider implements IGet<UserD
 
     @Override
     public Mono<UserDTO> getInfo(Mono<String> id) {
-        return null;
+        return getUserInfo(id);
     }
 }

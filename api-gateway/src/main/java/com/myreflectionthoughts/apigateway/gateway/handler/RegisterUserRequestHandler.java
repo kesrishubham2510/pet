@@ -9,7 +9,7 @@ import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
 
 @Service
-public class RegisterUserRequestHandler {
+public class RegisterUserRequestHandler extends Handler {
 
     private final RegisterUserUseCase registerUserUseCase;
 
@@ -17,9 +17,10 @@ public class RegisterUserRequestHandler {
         this.registerUserUseCase = registerUserUseCase;
     }
 
-    public Mono<ServerResponse> addUser(ServerRequest serverRequest){
+    public Mono<ServerResponse> addUser(ServerRequest serverRequest) {
         return registerUserUseCase
                 .registerUser(serverRequest.bodyToMono(AddUserDTO.class))
-                .flatMap(userDTO -> ServerResponse.status(HttpStatus.CREATED).bodyValue(userDTO));
+                .flatMap(userDTO -> ServerResponse.status(HttpStatus.CREATED).bodyValue(userDTO))
+                .onErrorResume(exceptionMapper);
     }
 }

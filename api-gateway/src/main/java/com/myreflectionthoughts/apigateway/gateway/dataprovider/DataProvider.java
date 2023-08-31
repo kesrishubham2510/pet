@@ -1,17 +1,16 @@
 package com.myreflectionthoughts.apigateway.gateway.dataprovider;
 
-import com.myreflectionthoughts.apigateway.core.exception.ReceivedException;
 import com.myreflectionthoughts.library.dto.request.AddMasterDTO;
 import com.myreflectionthoughts.library.dto.request.AddPetDTO;
 import com.myreflectionthoughts.library.dto.request.AddUserDTO;
 import com.myreflectionthoughts.library.dto.response.MasterDTO;
 import com.myreflectionthoughts.library.dto.response.PetDTO;
 import com.myreflectionthoughts.library.dto.response.UserDTO;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DataProvider {
@@ -27,9 +26,17 @@ public class DataProvider {
 
 
         return addUserDTOMono.flatMap(addUserDTO -> {
+            UserDTO userDTO = new UserDTO();
+
             return addMaster(addUserDTO.getMaster()).flatMap(addedMaster -> {
+                userDTO.setMaster(addedMaster);
+
+                if (addUserDTO.getMaster() == null || addUserDTO.getPets().isEmpty()) {
+                    userDTO.setPets(new ArrayList<>());
+                    return Mono.fromSupplier(() -> userDTO);
+                }
+
                 return handlePets(addedMaster.getId(), addUserDTO.getPets()).map(addedPets -> {
-                    UserDTO userDTO = new UserDTO();
                     userDTO.setPets(addedPets);
                     return userDTO;
                 });
@@ -39,6 +46,23 @@ public class DataProvider {
 
     protected Flux<PetDTO> getAllPetsOfUser(Mono<String> masterId) {
         return masterId.flatMapMany(this::handleAllPetsOfUserRetrieval);
+    }
+
+    protected Mono<UserDTO> getUserInfo(Mono<String> masterIdMono) {
+        return masterIdMono.flatMap(masterId ->
+                handleMasterInfoRetrieval(masterId).flatMap(
+                        masterDTO ->
+                                handleAllPetsOfUserRetrieval(masterId).collectList().map(
+                                        pets -> {
+                                            UserDTO userDTO = new UserDTO();
+                                            userDTO.setPets(pets);
+                                            userDTO.setMaster(masterDTO);
+                                            return userDTO;
+                                        }
+                                )
+                )
+
+        );
     }
 
     private Flux<PetDTO> handleAllPetsOfUserRetrieval(String masterId) {
@@ -54,7 +78,6 @@ public class DataProvider {
                 .uri("/add")
                 .bodyValue(addMasterDTO)
                 .retrieve()
-                .onStatus(HttpStatus::is4xxClientError, clientResponse -> clientResponse.bodyToMono(ReceivedException.class))
                 .bodyToMono(MasterDTO.class);
     }
 
@@ -71,8 +94,14 @@ public class DataProvider {
                 .uri("/add")
                 .bodyValue(addPetDTO)
                 .retrieve()
-                .onStatus(HttpStatus::is4xxClientError, clientResponse -> clientResponse.bodyToMono(ReceivedException.class))
                 .bodyToMono(PetDTO.class);
+    }
+
+    private Mono<MasterDTO> handleMasterInfoRetrieval(String masterId) {
+        return masterServiceClient.get()
+                .uri(String.format("/get/master/%s", masterId))
+                .retrieve()
+                .bodyToMono(MasterDTO.class);
     }
 }
 

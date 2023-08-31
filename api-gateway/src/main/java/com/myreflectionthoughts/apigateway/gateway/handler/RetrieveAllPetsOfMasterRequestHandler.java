@@ -8,16 +8,17 @@ import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
 
 @Service
-public class RetrieveAllPetsOfMasterRequestHandller {
+public class RetrieveAllPetsOfMasterRequestHandler {
 
-    private RetrieveAllPetsOfMasterUseCase retrieveAllPetsOfMasterUseCase;
+    private final RetrieveAllPetsOfMasterUseCase retrieveAllPetsOfMasterUseCase;
 
-    public RetrieveAllPetsOfMasterRequestHandller(RetrieveAllPetsOfMasterUseCase retrieveAllPetsOfMasterUseCase) {
+    public RetrieveAllPetsOfMasterRequestHandler(RetrieveAllPetsOfMasterUseCase retrieveAllPetsOfMasterUseCase) {
         this.retrieveAllPetsOfMasterUseCase = retrieveAllPetsOfMasterUseCase;
     }
 
     public Mono<ServerResponse> handleRetrieveAllPetsOfMasterRequest(ServerRequest serverRequest) {
         Mono<String> masterId = Mono.just(serverRequest.pathVariable("masterId"));
-        return ServerResponse.ok().body(retrieveAllPetsOfMasterUseCase.getAllPetsOfMaster(masterId), PetDTO.class);
+        return ServerResponse.ok()
+                .body(retrieveAllPetsOfMasterUseCase.getAllPetsOfMaster(masterId), PetDTO.class);
     }
 }
