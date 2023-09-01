@@ -17,8 +17,10 @@ public class UpdateUserDataProvider extends DataProvider implements IUpdate<User
             @Qualifier(ServiceConstant.petServiceQualifier) WebClient petServiceClient) {
         super(masterServiceClient, petServiceClient);
     }
+
     @Override
     public Mono<UserDTO> updateInfo(Mono<UpdateUserDTO> latestInformation) {
-        return null;
+
+        return updateUser(latestInformation);
     }
 }

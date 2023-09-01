@@ -1,11 +1,10 @@
 package com.myreflectionthoughts.apigateway.gateway.dataprovider;
 
-import com.myreflectionthoughts.library.dto.request.AddMasterDTO;
-import com.myreflectionthoughts.library.dto.request.AddPetDTO;
-import com.myreflectionthoughts.library.dto.request.AddUserDTO;
+import com.myreflectionthoughts.library.dto.request.*;
 import com.myreflectionthoughts.library.dto.response.MasterDTO;
 import com.myreflectionthoughts.library.dto.response.PetDTO;
 import com.myreflectionthoughts.library.dto.response.UserDTO;
+import com.myreflectionthoughts.library.exception.ParameterMissingException;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -26,6 +25,10 @@ public class DataProvider {
 
 
         return addUserDTOMono.flatMap(addUserDTO -> {
+
+            if (addUserDTO.getMaster() == null)
+                return Mono.error(new ParameterMissingException("Can't process request because the parameter 'master' is missing"));
+
             UserDTO userDTO = new UserDTO();
 
             return addMaster(addUserDTO.getMaster()).flatMap(addedMaster -> {
@@ -65,6 +68,31 @@ public class DataProvider {
         );
     }
 
+
+    protected Mono<UserDTO> updateUser(Mono<UpdateUserDTO> updateUserDTOMono) {
+        return updateUserDTOMono.flatMap(updateUserDTO -> {
+
+            if (updateUserDTO.getLatestUserInfo() == null)
+                return Mono.error(new ParameterMissingException("Can't process request because the parameter 'latestMasterInfo' is missing"));
+
+            UserDTO userDTO = new UserDTO();
+
+            return handleMasterUpdate(updateUserDTO.getLatestUserInfo()).flatMap(updatedMaster -> {
+                userDTO.setMaster(updatedMaster);
+
+                if (updateUserDTO.getLatestPetsInfo() == null || updateUserDTO.getLatestPetsInfo().isEmpty()) {
+                    userDTO.setPets(new ArrayList<>());
+                } else {
+                    return handlePetUpdates(updateUserDTO.getLatestPetsInfo()).map(updatedPets -> {
+                        userDTO.setPets(updatedPets);
+                        return userDTO;
+                    });
+                }
+                return Mono.fromSupplier(() -> userDTO);
+            });
+        });
+    }
+
     private Flux<PetDTO> handleAllPetsOfUserRetrieval(String masterId) {
         return petServiceClient.get()
                 .uri(String.format("/get/pets/%s", masterId))
@@ -102,6 +130,30 @@ public class DataProvider {
                 .uri(String.format("/get/master/%s", masterId))
                 .retrieve()
                 .bodyToMono(MasterDTO.class);
+    }
+
+    private Mono<MasterDTO> handleMasterUpdate(UpdateMasterDTO updateMasterDTO) {
+
+        return masterServiceClient.put()
+                .uri(String.format("/update/master/%s", updateMasterDTO.getId()))
+                .bodyValue(updateMasterDTO)
+                .retrieve()
+                .bodyToMono(MasterDTO.class);
+    }
+
+    private Mono<List<PetDTO>> handlePetUpdates(List<UpdatePetDTO> updatePetDTOS) {
+        return Flux.fromIterable(updatePetDTOS)
+                .flatMap(this::handlePetUpdate)
+                .collectList();
+    }
+
+    private Mono<PetDTO> handlePetUpdate(UpdatePetDTO updatePetDTO) {
+
+        return petServiceClient.put()
+                .uri(String.format("/update/pet/%s", updatePetDTO.getId()))
+                .bodyValue(updatePetDTO)
+                .retrieve()
+                .bodyToMono(PetDTO.class);
     }
 }
 
