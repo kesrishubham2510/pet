@@ -1,14 +1,12 @@
 package com.myreflectionthoughts.apigateway.core.component;
 
-import com.myreflectionthoughts.apigateway.core.usecase.RegisterUserUseCase;
-import com.myreflectionthoughts.apigateway.core.usecase.RetrieveAllPetsOfMasterUseCase;
-import com.myreflectionthoughts.apigateway.core.usecase.RetrieveUserUseCase;
-import com.myreflectionthoughts.apigateway.core.usecase.UpdateUserUseCase;
+import com.myreflectionthoughts.apigateway.core.usecase.*;
 import com.myreflectionthoughts.library.contract.IAdd;
 import com.myreflectionthoughts.library.contract.IGet;
 import com.myreflectionthoughts.library.contract.IGetByCommonAttribute;
 import com.myreflectionthoughts.library.contract.IUpdate;
 import com.myreflectionthoughts.library.dto.request.AddUserDTO;
+import com.myreflectionthoughts.library.dto.request.UpdatePetDTO;
 import com.myreflectionthoughts.library.dto.request.UpdateUserDTO;
 import com.myreflectionthoughts.library.dto.response.PetDTO;
 import com.myreflectionthoughts.library.dto.response.UserDTO;
@@ -37,4 +35,9 @@ public class CoreComponent {
     public RetrieveAllPetsOfMasterUseCase retrieveAllPetsOfMasterUseCase(IGetByCommonAttribute<String, PetDTO> iGetByCommonAttribute) {
         return new RetrieveAllPetsOfMasterUseCase(iGetByCommonAttribute);
     }
+
+   @Bean
+    public  UpdatePetDetailsUseCase updatePetDetailsUseCase(IUpdate<PetDTO, UpdatePetDTO> iUpdate){
+        return new UpdatePetDetailsUseCase(iUpdate);
+   }
 }

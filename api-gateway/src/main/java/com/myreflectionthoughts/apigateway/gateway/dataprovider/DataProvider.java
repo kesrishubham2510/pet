@@ -93,6 +93,10 @@ public class DataProvider {
         });
     }
 
+    protected Mono<PetDTO> updatePetDetails(Mono<UpdatePetDTO> updatePetDTOMono){
+        return updatePetDTOMono.flatMap(this::handlePetUpdate);
+    }
+
     private Flux<PetDTO> handleAllPetsOfUserRetrieval(String masterId) {
         return petServiceClient.get()
                 .uri(String.format("/get/pets/%s", masterId))
