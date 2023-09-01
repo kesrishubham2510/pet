@@ -94,5 +94,17 @@ public class MappingUtility {
                         UpdatePetDTO::getClinicCardStatus, Pet::setClinicCardStatus
                 )
         );
+
+        updatePetDTO_To_Pet_Mapper.addMappings(
+                mapper -> mapper.using(conversionUtility.string_To_categoryConverter).map(
+                      UpdatePetDTO::getCategory, Pet::setCategory
+                )
+        );
+
+        updatePetDTO_To_Pet_Mapper.addMappings(
+                mapper -> mapper.using(conversionUtility.string_To_genderConverter).map(
+                      UpdatePetDTO::getGender, Pet::setGender
+                )
+        );
     }
 }
