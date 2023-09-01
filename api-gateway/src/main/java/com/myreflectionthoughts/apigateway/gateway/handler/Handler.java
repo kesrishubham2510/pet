@@ -1,6 +1,7 @@
 package com.myreflectionthoughts.apigateway.gateway.handler;
 
 import com.myreflectionthoughts.library.dto.response.ExceptionResponse;
+import com.myreflectionthoughts.library.exception.ParameterMissingException;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
@@ -17,7 +18,11 @@ public class Handler {
             Map<String, String> errorBody = errorBodyParser(((WebClientResponseException) exception).getResponseBodyAsString());
             exceptionResponse.setError(errorBody.get("error"));
             exceptionResponse.setErrorMessage(errorBody.get("errorMessage"));
+        } else if (exception instanceof ParameterMissingException) {
+            exceptionResponse.setError("Parameter is missing");
+            exceptionResponse.setErrorMessage(exception.getMessage());
         } else {
+            System.out.println(exception.toString());
             exceptionResponse.setError("!! Oops !!");
             exceptionResponse.setErrorMessage(" Something Went Wrong, please try later");
         }
