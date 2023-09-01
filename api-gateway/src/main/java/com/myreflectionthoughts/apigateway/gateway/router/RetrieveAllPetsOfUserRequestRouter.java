@@ -1,7 +1,6 @@
 package com.myreflectionthoughts.apigateway.gateway.router;
 
 import com.myreflectionthoughts.apigateway.core.constant.ServiceConstant;
-import com.myreflectionthoughts.apigateway.core.usecase.RetrieveAllPetsOfMasterUseCase;
 import com.myreflectionthoughts.apigateway.gateway.handler.RetrieveAllPetsOfMasterRequestHandler;
 import com.myreflectionthoughts.library.dto.response.PetDTO;
 import io.swagger.v3.oas.annotations.Operation;
@@ -27,8 +26,8 @@ public class RetrieveAllPetsOfUserRequestRouter {
     private final String endpoint = ServiceConstant.API_QUALIFIER + "/get/pets/{masterId}";
     private final RetrieveAllPetsOfMasterRequestHandler retrieveAllPetsOfMasterRequestHandller;
 
-    public RetrieveAllPetsOfUserRequestRouter(RetrieveAllPetsOfMasterUseCase retrieveAllPetsOfMasterUseCase) {
-        retrieveAllPetsOfMasterRequestHandller = new RetrieveAllPetsOfMasterRequestHandler(retrieveAllPetsOfMasterUseCase);
+    public RetrieveAllPetsOfUserRequestRouter(RetrieveAllPetsOfMasterRequestHandler retrieveAllPetsOfMasterRequestHandller) {
+        this.retrieveAllPetsOfMasterRequestHandller = retrieveAllPetsOfMasterRequestHandller;
     }
 
     @RouterOperation(

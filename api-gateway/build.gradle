@@ -1,3 +1,7 @@
 dependencies {
     implementation(project(":library"))
 }
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
