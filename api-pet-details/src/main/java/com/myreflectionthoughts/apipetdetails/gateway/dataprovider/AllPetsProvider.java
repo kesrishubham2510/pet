@@ -19,7 +19,7 @@ public  class AllPetsProvider extends DataProvider implements IGetAll<PetDTO> {
     public Flux<PetDTO> getAll() {
         return petRepository
                 .findAll()
-                .delayElements(Duration.ofSeconds(2))
+                .delayElements(Duration.ofSeconds(1))
                 .map(mappingUtility::mapToPetDTO);
     }
 }
