@@ -30,10 +30,12 @@ public class GetPetsRequestRouter {
         this.getPetsRequestHandler = getPetsRequestHandler;
     }
 
+    // since this API will not be used by server, hence Media Type is NDJSon, (i.e, not a SSE)
+
     @RouterOperation(
         path = endPoint,
         method = RequestMethod.GET,
-        produces = MediaType.APPLICATION_JSON_VALUE,
+        produces = MediaType.APPLICATION_NDJSON_VALUE,
         beanClass = GetPetsRequestHandler.class,
         beanMethod = "getPets",
         operation = @Operation(

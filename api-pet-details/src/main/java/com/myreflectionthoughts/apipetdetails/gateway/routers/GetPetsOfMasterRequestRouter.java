@@ -31,10 +31,11 @@ public class GetPetsOfMasterRequestRouter {
         this.getPetsOfMasterRequestHandler = getPetsOfMasterRequestHandler;
     }
 
+    // since this API will not be used by server, hence Media Type is NDJSon, (i.e, not a SSE)
     @RouterOperation(
             path = endpoint,
             method = RequestMethod.GET,
-            produces = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_NDJSON_VALUE,
             beanClass = GetPetsOfMasterRequestHandler.class,
             beanMethod = "retrievePetsOfMaster",
             operation = @Operation(
