@@ -24,10 +24,10 @@ import static org.springframework.web.reactive.function.server.RouterFunctions.r
 public class RetrieveAllPetsOfUserRequestRouter {
 
     private final String endpoint = ServiceConstant.API_QUALIFIER + "/get/pets/{masterId}";
-    private final RetrieveAllPetsOfMasterRequestHandler retrieveAllPetsOfMasterRequestHandller;
+    private final RetrieveAllPetsOfMasterRequestHandler retrieveAllPetsOfMasterRequestHandler;
 
     public RetrieveAllPetsOfUserRequestRouter(RetrieveAllPetsOfMasterRequestHandler retrieveAllPetsOfMasterRequestHandller) {
-        this.retrieveAllPetsOfMasterRequestHandller = retrieveAllPetsOfMasterRequestHandller;
+        this.retrieveAllPetsOfMasterRequestHandler = retrieveAllPetsOfMasterRequestHandller;
     }
 
     @RouterOperation(
@@ -62,6 +62,6 @@ public class RetrieveAllPetsOfUserRequestRouter {
     )
     @Bean
     public RouterFunction<ServerResponse> routeMasterPetsRetrievalRequest() {
-        return route().GET(endpoint, retrieveAllPetsOfMasterRequestHandller::handleRetrieveAllPetsOfMasterRequest).build();
+        return route().GET(endpoint, retrieveAllPetsOfMasterRequestHandler::handleRetrieveAllPetsOfMasterRequest).build();
     }
 }
