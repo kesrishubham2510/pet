@@ -21,8 +21,8 @@ public class UpdateMasterDataProvider extends DataProvider implements IUpdate<Ma
     @Override
     public Mono<MasterDTO> updateInfo(Mono<UpdateMasterDTO> updateMasterDTOMono) {
         return  updateMasterDTOMono
-                .filterWhen(updateMasterDTO -> masterRepository.existsById(updateMasterDTO.getId()))
                 .map(this::verifyPayload)
+                .filterWhen(updateMasterDTO -> masterRepository.existsById(updateMasterDTO.getId()))
                 .map(mappingUtility::mapToMaster)
                 .flatMap(masterRepository::save)
                 .map(mappingUtility::mapToMasterDTO)

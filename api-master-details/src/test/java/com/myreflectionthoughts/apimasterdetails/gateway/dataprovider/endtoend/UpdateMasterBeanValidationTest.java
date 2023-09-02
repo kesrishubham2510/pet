@@ -19,6 +19,52 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 public class UpdateMasterBeanValidationTest extends TestSetup {
 
     @Test
+    void testUpdateMasterDetails_should_throw_InputDataException_for_empty_masterId() {
+
+        AddMasterDTO requestPayload = TestDataGenerator.generateAddMasterDTO();
+        requestPayload.setEmail("newMaster@gmail.com");
+
+        EntityExchangeResult<MasterDTO> addMasterResponse = webTestClient.post()
+                .uri(String.format("%s/add", ServiceConstants.API_QUALIFIER))
+                .bodyValue(requestPayload)
+                .exchange()
+                .expectStatus()
+                .isCreated()
+                .expectBody(MasterDTO.class)
+                .returnResult();
+
+
+        assertNotNull(addMasterResponse);
+        assertNotNull(addMasterResponse.getResponseBody().getId());
+        assertEquals(requestPayload.getName(), Objects.requireNonNull(addMasterResponse.getResponseBody()).getName());
+        assertEquals(requestPayload.getEmail(),Objects.requireNonNull(addMasterResponse.getResponseBody()).getEmail());
+        assertEquals(requestPayload.getAge(),addMasterResponse.getResponseBody().getAge());
+        assertEquals(requestPayload.getAddress(),Objects.requireNonNull(addMasterResponse.getResponseBody()).getAddress());
+
+
+        // updating the previously added master with new details
+        String masterId = addMasterResponse.getResponseBody().getId();
+
+        UpdateMasterDTO updateMasterDTO = TestDataGenerator.generateUpdateMasterDTO();
+        updateMasterDTO.setId("  ");
+
+        MasterDTO expectedMasterResponse = TestDataGenerator.generateUpdatedMasterDTO();
+
+        webTestClient.put()
+                .uri(String.format("%s/update/master/%s", ServiceConstants.API_QUALIFIER, masterId))
+                .bodyValue(updateMasterDTO)
+                .exchange()
+                .expectStatus()
+                .isBadRequest()
+                .expectBody(ExceptionResponse.class)
+                .consumeWith(exceptionResponse -> {
+                    System.out.println(exceptionResponse.getResponseBody().getErrorMessage());
+                    assertEquals(InputDataException.class.getSimpleName(), exceptionResponse.getResponseBody().getError());
+                    assertEquals("Master ID is required, it can't null or empty or whitespaces", exceptionResponse.getResponseBody().getErrorMessage());
+                });
+    }
+
+    @Test
     void testUpdateMasterDetails_should_throw_InputDataException_for_empty_email() {
 
         AddMasterDTO requestPayload = TestDataGenerator.generateAddMasterDTO();
