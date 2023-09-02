@@ -18,6 +18,7 @@ public class AddMasterDataProvider extends DataProvider implements IAdd<AddMaste
     @Override
     public Mono<MasterDTO> add(Mono<AddMasterDTO> requestPayload) {
         return requestPayload
+                .map(this::verifyPayload)
                 .map(mappingUtility::mapToMaster)
                 .flatMap(masterRepository::save)
                 .map(mappingUtility::mapToMasterDTO);
