@@ -2,6 +2,7 @@ package com.myreflectionthoughts.apipetdetails.gateway.handler;
 
 import com.myreflectionthoughts.apipetdetails.core.exception.PetNotFoundException;
 import com.myreflectionthoughts.library.dto.response.ExceptionResponse;
+import com.myreflectionthoughts.library.exception.InputDataException;
 import org.modelmapper.MappingException;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
@@ -13,15 +14,14 @@ public class Handler{
         ExceptionResponse exceptionResponse = new ExceptionResponse();
 
         if(ex instanceof MappingException){
-
             exceptionResponse.setError(ex.getCause().getClass().getSimpleName());
             exceptionResponse.setErrorMessage(ex.getCause().getMessage());
-
         }else if(ex instanceof PetNotFoundException){
-
             exceptionResponse.setError(PetNotFoundException.class.getSimpleName());
             exceptionResponse.setErrorMessage(ex.getMessage());
-
+        } else if (ex instanceof InputDataException) {
+            exceptionResponse.setError(InputDataException.class.getSimpleName());
+            exceptionResponse.setErrorMessage(ex.getMessage());
         }
         return ServerResponse.badRequest().bodyValue(exceptionResponse);
     };

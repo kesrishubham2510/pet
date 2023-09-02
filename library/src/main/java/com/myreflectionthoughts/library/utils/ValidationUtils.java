@@ -14,6 +14,7 @@ public class ValidationUtils {
         emailDomains = List.of("gmail.com","facebook.com","yopmail.com");
         passwordLength = 6;
         ageThreshold = 16;
+
     }
 
     public static void validateString(String value,String name){
@@ -36,5 +37,10 @@ public class ValidationUtils {
     public static void validateAge(double age){
         if(age<ageThreshold)
             throw new InputDataException(String.format("Please provide a Valid age should be atleast %s years old",ageThreshold));
+    }
+
+    public static void validatePetAge(double petAge){
+        if(petAge<=0)
+            throw new InputDataException("Age can't be zero or negative, Please provide a Valid age for your pet");
     }
 }

@@ -19,6 +19,7 @@ public class CreatePetDataProvider extends DataProvider implements IAdd<AddPetDT
     @Override
     public Mono<PetDTO> add(Mono<AddPetDTO> requestPayloadMono) {
         return requestPayloadMono
+                .map(this::validatePayload)
                 .map(mappingUtility::mapToPet)
                 .flatMap(petRepository::save)
                 .map(mappingUtility::mapToPetDTO);
