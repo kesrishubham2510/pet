@@ -7,6 +7,8 @@ import com.myreflectionthoughts.library.dto.response.PetDTO;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 
+import java.time.Duration;
+
 @Service
 public  class AllPetsProvider extends DataProvider implements IGetAll<PetDTO> {
 
@@ -17,6 +19,7 @@ public  class AllPetsProvider extends DataProvider implements IGetAll<PetDTO> {
     public Flux<PetDTO> getAll() {
         return petRepository
                 .findAll()
+                .delayElements(Duration.ofSeconds(2))
                 .map(mappingUtility::mapToPetDTO);
     }
 }
