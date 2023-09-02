@@ -2,6 +2,7 @@ package com.myreflectionthoughts.apipetdetails.gateway.handler;
 
 import com.myreflectionthoughts.apipetdetails.core.usecase.ReadPetsUseCase;
 import com.myreflectionthoughts.library.dto.response.PetDTO;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
@@ -17,6 +18,6 @@ public class GetPetsRequestHandler extends Handler{
     }
 
     public Mono<ServerResponse> getPets(ServerRequest serverRequest){
-        return  ServerResponse.ok().body(readPetsUseCase.getPets(), PetDTO.class);
+        return  ServerResponse.ok().contentType(MediaType.APPLICATION_NDJSON).body(readPetsUseCase.getPets(), PetDTO.class);
     }
 }
