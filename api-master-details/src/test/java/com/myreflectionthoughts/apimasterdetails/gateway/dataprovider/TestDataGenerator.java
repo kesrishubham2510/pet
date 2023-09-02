@@ -46,7 +46,7 @@ public class TestDataGenerator {
         UpdateMasterDTO updateMasterDTO = new UpdateMasterDTO();
         updateMasterDTO.setId(ServiceConstants.VALID_MASTER_ID);
         updateMasterDTO.setName(ServiceConstants.VALID_MASTER_NAME+"-updated");
-        updateMasterDTO.setEmail(ServiceConstants.VALID_MASTER_EMAIL+"-updated");
+        updateMasterDTO.setEmail("updated-"+ServiceConstants.VALID_MASTER_EMAIL);
         updateMasterDTO.setAddress(ServiceConstants.VALID_MASTER_ADDRESS+"-updated");
         updateMasterDTO.setAge(ServiceConstants.VALID_MASTER_AGE);
         updateMasterDTO.setPassword(ServiceConstants.VALID_MASTER_PASSWORD+"-updated");
@@ -57,7 +57,7 @@ public class TestDataGenerator {
         Master updatedMaster = new Master();
         updatedMaster.setId(ServiceConstants.VALID_MASTER_ID);
         updatedMaster.setName(ServiceConstants.VALID_MASTER_NAME+"-updated");
-        updatedMaster.setEmail(ServiceConstants.VALID_MASTER_EMAIL+"-updated");
+        updatedMaster.setEmail("updated-"+ServiceConstants.VALID_MASTER_EMAIL);
         updatedMaster.setAddress(ServiceConstants.VALID_MASTER_ADDRESS+"-updated");
         updatedMaster.setAge(ServiceConstants.VALID_MASTER_AGE);
         updatedMaster.setPassword(ServiceConstants.VALID_MASTER_PASSWORD+"-updated");
@@ -68,7 +68,7 @@ public class TestDataGenerator {
         MasterDTO updatedMasterDTO = new MasterDTO();
         updatedMasterDTO.setId(ServiceConstants.VALID_MASTER_ID);
         updatedMasterDTO.setName(ServiceConstants.VALID_MASTER_NAME+"-updated");
-        updatedMasterDTO.setEmail(ServiceConstants.VALID_MASTER_EMAIL+"-updated");
+        updatedMasterDTO.setEmail("updated-"+ServiceConstants.VALID_MASTER_EMAIL);
         updatedMasterDTO.setAddress(ServiceConstants.VALID_MASTER_ADDRESS+"-updated");
         updatedMasterDTO.setAge(ServiceConstants.VALID_MASTER_AGE);
         return updatedMasterDTO;
