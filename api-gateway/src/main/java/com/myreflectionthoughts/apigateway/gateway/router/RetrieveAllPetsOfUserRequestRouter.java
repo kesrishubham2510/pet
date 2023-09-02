@@ -33,7 +33,7 @@ public class RetrieveAllPetsOfUserRequestRouter {
     @RouterOperation(
             path = endpoint,
             produces = {
-                    MediaType.APPLICATION_JSON_VALUE
+                    MediaType.TEXT_EVENT_STREAM_VALUE
             },
             method = RequestMethod.GET,
             beanClass = RetrieveAllPetsOfMasterRequestHandler.class,
