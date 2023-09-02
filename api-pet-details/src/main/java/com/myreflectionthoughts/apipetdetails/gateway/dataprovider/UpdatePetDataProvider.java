@@ -17,12 +17,24 @@ public class UpdatePetDataProvider extends DataProvider implements  IUpdate<PetD
         this.mappingUtility = mappingUtility;
         this.petRepository = petRepository;
     }
+
     @Override
     public Mono<PetDTO> updateInfo(Mono<UpdatePetDTO> updatePetDTOMono) {
-        return updatePetDTOMono.filterWhen(updatePetDTO -> petRepository.existsById(updatePetDTO.getId()))
+        // ToDO:- Add in the test scenarios for validateMasterId function call
+        return updatePetDTOMono
+                .filterWhen(updatePetDTO -> petRepository.existsById(updatePetDTO.getId()))
+                .flatMap(this::validateMasterId)
                 .map(mappingUtility::mapToPet)
                 .flatMap(petRepository::save)
                 .map(mappingUtility::mapToPetDTO)
                 .switchIfEmpty(Mono.error(new PetNotFoundException(ServiceConstants.PET_NOT_FOUND_EXCEPTION)));
+    }
+
+    // will correct the masterId, even if it's wrong or not provided
+    private Mono<UpdatePetDTO> validateMasterId(UpdatePetDTO updatePetDTO){
+        return petRepository.findById(updatePetDTO.getId()).map(existingPet->{
+            updatePetDTO.setMaster(existingPet.getMaster());
+            return updatePetDTO;
+        });
     }
 }

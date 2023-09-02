@@ -1,5 +1,6 @@
 package com.myreflectionthoughts.apipetdetails.gateway.dataprovider;
 
+import com.myreflectionthoughts.apipetdetails.core.constant.ServiceConstants;
 import com.myreflectionthoughts.apipetdetails.core.entity.Pet;
 import com.myreflectionthoughts.apipetdetails.core.exception.PetNotFoundException;
 import com.myreflectionthoughts.apipetdetails.gateway.dataprovider.repository.PetRepository;
@@ -42,11 +43,13 @@ public class UpdatePetDataProviderTest{
     @Test
     void testUpdatePetInfo(){
 
+        Pet existingPet = TestDataGenerator.getPet();
         UpdatePetDTO updatePetDTO = TestDataGenerator.getUpdatePetDTO();
         Pet expectedUpdatedPet = TestDataGenerator.getUpdatedPet();
         PetDTO expectedUpdatedPetDTO = TestDataGenerator.getUpdatedPetDTO();
 
         when(petRepository.existsById(anyString())).thenReturn(Mono.just(true));
+        when(petRepository.findById(anyString())).thenReturn(Mono.just(existingPet));
         when(mappingUtility.mapToPet(any(UpdatePetDTO.class))).thenReturn(expectedUpdatedPet);
         when(petRepository.save(any(Pet.class))).thenReturn(Mono.just(expectedUpdatedPet));
         when(mappingUtility.mapToPetDTO(any(Pet.class))).thenReturn(expectedUpdatedPetDTO);
@@ -57,6 +60,7 @@ public class UpdatePetDataProviderTest{
                 verifyComplete();
 
         verify(petRepository,times(1)).existsById(anyString());
+        verify(petRepository,times(1)).findById(anyString());
         verify(mappingUtility,times(1)).mapToPet(any(UpdatePetDTO.class));
         verify(petRepository,times(1)).save(any(Pet.class));
         verify(mappingUtility,times(1)).mapToPetDTO(any(Pet.class));
@@ -66,6 +70,7 @@ public class UpdatePetDataProviderTest{
     @Test
     void testUpdatePetInfo_ThrowsPetNotFoundException(){
 
+
         UpdatePetDTO updatePetDTO = TestDataGenerator.getUpdatePetDTO();
 
         when(petRepository.existsById(anyString())).thenReturn(Mono.just(false));
@@ -73,7 +78,9 @@ public class UpdatePetDataProviderTest{
         StepVerifier.create(updatePetDataProvider.updateInfo(Mono.just(updatePetDTO)))
                 .expectError(PetNotFoundException.class).verify();
 
+
         verify(petRepository,times(1)).existsById(anyString());
+        verify(petRepository,times(0)).findById(anyString());
         verify(mappingUtility,times(0)).mapToPet(any(UpdatePetDTO.class));
         verify(petRepository,times(0)).save(any(Pet.class));
         verify(mappingUtility,times(0)).mapToPetDTO(any(Pet.class));
@@ -83,11 +90,13 @@ public class UpdatePetDataProviderTest{
     @Test
     void testUpdatePetInfo_Throws_ClinicCardStatusNotFoundException(){
 
+        Pet existingPet = TestDataGenerator.getPet();
         UpdatePetDTO updatePetDTO = TestDataGenerator.getUpdatePetDTO();
         Pet expectedUpdatedPet = TestDataGenerator.getUpdatedPet();
         PetDTO expectedUpdatedPetDTO = TestDataGenerator.getUpdatedPetDTO();
 
         when(petRepository.existsById(anyString())).thenReturn(Mono.just(true));
+        when(petRepository.findById(anyString())).thenReturn(Mono.just(existingPet));
       /*
          * the modelMapper.map() throws custom exception wrapped under cause property of MappingException
            hence, asserting for MappingException.class
@@ -103,6 +112,7 @@ public class UpdatePetDataProviderTest{
         StepVerifier.create(updatePetDataProvider.updateInfo(Mono.just(updatePetDTO))).expectError(MappingException.class).verify();
 
         verify(petRepository,times(1)).existsById(anyString());
+        verify(petRepository,times(1)).findById(anyString());
         verify(mappingUtility,times(1)).mapToPet(any(UpdatePetDTO.class));
         verify(petRepository,times(0)).save(any(Pet.class));
         verify(mappingUtility,times(0)).mapToPetDTO(any(Pet.class));
