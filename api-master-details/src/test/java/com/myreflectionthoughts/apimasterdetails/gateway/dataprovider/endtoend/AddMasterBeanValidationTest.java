@@ -116,4 +116,23 @@ public class AddMasterBeanValidationTest extends TestSetup{
                 });
     }
 
+    @Test
+    void testAddMaster_should_throw_InputDataException_for_address(){
+
+        AddMasterDTO requestPayload = TestDataGenerator.generateAddMasterDTO();
+        requestPayload.setAddress("");
+
+        webTestClient.post()
+                .uri(String.format("%s/add", ServiceConstants.API_QUALIFIER))
+                .bodyValue(requestPayload)
+                .exchange()
+                .expectStatus()
+                .isBadRequest()
+                .expectBody(ExceptionResponse.class)
+                .consumeWith(exceptionResponse->{
+                    assertEquals(InputDataException.class.getSimpleName(), exceptionResponse.getResponseBody().getError());
+                    assertEquals("address is required, it can't null or empty or whitespaces", exceptionResponse.getResponseBody().getErrorMessage());
+                });
+    }
+
 }
