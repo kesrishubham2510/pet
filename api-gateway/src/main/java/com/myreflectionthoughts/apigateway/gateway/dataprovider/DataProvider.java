@@ -21,34 +21,6 @@ public class DataProvider {
         this.petServiceClient = petServiceClient;
     }
 
-    protected Mono<UserDTO> updateUser(Mono<UpdateUserDTO> updateUserDTOMono) {
-        return updateUserDTOMono.flatMap(updateUserDTO -> {
-
-            if (updateUserDTO.getLatestUserInfo() == null)
-                return Mono.error(new ParameterMissingException("Can't process request because the parameter 'latestMasterInfo' is missing"));
-
-            UserDTO userDTO = new UserDTO();
-
-            return handleMasterUpdate(updateUserDTO.getLatestUserInfo()).flatMap(updatedMaster -> {
-                userDTO.setMaster(updatedMaster);
-
-                if (updateUserDTO.getLatestPetsInfo() == null || updateUserDTO.getLatestPetsInfo().isEmpty()) {
-                    userDTO.setPets(new ArrayList<>());
-                } else {
-                    return handlePetUpdates(updateUserDTO.getLatestPetsInfo()).map(updatedPets -> {
-                        userDTO.setPets(updatedPets);
-                        return userDTO;
-                    });
-                }
-                return Mono.fromSupplier(() -> userDTO);
-            });
-        });
-    }
-
-    protected Mono<PetDTO> updatePetDetails(Mono<UpdatePetDTO> updatePetDTOMono){
-        return updatePetDTOMono.flatMap(this::handlePetUpdate);
-    }
-
     protected Flux<PetDTO> handleAllPetsOfUserRetrieval(String masterId) {
         return petServiceClient.get()
                 .uri(String.format("/get/pets/%s", masterId))
@@ -56,23 +28,7 @@ public class DataProvider {
                 .bodyToFlux(PetDTO.class);
     }
 
-
-    private Mono<MasterDTO> handleMasterUpdate(UpdateMasterDTO updateMasterDTO) {
-
-        return masterServiceClient.put()
-                .uri(String.format("/update/master/%s", updateMasterDTO.getId()))
-                .bodyValue(updateMasterDTO)
-                .retrieve()
-                .bodyToMono(MasterDTO.class);
-    }
-
-    private Mono<List<PetDTO>> handlePetUpdates(List<UpdatePetDTO> updatePetDTOS) {
-        return Flux.fromIterable(updatePetDTOS)
-                .flatMap(this::handlePetUpdate)
-                .collectList();
-    }
-
-    private Mono<PetDTO> handlePetUpdate(UpdatePetDTO updatePetDTO) {
+    protected Mono<PetDTO> handlePetUpdate(UpdatePetDTO updatePetDTO) {
 
         return petServiceClient.put()
                 .uri(String.format("/update/pet/%s", updatePetDTO.getId()))

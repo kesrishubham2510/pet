@@ -23,4 +23,9 @@ public class UpdatePetDetailsDataProvider extends DataProvider implements IUpdat
     public Mono<PetDTO> updateInfo(Mono<UpdatePetDTO> latestInformation) {
         return updatePetDetails(latestInformation);
     }
+
+    private Mono<PetDTO> updatePetDetails(Mono<UpdatePetDTO> updatePetDTOMono) {
+        return updatePetDTOMono.flatMap(this::handlePetUpdate);
+
+    }
 }
