@@ -21,32 +21,6 @@ public class DataProvider {
         this.petServiceClient = petServiceClient;
     }
 
-    protected Mono<UserDTO> addUser(Mono<AddUserDTO> addUserDTOMono) {
-
-
-        return addUserDTOMono.flatMap(addUserDTO -> {
-
-            if (addUserDTO.getMaster() == null)
-                return Mono.error(new ParameterMissingException("Can't process request because the parameter 'master' is missing"));
-
-            UserDTO userDTO = new UserDTO();
-
-            return addMaster(addUserDTO.getMaster()).flatMap(addedMaster -> {
-                userDTO.setMaster(addedMaster);
-
-                if (addUserDTO.getMaster() == null || addUserDTO.getPets().isEmpty()) {
-                    userDTO.setPets(new ArrayList<>());
-                    return Mono.fromSupplier(() -> userDTO);
-                }
-
-                return handlePets(addedMaster.getId(), addUserDTO.getPets()).map(addedPets -> {
-                    userDTO.setPets(addedPets);
-                    return userDTO;
-                });
-            });
-        });
-    }
-
     protected Flux<PetDTO> getAllPetsOfUser(Mono<String> masterId) {
         return masterId.flatMapMany(this::handleAllPetsOfUserRetrieval);
     }
@@ -104,30 +78,6 @@ public class DataProvider {
                 .bodyToFlux(PetDTO.class);
     }
 
-
-    private Mono<MasterDTO> addMaster(AddMasterDTO addMasterDTO) {
-        return masterServiceClient.post()
-                .uri("/add")
-                .bodyValue(addMasterDTO)
-                .retrieve()
-                .bodyToMono(MasterDTO.class);
-    }
-
-    private Mono<List<PetDTO>> handlePets(String masterId, List<AddPetDTO> addPetDTOs) {
-        return Flux.fromIterable(addPetDTOs)
-                .map(addPetDTO -> {
-                    addPetDTO.setMaster(masterId);
-                    return addPetDTO;
-                }).flatMap(this::addPet).collectList();
-    }
-
-    private Mono<PetDTO> addPet(AddPetDTO addPetDTO) {
-        return petServiceClient.post()
-                .uri("/add")
-                .bodyValue(addPetDTO)
-                .retrieve()
-                .bodyToMono(PetDTO.class);
-    }
 
     private Mono<MasterDTO> handleMasterInfoRetrieval(String masterId) {
         return masterServiceClient.get()

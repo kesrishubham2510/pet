@@ -1,5 +1,6 @@
 package com.myreflectionthoughts.apigateway.gateway.handler;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.myreflectionthoughts.library.dto.response.ExceptionResponse;
 import com.myreflectionthoughts.library.exception.ParameterMissingException;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
@@ -14,6 +15,7 @@ public class Handler {
 
     Function<Throwable, Mono<ServerResponse>> exceptionMapper = (exception) -> {
         ExceptionResponse exceptionResponse = new ExceptionResponse();
+
         if (exception instanceof WebClientResponseException) {
             Map<String, String> errorBody = errorBodyParser(((WebClientResponseException) exception).getResponseBodyAsString());
             exceptionResponse.setError(errorBody.get("error"));
@@ -26,22 +28,25 @@ public class Handler {
             exceptionResponse.setError("!! Oops !!");
             exceptionResponse.setErrorMessage(" Something Went Wrong, please try later");
         }
+
         return ServerResponse.badRequest().bodyValue(exceptionResponse);
+
     };
 
-    private Map<String, String> errorBodyParser(String errorBody) {
-        Map<String, String> errorResponse = new HashMap<>();
+    private Map<String, String> errorBodyParser(String errorBody){
 
-        String[] keyValuePairs = errorBody.substring(1, errorBody.length() - 1).split(",");
+        System.out.println(errorBody);
+        Map<String, String> parsedJson = new HashMap<>();
 
-        for (String keyValuePair : keyValuePairs)
-            setKeyValuePair(keyValuePair, errorResponse);
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            parsedJson = objectMapper.readValue(errorBody, Map.class);
+        } catch (Exception ex) {
+            parsedJson.put("error", "Exception");
+            parsedJson.put("errorMessage", "Something went wrong, please try again later");
+        }
 
-        return errorResponse;
+        return parsedJson;
     }
 
-    private void setKeyValuePair(String pair, Map<String, String> map) {
-        String[] keyValue = pair.split(":");
-        map.put(keyValue[0].substring(1, keyValue[0].length() - 1), keyValue[1].substring(1, keyValue[1].length() - 1));
-    }
 }
