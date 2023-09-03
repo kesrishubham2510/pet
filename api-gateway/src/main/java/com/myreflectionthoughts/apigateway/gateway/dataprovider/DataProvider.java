@@ -21,28 +21,6 @@ public class DataProvider {
         this.petServiceClient = petServiceClient;
     }
 
-    protected Flux<PetDTO> getAllPetsOfUser(Mono<String> masterId) {
-        return masterId.flatMapMany(this::handleAllPetsOfUserRetrieval);
-    }
-
-    protected Mono<UserDTO> getUserInfo(Mono<String> masterIdMono) {
-        return masterIdMono.flatMap(masterId ->
-                handleMasterInfoRetrieval(masterId).flatMap(
-                        masterDTO ->
-                                handleAllPetsOfUserRetrieval(masterId).collectList().map(
-                                        pets -> {
-                                            UserDTO userDTO = new UserDTO();
-                                            userDTO.setPets(pets);
-                                            userDTO.setMaster(masterDTO);
-                                            return userDTO;
-                                        }
-                                )
-                )
-
-        );
-    }
-
-
     protected Mono<UserDTO> updateUser(Mono<UpdateUserDTO> updateUserDTOMono) {
         return updateUserDTOMono.flatMap(updateUserDTO -> {
 
@@ -71,20 +49,13 @@ public class DataProvider {
         return updatePetDTOMono.flatMap(this::handlePetUpdate);
     }
 
-    private Flux<PetDTO> handleAllPetsOfUserRetrieval(String masterId) {
+    protected Flux<PetDTO> handleAllPetsOfUserRetrieval(String masterId) {
         return petServiceClient.get()
                 .uri(String.format("/get/pets/%s", masterId))
                 .retrieve()
                 .bodyToFlux(PetDTO.class);
     }
 
-
-    private Mono<MasterDTO> handleMasterInfoRetrieval(String masterId) {
-        return masterServiceClient.get()
-                .uri(String.format("/get/master/%s", masterId))
-                .retrieve()
-                .bodyToMono(MasterDTO.class);
-    }
 
     private Mono<MasterDTO> handleMasterUpdate(UpdateMasterDTO updateMasterDTO) {
 

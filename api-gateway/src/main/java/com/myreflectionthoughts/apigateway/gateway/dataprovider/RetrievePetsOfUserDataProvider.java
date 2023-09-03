@@ -22,4 +22,8 @@ public class RetrievePetsOfUserDataProvider extends DataProvider implements IGet
     public Flux<PetDTO> retrieveByAttribute(Mono<String> attribute) {
         return getAllPetsOfUser(attribute);
     }
+
+    private Flux<PetDTO> getAllPetsOfUser(Mono<String> masterId) {
+        return masterId.flatMapMany(this::handleAllPetsOfUserRetrieval);
+    }
 }
