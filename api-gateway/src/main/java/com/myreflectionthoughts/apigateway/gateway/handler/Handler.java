@@ -3,6 +3,7 @@ package com.myreflectionthoughts.apigateway.gateway.handler;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.myreflectionthoughts.library.dto.response.ExceptionResponse;
 import com.myreflectionthoughts.library.exception.ParameterMissingException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
@@ -11,6 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
+@Slf4j
 public class Handler {
 
     Function<Throwable, Mono<ServerResponse>> exceptionMapper = (exception) -> {
@@ -35,7 +37,7 @@ public class Handler {
 
     private Map<String, String> errorBodyParser(String errorBody){
 
-        System.out.println(errorBody);
+        log.info(errorBody);
         Map<String, String> parsedJson = new HashMap<>();
 
         try {
