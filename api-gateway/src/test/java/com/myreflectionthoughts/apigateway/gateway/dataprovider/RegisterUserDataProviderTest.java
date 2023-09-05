@@ -1,4 +1,4 @@
-package com.myreflectionthoughts.apigateway.gateway;
+package com.myreflectionthoughts.apigateway.gateway.dataprovider;
 
 import com.myreflectionthoughts.apigateway.core.constant.ServiceConstant;
 import com.myreflectionthoughts.apigateway.gateway.dataprovider.RegisterUserDataProvider;
