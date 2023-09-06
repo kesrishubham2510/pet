@@ -8,14 +8,14 @@ public class ServiceConstant {
     public static final String API_RESPONSE_200_MESSAGE = "Operation successful";
     public static final String API_RESPONSE_400_MESSAGE = "Something is wrong, please check message for details";
 
-    public static String VALID_MASTER_ID = "master@ID";
-    public static String VALID_MASTER_NAME = "newMaster";
+    public static String VALID_MASTER_ID = "64f6b99290c3a24f0ac8b236";
+    public static String VALID_MASTER_NAME = "master";
     public static String VALID_MASTER_EMAIL = "master@gmail.com";
     public static String VALID_MASTER_PASSWORD = "password@Valid";
     public static  String VALID_MASTER_ADDRESS = "address@Valid";
     public static double VALID_MASTER_AGE = 23.0;
 
     public static final String DUMMY_PET_ID = "id-1";
-
-
+    public static String petServiceAPIQualifier = "/api-pet-details";
+    public static String masterServiceAPIQualifier = "/api-master-details";
 }
