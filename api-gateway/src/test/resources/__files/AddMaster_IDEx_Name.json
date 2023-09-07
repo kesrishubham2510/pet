@@ -1,0 +1,4 @@
+{
+  "error": "InputDataException",
+  "errorMessage": "name is required, it can't null or empty or whitespaces"
+}

@@ -48,6 +48,7 @@ public class AddPetTest extends TestSetup {
 
         petId = recievedAddPetResponse.getResponseBody().getId();
 
+        System.out.println(recievedAddPetResponse.getResponseBody().toString());
         // asserting the created pet's details with the payload sent
 
         assertNotNull(recievedAddPetResponse.getResponseBody());

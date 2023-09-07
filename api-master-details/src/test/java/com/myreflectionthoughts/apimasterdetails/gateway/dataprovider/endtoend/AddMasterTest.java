@@ -32,6 +32,7 @@ public class AddMasterTest extends TestSetup {
                 .expectBody(MasterDTO.class)
                 .returnResult();
 
+        System.out.println(addMasterResponse.getResponseBody().toString());
 
         assertNotNull(addMasterResponse);
         assertNotNull(addMasterResponse.getResponseBody().getId());

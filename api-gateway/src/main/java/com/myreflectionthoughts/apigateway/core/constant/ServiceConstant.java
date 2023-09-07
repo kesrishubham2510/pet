@@ -18,4 +18,5 @@ public class ServiceConstant {
     public static final String DUMMY_PET_ID = "id-1";
     public static String petServiceAPIQualifier = "/api-pet-details";
     public static String masterServiceAPIQualifier = "/api-master-details";
+    public static String validationErrorStriing  = "";
 }
