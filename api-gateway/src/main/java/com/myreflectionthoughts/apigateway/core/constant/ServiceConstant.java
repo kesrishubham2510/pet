@@ -16,7 +16,10 @@ public class ServiceConstant {
     public static double VALID_MASTER_AGE = 23.0;
 
     public static final String DUMMY_PET_ID = "id-1";
-    public static String petServiceAPIQualifier = "/api-pet-details";
-    public static String masterServiceAPIQualifier = "/api-master-details";
-    public static String validationErrorStriing  = "";
+    public static final String VALID_PET_ID = "64f6b99290c3a24f0ac8b221";
+    public static String PET_SERVICE_API_QUALIFIER = "/api-pet-details";
+    public static String MASTER_SERVICE_API_QUALIFIER = "/api-master-details";
+    public static String UPDATED_PET_NAME = "pet-name-updated";
+    public static String UPDATED_MASTER_NAME = "master-updated";
+
 }

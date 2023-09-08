@@ -23,7 +23,7 @@ public class AddUserTest extends TestSetup{
 
          wireMockServer.stubFor(
                  WireMock
-                 .post(String.format("%s/add", ServiceConstant.masterServiceAPIQualifier))
+                 .post(String.format("%s/add", ServiceConstant.MASTER_SERVICE_API_QUALIFIER))
                  .willReturn(WireMock.aResponse()
                  .withStatus(201)
                  .withHeader("Content-Type","application/json")
@@ -32,7 +32,7 @@ public class AddUserTest extends TestSetup{
 
          wireMockServer.stubFor(
                  WireMock
-                 .post(String.format("%s/add",ServiceConstant.petServiceAPIQualifier))
+                 .post(String.format("%s/add",ServiceConstant.PET_SERVICE_API_QUALIFIER))
                  .willReturn(WireMock.aResponse()
                  .withStatus(201)
                  .withHeader("Content-Type","application/json")
@@ -75,7 +75,7 @@ public class AddUserTest extends TestSetup{
 
          wireMockServer.stubFor(
                  WireMock
-                         .post(String.format("%s/add", ServiceConstant.masterServiceAPIQualifier))
+                         .post(String.format("%s/add", ServiceConstant.MASTER_SERVICE_API_QUALIFIER))
                          .willReturn(WireMock.aResponse()
                                  .withStatus(400)
                                  .withHeader("Content-Type","application/json")
@@ -104,7 +104,7 @@ public class AddUserTest extends TestSetup{
 
          wireMockServer.stubFor(
                  WireMock
-                         .post(String.format("%s/add", ServiceConstant.masterServiceAPIQualifier))
+                         .post(String.format("%s/add", ServiceConstant.MASTER_SERVICE_API_QUALIFIER))
                          .willReturn(WireMock.aResponse()
                                  .withStatus(400)
                                  .withHeader("Content-Type","application/json")
@@ -133,7 +133,7 @@ public class AddUserTest extends TestSetup{
 
          wireMockServer.stubFor(
                  WireMock
-                         .post(String.format("%s/add", ServiceConstant.masterServiceAPIQualifier))
+                         .post(String.format("%s/add", ServiceConstant.MASTER_SERVICE_API_QUALIFIER))
                          .willReturn(WireMock.aResponse()
                                  .withStatus(400)
                                  .withHeader("Content-Type","application/json")
@@ -163,7 +163,7 @@ public class AddUserTest extends TestSetup{
 
         wireMockServer.stubFor(
                 WireMock
-                        .post(String.format("%s/add", ServiceConstant.masterServiceAPIQualifier))
+                        .post(String.format("%s/add", ServiceConstant.MASTER_SERVICE_API_QUALIFIER))
                         .willReturn(WireMock.aResponse()
                                 .withStatus(400)
                                 .withHeader("Content-Type","application/json")
@@ -193,7 +193,7 @@ public class AddUserTest extends TestSetup{
 
          wireMockServer.stubFor(
                  WireMock
-                         .post(String.format("%s/add", ServiceConstant.masterServiceAPIQualifier))
+                         .post(String.format("%s/add", ServiceConstant.MASTER_SERVICE_API_QUALIFIER))
                          .willReturn(WireMock.aResponse()
                                  .withStatus(400)
                                  .withHeader("Content-Type","application/json")
@@ -222,7 +222,7 @@ public class AddUserTest extends TestSetup{
 
          wireMockServer.stubFor(
                  WireMock
-                         .post(String.format("%s/add", ServiceConstant.masterServiceAPIQualifier))
+                         .post(String.format("%s/add", ServiceConstant.MASTER_SERVICE_API_QUALIFIER))
                          .willReturn(WireMock.aResponse()
                                  .withStatus(400)
                                  .withHeader("Content-Type","application/json")

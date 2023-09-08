@@ -13,7 +13,7 @@ public class RetrievePetsOfUserTest extends TestSetup{
 
         wireMockServer.stubFor(
                 WireMock
-                        .get(String.format("%s/get/pets/%s", ServiceConstant.petServiceAPIQualifier, ServiceConstant.VALID_MASTER_ID))
+                        .get(String.format("%s/get/pets/%s", ServiceConstant.PET_SERVICE_API_QUALIFIER, ServiceConstant.VALID_MASTER_ID))
                         .willReturn(WireMock.aResponse()
                                 .withStatus(200)
                                 .withHeader("Content-Type","application/x-ndjson")
@@ -33,7 +33,7 @@ public class RetrievePetsOfUserTest extends TestSetup{
     void testRetrieveUserPets_EmptyPetList(){
 
         wireMockServer.stubFor(
-                WireMock.get(String.format("%s/get/pets/%s", ServiceConstant.petServiceAPIQualifier, ServiceConstant.VALID_MASTER_ID))
+                WireMock.get(String.format("%s/get/pets/%s", ServiceConstant.PET_SERVICE_API_QUALIFIER, ServiceConstant.VALID_MASTER_ID))
                         .willReturn(
                                 WireMock
                                         .aResponse()
