@@ -29,10 +29,11 @@ public class GetMastersRequestRouter {
         this.getMastersRequestHandler = getMastersRequestHandler;
     }
 
+    // this API will not be accessed by browser. Hence, content-type is ND-JSON
     @RouterOperation(
             path = endpoint,
             method = RequestMethod.GET,
-            produces = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_NDJSON_VALUE,
             beanClass = GetMastersRequestHandler.class,
             beanMethod = "getMasters",
             operation = @Operation(

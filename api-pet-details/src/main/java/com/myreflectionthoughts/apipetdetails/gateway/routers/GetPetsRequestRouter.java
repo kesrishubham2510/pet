@@ -30,7 +30,7 @@ public class GetPetsRequestRouter {
         this.getPetsRequestHandler = getPetsRequestHandler;
     }
 
-    // since this API will not be used by server, hence Media Type is NDJSon, (i.e, not a SSE)
+    // since this API will not be used by browser, hence Media Type is NDJSon, (i.e, server-server http communication)
 
     @RouterOperation(
         path = endPoint,
