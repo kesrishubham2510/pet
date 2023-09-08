@@ -7,6 +7,7 @@ import com.myreflectionthoughts.library.dto.response.MasterDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.http.MediaType;
 
 import java.util.Objects;
 import java.util.function.Consumer;
@@ -29,6 +30,8 @@ public class GetMastersTest extends TestSetup {
         webTestClient.get()
                 .uri(String.format("%s/get/all", ServiceConstants.API_QUALIFIER))
                 .exchange()
+                .expectHeader()
+                .contentType(MediaType.APPLICATION_NDJSON_VALUE)
                 .expectStatus()
                 .isOk()
                 .expectBodyList(MasterDTO.class)
