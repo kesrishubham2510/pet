@@ -1,0 +1,4 @@
+{
+  "error": "MasterNotFoundException",
+  "errorMessage": "Master not found"
+}
