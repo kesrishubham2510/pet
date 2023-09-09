@@ -11,6 +11,7 @@ import com.myreflectionthoughts.library.dto.response.PetDTO;
 import com.myreflectionthoughts.library.dto.response.UserDTO;
 import com.myreflectionthoughts.library.exception.InputDataException;
 import org.junit.jupiter.api.Test;
+import org.springframework.http.MediaType;
 
 import java.util.List;
 
@@ -49,7 +50,8 @@ public class AddUserTest extends TestSetup{
          webTestClient.post()
                  .uri(String.format("%s/register",ServiceConstant.API_QUALIFIER))
                  .bodyValue(userDTO)
-                 .exchange()
+                 .exchange().expectHeader()
+                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                  .expectStatus()
                  .isCreated()
                  .expectBody(UserDTO.class)
@@ -90,7 +92,8 @@ public class AddUserTest extends TestSetup{
          webTestClient.post()
                  .uri(String.format("%s/register",ServiceConstant.API_QUALIFIER))
                  .bodyValue(userDTO)
-                 .exchange()
+                 .exchange().expectHeader()
+                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                  .expectStatus()
                  .isBadRequest()
                  .expectBody(ExceptionResponse.class)
@@ -119,7 +122,8 @@ public class AddUserTest extends TestSetup{
          webTestClient.post()
                  .uri(String.format("%s/register",ServiceConstant.API_QUALIFIER))
                  .bodyValue(userDTO)
-                 .exchange()
+                 .exchange().expectHeader()
+                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                  .expectStatus()
                  .isBadRequest()
                  .expectBody(ExceptionResponse.class)
@@ -148,7 +152,8 @@ public class AddUserTest extends TestSetup{
          webTestClient.post()
                  .uri(String.format("%s/register",ServiceConstant.API_QUALIFIER))
                  .bodyValue(userDTO)
-                 .exchange()
+                 .exchange().expectHeader()
+                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                  .expectStatus()
                  .isBadRequest()
                  .expectBody(ExceptionResponse.class)
@@ -179,6 +184,8 @@ public class AddUserTest extends TestSetup{
                 .uri(String.format("%s/register",ServiceConstant.API_QUALIFIER))
                 .bodyValue(userDTO)
                 .exchange()
+                .expectHeader()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .expectStatus()
                 .isBadRequest()
                 .expectBody(ExceptionResponse.class)
@@ -209,6 +216,8 @@ public class AddUserTest extends TestSetup{
                  .uri(String.format("%s/register",ServiceConstant.API_QUALIFIER))
                  .bodyValue(userDTO)
                  .exchange()
+                 .expectHeader()
+                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                  .expectStatus()
                  .isBadRequest()
                  .expectBody(ExceptionResponse.class)
@@ -237,7 +246,8 @@ public class AddUserTest extends TestSetup{
          webTestClient.post()
                  .uri(String.format("%s/register",ServiceConstant.API_QUALIFIER))
                  .bodyValue(userDTO)
-                 .exchange()
+                 .exchange().expectHeader()
+                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                  .expectStatus()
                  .isBadRequest()
                  .expectBody(ExceptionResponse.class)

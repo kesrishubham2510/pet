@@ -5,6 +5,7 @@ import com.github.tomakehurst.wiremock.client.WireMock;
 import com.myreflectionthoughts.apigateway.core.constant.ServiceConstant;
 import com.myreflectionthoughts.library.dto.response.PetDTO;
 import org.junit.jupiter.api.Test;
+import org.springframework.http.MediaType;
 
 public class RetrievePetsOfUserTest extends TestSetup{
 
@@ -22,11 +23,12 @@ public class RetrievePetsOfUserTest extends TestSetup{
 
         webTestClient.get()
                      .uri(String.format("%s/get/pets/%s", ServiceConstant.API_QUALIFIER, ServiceConstant.VALID_MASTER_ID))
-                     .exchange()
-                .expectStatus()
-                .isOk()
-                .expectBodyList(PetDTO.class)
-                .hasSize(1);
+                     .exchange().expectHeader()
+                     .contentType(MediaType.APPLICATION_JSON_VALUE)
+                     .expectStatus()
+                     .isOk()
+                     .expectBodyList(PetDTO.class)
+                     .hasSize(1);
     }
 
     @Test
@@ -45,6 +47,8 @@ public class RetrievePetsOfUserTest extends TestSetup{
         webTestClient.get()
                 .uri(String.format("%s/get/pets/%s", ServiceConstant.API_QUALIFIER, ServiceConstant.VALID_MASTER_ID))
                 .exchange()
+                .expectHeader()
+                .contentType(MediaType.APPLICATION_NDJSON_VALUE)
                 .expectStatus()
                 .isOk()
                 .expectBodyList(PetDTO.class)
