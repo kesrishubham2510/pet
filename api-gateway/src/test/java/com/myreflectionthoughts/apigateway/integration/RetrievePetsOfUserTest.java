@@ -1,6 +1,5 @@
 package com.myreflectionthoughts.apigateway.integration;
 
-
 import com.github.tomakehurst.wiremock.client.WireMock;
 import com.myreflectionthoughts.apigateway.core.constant.ServiceConstant;
 import com.myreflectionthoughts.library.dto.response.PetDTO;
@@ -17,14 +16,14 @@ public class RetrievePetsOfUserTest extends TestSetup{
                         .get(String.format("%s/get/pets/%s", ServiceConstant.PET_SERVICE_API_QUALIFIER, ServiceConstant.VALID_MASTER_ID))
                         .willReturn(WireMock.aResponse()
                                 .withStatus(200)
-                                .withHeader("Content-Type","application/x-ndjson")
+                                .withHeader("Content-Type", MediaType.APPLICATION_NDJSON_VALUE)
                                 .withBodyFile("RetrievedPetsOfUser.json"))
         );
 
         webTestClient.get()
                      .uri(String.format("%s/get/pets/%s", ServiceConstant.API_QUALIFIER, ServiceConstant.VALID_MASTER_ID))
                      .exchange().expectHeader()
-                     .contentType(MediaType.APPLICATION_JSON_VALUE)
+                     .contentType("text/event-stream;charset=UTF-8")
                      .expectStatus()
                      .isOk()
                      .expectBodyList(PetDTO.class)
@@ -40,7 +39,7 @@ public class RetrievePetsOfUserTest extends TestSetup{
                                 WireMock
                                         .aResponse()
                                         .withStatus(200)
-                                        .withHeader("Content-Type","application/x-ndjson")
+                                        .withHeader("Content-Type",MediaType.APPLICATION_NDJSON_VALUE)
                                         .withBodyFile("RetrievedPetsOfUser_EmptyList.json"))
         );
 
@@ -48,7 +47,7 @@ public class RetrievePetsOfUserTest extends TestSetup{
                 .uri(String.format("%s/get/pets/%s", ServiceConstant.API_QUALIFIER, ServiceConstant.VALID_MASTER_ID))
                 .exchange()
                 .expectHeader()
-                .contentType(MediaType.APPLICATION_NDJSON_VALUE)
+                .contentType("text/event-stream;charset=UTF-8")
                 .expectStatus()
                 .isOk()
                 .expectBodyList(PetDTO.class)
