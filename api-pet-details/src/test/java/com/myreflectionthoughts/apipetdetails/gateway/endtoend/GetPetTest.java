@@ -9,6 +9,7 @@ import com.myreflectionthoughts.library.dto.response.PetDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.http.MediaType;
 
 import java.util.Objects;
 import java.util.function.Consumer;
@@ -41,6 +42,8 @@ public class GetPetTest extends TestSetup {
         petWebClient.get()
                 .uri(String.format("%s/get/pet/%s", baseURL, expectedPet.getId()))
                 .exchange()
+                .expectHeader()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .expectStatus()
                 .isOk()
                 .expectBody(PetDTO.class)

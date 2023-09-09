@@ -10,6 +10,7 @@ import com.myreflectionthoughts.library.dto.response.ExceptionResponse;
 import com.myreflectionthoughts.library.dto.response.PetDTO;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.EntityExchangeResult;
 
 import java.util.Objects;
@@ -39,6 +40,8 @@ public class UpdatePetTest extends TestSetup {
                 .uri(String.format("%s/add", baseURL))
                 .bodyValue(addPetRequestPayload)
                 .exchange()
+                .expectHeader()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .expectStatus()
                 .isCreated()
                 .expectBody(PetDTO.class)
@@ -69,6 +72,8 @@ public class UpdatePetTest extends TestSetup {
                 .uri(String.format("%s/update/pet/%s", baseURL, petId))
                 .bodyValue(updatePetRequestPayload)
                 .exchange()
+                .expectHeader()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .expectStatus()
                 .isOk()
                 .expectBody(PetDTO.class)
@@ -88,6 +93,8 @@ public class UpdatePetTest extends TestSetup {
         petWebClient.get()
                 .uri(String.format("%s/get/pet/%s", baseURL, petId))
                 .exchange()
+                .expectHeader()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .expectStatus()
                 .isOk()
                 .expectBody(PetDTO.class)
@@ -122,6 +129,8 @@ public class UpdatePetTest extends TestSetup {
                 .uri(String.format("%s/update/pet/%s", baseURL, ServiceConstants.DUMMY_PET_ID))
                 .bodyValue(requestPayload)
                 .exchange()
+                .expectHeader()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .expectStatus()
                 .isBadRequest()
                 .expectBody(ExceptionResponse.class)

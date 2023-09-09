@@ -6,6 +6,7 @@ import com.myreflectionthoughts.library.dto.response.ExceptionResponse;
 import com.myreflectionthoughts.library.exception.InputDataException;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -23,6 +24,8 @@ public class AddPetBeanValidationTest extends TestSetup{
                 .uri(String.format("%s/add", baseURL))
                 .bodyValue(requestPayload)
                 .exchange()
+                .expectHeader()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .expectStatus()
                 .isBadRequest()
                 .expectBody(ExceptionResponse.class)
@@ -42,6 +45,8 @@ public class AddPetBeanValidationTest extends TestSetup{
                 .uri(String.format("%s/add", baseURL))
                 .bodyValue(requestPayload)
                 .exchange()
+                .expectHeader()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .expectStatus()
                 .isBadRequest()
                 .expectBody(ExceptionResponse.class)
@@ -61,6 +66,8 @@ public class AddPetBeanValidationTest extends TestSetup{
                 .uri(String.format("%s/add", baseURL))
                 .bodyValue(requestPayload)
                 .exchange()
+                .expectHeader()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .expectStatus()
                 .isBadRequest()
                 .expectBody(ExceptionResponse.class)
@@ -80,6 +87,8 @@ public class AddPetBeanValidationTest extends TestSetup{
                 .uri(String.format("%s/add", baseURL))
                 .bodyValue(requestPayload)
                 .exchange()
+                .expectHeader()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .expectStatus()
                 .isBadRequest()
                 .expectBody(ExceptionResponse.class)
@@ -99,6 +108,8 @@ public class AddPetBeanValidationTest extends TestSetup{
                 .uri(String.format("%s/add", baseURL))
                 .bodyValue(requestPayload)
                 .exchange()
+                .expectHeader()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .expectStatus()
                 .isBadRequest()
                 .expectBody(ExceptionResponse.class)
@@ -119,6 +130,8 @@ public class AddPetBeanValidationTest extends TestSetup{
                 .uri(String.format("%s/add", baseURL))
                 .bodyValue(requestPayload)
                 .exchange()
+                .expectHeader()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .expectStatus()
                 .isBadRequest()
                 .expectBody(ExceptionResponse.class)
