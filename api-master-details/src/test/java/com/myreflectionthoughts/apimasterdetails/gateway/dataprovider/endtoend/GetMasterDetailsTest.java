@@ -9,6 +9,7 @@ import com.myreflectionthoughts.library.dto.response.MasterDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.http.MediaType;
 
 import java.util.Objects;
 import java.util.function.Consumer;
@@ -33,7 +34,8 @@ public  class GetMasterDetailsTest extends TestSetup {
 
         webTestClient.get()
                 .uri(String.format("%s/get/master/%s", ServiceConstants.API_QUALIFIER,ServiceConstants.DUMMY_MONGO_DB_ID))
-                .exchange()
+                .exchange().expectHeader()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .expectStatus()
                 .isOk()
                 .expectBody(MasterDTO.class)
@@ -54,6 +56,8 @@ public  class GetMasterDetailsTest extends TestSetup {
         webTestClient.get()
                 .uri(String.format("%s/get/master/%s", ServiceConstants.API_QUALIFIER,masterId))
                 .exchange()
+                .expectHeader()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .expectStatus()
                 .isBadRequest()
                 .expectBody(ExceptionResponse.class)

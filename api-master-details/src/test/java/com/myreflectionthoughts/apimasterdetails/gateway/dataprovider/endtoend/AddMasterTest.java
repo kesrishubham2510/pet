@@ -6,6 +6,7 @@ import com.myreflectionthoughts.library.dto.request.AddMasterDTO;
 import com.myreflectionthoughts.library.dto.response.ExceptionResponse;
 import com.myreflectionthoughts.library.dto.response.MasterDTO;
 import org.junit.jupiter.api.Test;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.EntityExchangeResult;
 
 import java.util.Objects;
@@ -27,6 +28,8 @@ public class AddMasterTest extends TestSetup {
                 .uri(String.format("%s/add", ServiceConstants.API_QUALIFIER))
                 .bodyValue(requestPayload)
                 .exchange()
+                .expectHeader()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .expectStatus()
                 .isCreated()
                 .expectBody(MasterDTO.class)
@@ -47,6 +50,8 @@ public class AddMasterTest extends TestSetup {
         webTestClient.get()
                 .uri(String.format("%s/get/master/%s", ServiceConstants.API_QUALIFIER, addedMasterId))
                 .exchange()
+                .expectHeader()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .expectStatus()
                 .isOk()
                 .expectBody(MasterDTO.class)
@@ -68,6 +73,8 @@ public class AddMasterTest extends TestSetup {
                 .uri(String.format("%s/add", ServiceConstants.API_QUALIFIER))
                 .bodyValue(requestPayload)
                 .exchange()
+                .expectHeader()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .expectStatus()
                 .isCreated()
                 .expectBody(MasterDTO.class)
@@ -87,6 +94,8 @@ public class AddMasterTest extends TestSetup {
                 .uri(String.format("%s/add", ServiceConstants.API_QUALIFIER))
                 .bodyValue(requestPayload)
                 .exchange()
+                .expectHeader()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .expectStatus()
                 .isBadRequest()
                 .expectBody(ExceptionResponse.class)

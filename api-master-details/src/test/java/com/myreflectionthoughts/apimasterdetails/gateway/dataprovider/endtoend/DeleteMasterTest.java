@@ -8,6 +8,7 @@ import com.myreflectionthoughts.library.dto.response.DeleteMasterDTO;
 import com.myreflectionthoughts.library.dto.response.ExceptionResponse;
 import com.myreflectionthoughts.library.dto.response.MasterDTO;
 import org.junit.jupiter.api.Test;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.EntityExchangeResult;
 
 import java.util.Objects;
@@ -27,6 +28,8 @@ public class DeleteMasterTest extends TestSetup{
                 .uri(String.format("%s/add", ServiceConstants.API_QUALIFIER))
                 .bodyValue(requestPayload)
                 .exchange()
+                .expectHeader()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .expectStatus()
                 .isCreated()
                 .expectBody(MasterDTO.class)
@@ -48,6 +51,8 @@ public class DeleteMasterTest extends TestSetup{
         webTestClient.delete()
                 .uri(String.format("%s/delete/master/%s", ServiceConstants.API_QUALIFIER, masterId))
                 .exchange()
+                .expectHeader()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .expectStatus()
                 .isOk()
                 .expectBody(DeleteMasterDTO.class)
@@ -60,6 +65,8 @@ public class DeleteMasterTest extends TestSetup{
         webTestClient.get()
                 .uri(String.format("%s/get/master/%s",ServiceConstants.API_QUALIFIER, masterId))
                 .exchange()
+                .expectHeader()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .expectStatus()
                 .isOk()
                 .expectBody(MasterDTO.class)
@@ -76,6 +83,8 @@ public class DeleteMasterTest extends TestSetup{
         webTestClient.delete()
                 .uri(String.format("%s/delete/master/%s", ServiceConstants.API_QUALIFIER, masterId))
                 .exchange()
+                .expectHeader()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .expectStatus()
                 .isBadRequest()
                 .expectBody(ExceptionResponse.class)
