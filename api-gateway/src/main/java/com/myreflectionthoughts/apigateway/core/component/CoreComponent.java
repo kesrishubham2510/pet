@@ -1,10 +1,7 @@
 package com.myreflectionthoughts.apigateway.core.component;
 
 import com.myreflectionthoughts.apigateway.core.usecase.*;
-import com.myreflectionthoughts.library.contract.IAdd;
-import com.myreflectionthoughts.library.contract.IGet;
-import com.myreflectionthoughts.library.contract.IGetByCommonAttribute;
-import com.myreflectionthoughts.library.contract.IUpdate;
+import com.myreflectionthoughts.library.contract.*;
 import com.myreflectionthoughts.library.dto.request.AddUserDTO;
 import com.myreflectionthoughts.library.dto.request.UpdatePetDTO;
 import com.myreflectionthoughts.library.dto.request.UpdateUserDTO;
@@ -39,5 +36,10 @@ public class CoreComponent {
    @Bean
     public  UpdatePetDetailsUseCase updatePetDetailsUseCase(IUpdate<PetDTO, UpdatePetDTO> iUpdate){
         return new UpdatePetDetailsUseCase(iUpdate);
+   }
+
+   @Bean
+    public DemoDataStreamUseCase demoDataStreamUseCase(IGetAll<PetDTO> iGetAll){
+        return new DemoDataStreamUseCase(iGetAll);
    }
 }
