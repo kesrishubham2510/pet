@@ -17,6 +17,14 @@ ext.versions = [
 
 ]
 
+bootJar {
+    enabled = false
+}
+
+jar {
+    enabled = true
+}
+
 //central place for common dependencies
 allprojects {
 

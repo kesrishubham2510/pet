@@ -2,6 +2,13 @@ plugins {
     id 'org.springframework.boot' version '2.7.14' apply false
 }
 
+bootJar {
+    enabled = false
+}
+
+jar {
+    enabled = true
+}
 
 dependencyManagement {
     imports {
