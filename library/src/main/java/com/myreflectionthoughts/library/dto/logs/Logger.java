@@ -11,11 +11,11 @@ public class Logger implements ILogger {
     @Override
     public void log(CustomLog customLog, LogLevel logLevel) {
         if(logLevel.equals(LogLevel.INFO)){
-            log.info(customLog.getMessage());
+            log.info("LogUUId:- "+customLog.getLog()+" "+customLog.getMessage());
         }else if(logLevel.equals(LogLevel.DEBUG)){
-            log.debug(customLog.getMessage());
+            log.debug("LogUUId:- "+customLog.getLog()+" "+customLog.getMessage());
         }else if(logLevel.equals(LogLevel.ERROR)){
-            log.info(customLog.getMessage());
+            log.info("LogUUId:- "+customLog.getLog()+" "+customLog.getMessage());
         }
     }
 }

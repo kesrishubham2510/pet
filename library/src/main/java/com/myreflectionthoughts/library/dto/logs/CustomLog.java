@@ -4,7 +4,11 @@ import lombok.ToString;
 
 @ToString
 public class CustomLog {
-    protected final String logId;
+
+    // mongoDB generated id
+    private final String id;
+    // uuid to uniquely identify the log
+    protected final String log;
     protected final String useCase;
     protected final String timestamp;
     protected final String methodName;
@@ -13,9 +17,9 @@ public class CustomLog {
     protected final String message;
     protected final String pointOfIncident; // api where this was logged;
 
-
-    public CustomLog(String logId, String useCase, String timestamp, String methodName, String endpoint, String requestType, String message, String pointOfIncident) {
-        this.logId = logId;
+    public CustomLog(String id, String log, String useCase, String timestamp, String methodName, String endpoint, String requestType, String message, String pointOfIncident) {
+        this.id = id;
+        this.log = log;
         this.useCase = useCase;
         this.timestamp = timestamp;
         this.methodName = methodName;
@@ -25,12 +29,19 @@ public class CustomLog {
         this.pointOfIncident = pointOfIncident;
     }
 
-    public CustomLog(CustomLog customLog){
-        this(customLog.getLogId(), customLog.getUseCase(), customLog.getTimestamp(), customLog.getMethodName(), customLog.getEndpoint(), customLog.getRequestType(), customLog.getMessage(), customLog.getPointOfIncident());
+    public CustomLog(String log, String useCase, String timestamp, String methodName, String endpoint, String requestType, String message, String pointOfIncident) {
+        this(null,log,useCase,timestamp,methodName,endpoint,requestType,message,pointOfIncident);
     }
 
-    public String getLogId() {
-        return logId;
+    public CustomLog(CustomLog customLog){
+        this(customLog.getId(),customLog.getLog(), customLog.getUseCase(), customLog.getTimestamp(), customLog.getMethodName(), customLog.getEndpoint(), customLog.getRequestType(), customLog.getMessage(), customLog.getPointOfIncident());
+    }
+
+    public String getId() {
+        return id;
+    }
+    public String getLog() {
+        return log;
     }
 
     public String getUseCase() {
