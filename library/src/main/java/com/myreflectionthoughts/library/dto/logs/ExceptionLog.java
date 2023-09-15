@@ -1,5 +1,8 @@
 package com.myreflectionthoughts.library.dto.logs;
 
+import lombok.Getter;
+
+@Getter
 public class ExceptionLog extends CustomLog {
     private final String exception;
     private final String exceptionMessage;
@@ -8,14 +11,6 @@ public class ExceptionLog extends CustomLog {
         super(customLog);
         this.exception = exception;
         this.exceptionMessage = exceptionMessage;
-    }
-
-    public String getException() {
-        return exception;
-    }
-
-    public String getExceptionMessage(){
-        return exceptionMessage;
     }
 
     @Override
