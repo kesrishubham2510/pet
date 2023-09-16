@@ -1,8 +1,10 @@
 package com.myreflectionthoughts.library.contract;
 
 import com.myreflectionthoughts.library.dto.logs.CustomLog;
-import org.springframework.boot.logging.LogLevel;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public interface ILogger {
-    void log(CustomLog customLog, LogLevel logLevel);
+    void log(Logger logger, CustomLog customLog, Level logLevel);
 }
