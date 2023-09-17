@@ -21,11 +21,6 @@ public class UtilsComponent {
     @Bean
     public MappingUtility mappingUtility(ModelMapper modelMapper, ConversionUtility conversionUtility){ return new MappingUtility(conversionUtility, modelMapper);}
 
-    @Bean
-    public LoggerUtility loggerUtility(){
-        return new LoggerUtility();
-    }
-
     private ExceptionUtility exceptionUtility(){ return  new ExceptionUtility();}
 
     private ValidationUtility validationUtility(){ return new ValidationUtility(exceptionUtility());}
