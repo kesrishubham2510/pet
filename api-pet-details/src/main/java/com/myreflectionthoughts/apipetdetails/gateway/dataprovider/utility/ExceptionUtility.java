@@ -4,19 +4,23 @@ import com.myreflectionthoughts.apipetdetails.core.constant.ServiceConstants;
 import com.myreflectionthoughts.apipetdetails.core.enums.Category;
 import com.myreflectionthoughts.apipetdetails.core.enums.ClinicCardStatus;
 import com.myreflectionthoughts.apipetdetails.core.enums.Gender;
+import com.myreflectionthoughts.library.dto.logs.LoggerUtility;
 
-import javax.annotation.PostConstruct;
 import java.util.Arrays;
+import java.util.logging.Logger;
 
 
 public class ExceptionUtility {
 
     private final StringBuilder stringBuilder;
     private final ServiceConstants serviceConstants;
+    private final Logger logger;
+
 
     public ExceptionUtility() {
         stringBuilder = new StringBuilder();
         serviceConstants = new ServiceConstants();
+        logger = Logger.getLogger(ExceptionUtility.class.getName());
     }
 
     public String getCategoryNotFoundExceptionMessage(String animalCategory) {

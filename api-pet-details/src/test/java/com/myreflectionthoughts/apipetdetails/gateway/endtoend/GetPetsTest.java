@@ -2,6 +2,7 @@ package com.myreflectionthoughts.apipetdetails.gateway.endtoend;
 
 import com.myreflectionthoughts.apipetdetails.core.entity.Pet;
 import com.myreflectionthoughts.apipetdetails.gateway.dataprovider.TestDataGenerator;
+import com.myreflectionthoughts.library.dto.logs.LoggerUtility;
 import com.myreflectionthoughts.library.dto.response.PetDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,7 +16,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @Slf4j
 public class GetPetsTest extends TestSetup{
-
 
     /**
      *  When a request is made to the /api-pet-details/get/pet/all then the controller PetController

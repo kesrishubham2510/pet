@@ -5,6 +5,7 @@
 package com.myreflectionthoughts.apipetdetails.gateway.endtoend;
 
 import com.myreflectionthoughts.apipetdetails.gateway.dataprovider.TestDataGenerator;
+import com.myreflectionthoughts.library.dto.logs.LoggerUtility;
 import com.myreflectionthoughts.library.dto.request.AddPetDTO;
 import com.myreflectionthoughts.library.dto.request.UpdatePetDTO;
 import com.myreflectionthoughts.library.dto.response.ExceptionResponse;

@@ -1,6 +1,5 @@
 package com.myreflectionthoughts.apipetdetails.gateway.dataprovider.utility;
 
-import com.myreflectionthoughts.apipetdetails.core.entity.Pet;
 import com.myreflectionthoughts.apipetdetails.core.enums.Category;
 import com.myreflectionthoughts.apipetdetails.core.enums.ClinicCardStatus;
 import com.myreflectionthoughts.apipetdetails.core.enums.Gender;
