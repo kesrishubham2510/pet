@@ -5,6 +5,7 @@
 package com.myreflectionthoughts.apipetdetails.gateway.endtoend;
 
 import com.myreflectionthoughts.apipetdetails.gateway.dataprovider.TestDataGenerator;
+import com.myreflectionthoughts.library.dto.logs.LoggerUtility;
 import com.myreflectionthoughts.library.dto.request.AddPetDTO;
 import com.myreflectionthoughts.library.dto.request.UpdatePetDTO;
 import com.myreflectionthoughts.library.dto.response.ExceptionResponse;
@@ -19,6 +20,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 public class UpdatePetBeanValidationTest extends TestSetup{
+
+    public UpdatePetBeanValidationTest(LoggerUtility loggerUtility) {
+        super(loggerUtility);
+    }
 
     @Test
     void testUpdatePetInfo_should_throw_InputDataException_for_emptyId() {

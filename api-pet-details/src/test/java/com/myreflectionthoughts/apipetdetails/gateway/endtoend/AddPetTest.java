@@ -5,6 +5,7 @@ import com.myreflectionthoughts.apipetdetails.core.enums.ClinicCardStatus;
 import com.myreflectionthoughts.apipetdetails.core.exception.CategoryNotFoundException;
 import com.myreflectionthoughts.apipetdetails.core.exception.GenderNotFoundException;
 import com.myreflectionthoughts.apipetdetails.gateway.dataprovider.TestDataGenerator;
+import com.myreflectionthoughts.library.dto.logs.LoggerUtility;
 import com.myreflectionthoughts.library.dto.request.AddPetDTO;
 import com.myreflectionthoughts.library.dto.response.ExceptionResponse;
 import com.myreflectionthoughts.library.dto.response.PetDTO;
@@ -20,6 +21,11 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 
 public class AddPetTest extends TestSetup {
+
+
+    public AddPetTest(LoggerUtility loggerUtility) {
+        super(loggerUtility);
+    }
 
     /**
      * When a request is made to the /api-pet-details/add then the controller should
