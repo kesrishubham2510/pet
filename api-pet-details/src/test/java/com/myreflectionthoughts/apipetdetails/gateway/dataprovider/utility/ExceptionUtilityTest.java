@@ -10,18 +10,15 @@ import com.myreflectionthoughts.apipetdetails.core.enums.Category;
 import com.myreflectionthoughts.apipetdetails.core.enums.ClinicCardStatus;
 import com.myreflectionthoughts.apipetdetails.core.enums.Gender;
 import com.myreflectionthoughts.apipetdetails.gateway.dataprovider.TestDataGenerator;
-import com.myreflectionthoughts.library.dto.logs.LoggerUtility;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.TestConstructor;
 
 import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
-@TestConstructor(autowireMode = TestConstructor.AutowireMode.ALL)
 public class ExceptionUtilityTest {
 
     private final ExceptionUtility exceptionUtility;
