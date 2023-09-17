@@ -3,7 +3,6 @@ package com.myreflectionthoughts.apipetdetails.gateway.endtoend;
 import com.myreflectionthoughts.apipetdetails.core.constant.ServiceConstants;
 import com.myreflectionthoughts.apipetdetails.core.entity.Pet;
 import com.myreflectionthoughts.apipetdetails.gateway.dataprovider.TestDataGenerator;
-import com.myreflectionthoughts.library.dto.logs.LoggerUtility;
 import com.myreflectionthoughts.library.dto.response.PetDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;

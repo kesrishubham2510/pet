@@ -4,7 +4,6 @@ import com.myreflectionthoughts.apipetdetails.core.constant.ServiceConstants;
 import com.myreflectionthoughts.apipetdetails.core.enums.ClinicCardStatus;
 import com.myreflectionthoughts.apipetdetails.core.exception.PetNotFoundException;
 import com.myreflectionthoughts.apipetdetails.gateway.dataprovider.TestDataGenerator;
-import com.myreflectionthoughts.library.dto.logs.LoggerUtility;
 import com.myreflectionthoughts.library.dto.request.AddPetDTO;
 import com.myreflectionthoughts.library.dto.response.DeletePetDTO;
 import com.myreflectionthoughts.library.dto.response.ExceptionResponse;
