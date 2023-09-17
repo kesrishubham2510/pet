@@ -46,13 +46,15 @@ public class GatewayArchitectureTest {
     }
 
     @Test
-    void utilities_should_reside_inside_dataprovider(){
+    void utilities_should_reside_inside_dataprovider_or_core(){
 
         ArchRule rule = classes()
                 .that()
                 .haveSimpleNameContaining("Utility")
                 .should()
                 .resideInAPackage(packagePath+".gateway.dataprovider.utility..")
+                .orShould()
+                .resideInAPackage(packagePath+".core.utils..")
                 .because("Utility helps in processing data and perform validations on it");
 
         rule.check(importer.importPackages(packagePath));

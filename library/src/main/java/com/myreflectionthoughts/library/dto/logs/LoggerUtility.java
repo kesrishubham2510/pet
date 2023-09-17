@@ -26,4 +26,8 @@ public class LoggerUtility implements ILogger, IEntryLogger, IExitLogger {
     public void logExit(Logger logger, String message) {
         logger.log(Level.INFO, message);
     }
+
+    public void log(Logger logger, String message, Level logLevel){
+        logger.log(Objects.requireNonNullElse(logLevel, Level.WARNING), message);
+    }
 }

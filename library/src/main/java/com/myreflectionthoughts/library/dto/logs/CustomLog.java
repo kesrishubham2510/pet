@@ -2,11 +2,14 @@ package com.myreflectionthoughts.library.dto.logs;
 
 import lombok.ToString;
 
+
 @ToString
 public class CustomLog {
 
+
     // mongoDB generated id
     private final String id;
+
     // uuid to uniquely identify the log
     protected final String log;
     protected final String useCase;
@@ -14,7 +17,7 @@ public class CustomLog {
     protected final String methodName;
     protected final String endpoint;
     protected final String requestType;
-    protected final String message;
+    protected String message;
     protected final String pointOfIncident; // api where this was logged;
 
     public CustomLog(String id, String log, String useCase, String timestamp, String methodName, String endpoint, String requestType, String message, String pointOfIncident) {
@@ -70,5 +73,9 @@ public class CustomLog {
 
     public String getPointOfIncident() {
         return pointOfIncident;
+    }
+
+    public void setMessage(String message){
+        this.message = message;
     }
 }
