@@ -13,20 +13,30 @@ import org.springframework.stereotype.Component;
 public class UtilsComponent {
 
     @Bean
-    public ModelMapper modelMapper() { return new ModelMapper(); }
+    public ModelMapper modelMapper() {
+        return new ModelMapper();
+    }
 
     @Bean
-    public ConversionUtility conversionUtility(){ return new ConversionUtility(validationUtility());}
+    public ConversionUtility conversionUtility() {
+        return new ConversionUtility(validationUtility(), loggerUtility());
+    }
 
     @Bean
-    public MappingUtility mappingUtility(ModelMapper modelMapper, ConversionUtility conversionUtility){ return new MappingUtility(conversionUtility, modelMapper);}
+    public MappingUtility mappingUtility(ModelMapper modelMapper, ConversionUtility conversionUtility) {
+        return new MappingUtility(conversionUtility, modelMapper, loggerUtility());
+    }
 
     @Bean
-    public LoggerUtility loggerUtility(){
+    public LoggerUtility loggerUtility() {
         return new LoggerUtility();
     }
 
-    private ExceptionUtility exceptionUtility(){ return  new ExceptionUtility();}
+    private ExceptionUtility exceptionUtility() {
+        return new ExceptionUtility(loggerUtility());
+    }
 
-    private ValidationUtility validationUtility(){ return new ValidationUtility(exceptionUtility());}
+    private ValidationUtility validationUtility() {
+        return new ValidationUtility(exceptionUtility());
+    }
 }

@@ -1,33 +1,35 @@
 /**
- *  This is a Behaviour Driven Test to check the functionality
-    of the ExceptionUtility
-*/
+ * This is a Behaviour Driven Test to check the functionality
+   of the ExceptionUtility
+ */
 
 package com.myreflectionthoughts.apipetdetails.gateway.dataprovider.utility;
 
 import com.myreflectionthoughts.apipetdetails.core.constant.ServiceConstants;
-import com.myreflectionthoughts.apipetdetails.gateway.dataprovider.TestDataGenerator;
 import com.myreflectionthoughts.apipetdetails.core.enums.Category;
 import com.myreflectionthoughts.apipetdetails.core.enums.ClinicCardStatus;
 import com.myreflectionthoughts.apipetdetails.core.enums.Gender;
+import com.myreflectionthoughts.apipetdetails.gateway.dataprovider.TestDataGenerator;
+import com.myreflectionthoughts.library.dto.logs.LoggerUtility;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.TestConstructor;
 
 import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
+@TestConstructor(autowireMode = TestConstructor.AutowireMode.ALL)
 public class ExceptionUtilityTest {
 
     private final ExceptionUtility exceptionUtility;
     private final TestDataGenerator testDataGenerator;
     private final StringBuilder stringBuilder;
 
-    public ExceptionUtilityTest() {
-        exceptionUtility = new ExceptionUtility();
+    public ExceptionUtilityTest(LoggerUtility loggerUtility) {
+        exceptionUtility = new ExceptionUtility(loggerUtility);
         testDataGenerator = new TestDataGenerator();
         stringBuilder = new StringBuilder();
     }
@@ -72,6 +74,7 @@ public class ExceptionUtilityTest {
         stringBuilder.setLength(stringBuilder.length() - 2);
         return stringBuilder.toString();
     }
+
     private String prepareClinicCardStatusErrMessageSubstitute() {
         Arrays.stream(ClinicCardStatus.values()).forEach(clinicCardStatusValue -> stringBuilder.append(clinicCardStatusValue).append(", "));
         stringBuilder.setLength(stringBuilder.length() - 2);

@@ -18,12 +18,13 @@ import com.myreflectionthoughts.library.dto.response.DeletePetDTO;
 import com.myreflectionthoughts.library.dto.response.PetDTO;
 import org.junit.jupiter.api.Test;
 import org.modelmapper.MappingException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.TestConstructor;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
+@TestConstructor(autowireMode = TestConstructor.AutowireMode.ALL)
 public class MappingUtilityTest {
 
     private final String petId;
@@ -31,15 +32,16 @@ public class MappingUtilityTest {
     private final TestDataGenerator testDataGenerator;
     private final ServiceConstants serviceConstants;
 
-    @Autowired
-    private MappingUtility mapper;
+    private final MappingUtility mapper;
 
-    public MappingUtilityTest() {
+    public MappingUtilityTest(MappingUtility mappingUtility) {
         petId = ServiceConstants.DUMMY_PET_ID;
         masterId = ServiceConstants.DUMMY_MASTER_ID;
         testDataGenerator = new TestDataGenerator();
         serviceConstants = new ServiceConstants();
+        mapper = mappingUtility;
     }
+
 
     @Test
     public void testMapToPet() {

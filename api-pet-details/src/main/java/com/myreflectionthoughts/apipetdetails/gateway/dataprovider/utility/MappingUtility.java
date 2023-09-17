@@ -3,6 +3,7 @@ package com.myreflectionthoughts.apipetdetails.gateway.dataprovider.utility;
 import com.myreflectionthoughts.apipetdetails.core.constant.ServiceConstants;
 import com.myreflectionthoughts.apipetdetails.core.entity.Pet;
 import com.myreflectionthoughts.apipetdetails.core.enums.ClinicCardStatus;
+import com.myreflectionthoughts.library.dto.logs.LoggerUtility;
 import com.myreflectionthoughts.library.dto.request.AddPetDTO;
 import com.myreflectionthoughts.library.dto.request.UpdatePetDTO;
 import com.myreflectionthoughts.library.dto.response.DeletePetDTO;
@@ -10,17 +11,22 @@ import com.myreflectionthoughts.library.dto.response.PetDTO;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeMap;
 
-public class MappingUtility {
+import java.util.logging.Logger;
+
+public class MappingUtility extends Utility {
 
     private final ConversionUtility conversionUtility;
     private final ModelMapper modelMapper;
     private final ServiceConstants serviceConstants;
+    private final Logger logger;
 
-    public MappingUtility(ConversionUtility conversionUtility, ModelMapper modelMapper) {
+    public MappingUtility(ConversionUtility conversionUtility, ModelMapper modelMapper, LoggerUtility loggerUtility) {
+        super(loggerUtility);
         this.conversionUtility = conversionUtility;
         this.modelMapper = modelMapper;
         addMappingConfigurations();
         serviceConstants = new ServiceConstants();
+        this.logger = Logger.getLogger(MappingUtility.class.getName());
     }
 
     public Pet mapToPet(AddPetDTO addPetDTO) {
@@ -97,13 +103,13 @@ public class MappingUtility {
 
         updatePetDTO_To_Pet_Mapper.addMappings(
                 mapper -> mapper.using(conversionUtility.string_To_categoryConverter).map(
-                      UpdatePetDTO::getCategory, Pet::setCategory
+                        UpdatePetDTO::getCategory, Pet::setCategory
                 )
         );
 
         updatePetDTO_To_Pet_Mapper.addMappings(
                 mapper -> mapper.using(conversionUtility.string_To_genderConverter).map(
-                      UpdatePetDTO::getGender, Pet::setGender
+                        UpdatePetDTO::getGender, Pet::setGender
                 )
         );
     }

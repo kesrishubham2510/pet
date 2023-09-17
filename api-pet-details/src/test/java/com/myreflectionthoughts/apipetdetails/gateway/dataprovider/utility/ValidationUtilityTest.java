@@ -1,6 +1,6 @@
 /**
- *  This is a Behaviour Driven Test to check the functionality
-    of the ValidationUtility
+ * This is a Behaviour Driven Test to check the functionality
+ * of the ValidationUtility
  */
 
 package com.myreflectionthoughts.apipetdetails.gateway.dataprovider.utility;
@@ -12,20 +12,23 @@ import com.myreflectionthoughts.apipetdetails.core.enums.Gender;
 import com.myreflectionthoughts.apipetdetails.core.exception.CategoryNotFoundException;
 import com.myreflectionthoughts.apipetdetails.core.exception.ClinicCardStatusNotFoundException;
 import com.myreflectionthoughts.apipetdetails.core.exception.GenderNotFoundException;
+import com.myreflectionthoughts.library.dto.logs.LoggerUtility;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.TestConstructor;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
+@TestConstructor(autowireMode = TestConstructor.AutowireMode.ALL)
 public class ValidationUtilityTest {
 
     private final ExceptionUtility exceptionUtility;
     private final ValidationUtility validationUtility;
 
-    public ValidationUtilityTest() {
-        this.exceptionUtility = new ExceptionUtility();
+    public ValidationUtilityTest(LoggerUtility loggerUtility) {
+        this.exceptionUtility = new ExceptionUtility(loggerUtility);
         this.validationUtility = new ValidationUtility(exceptionUtility);
     }
 
