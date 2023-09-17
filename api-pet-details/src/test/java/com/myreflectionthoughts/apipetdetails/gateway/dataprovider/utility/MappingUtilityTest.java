@@ -30,14 +30,12 @@ public class MappingUtilityTest {
     private final String petId;
     private final String masterId;
     private final TestDataGenerator testDataGenerator;
-    private final ServiceConstants serviceConstants;
     private final MappingUtility mapper;
 
     public MappingUtilityTest(MappingUtility mappingUtility) {
         petId = ServiceConstants.DUMMY_PET_ID;
         masterId = ServiceConstants.DUMMY_MASTER_ID;
         testDataGenerator = new TestDataGenerator();
-        serviceConstants = new ServiceConstants();
         mapper = mappingUtility;
     }
 
