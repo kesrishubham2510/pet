@@ -53,6 +53,8 @@ public class GatewayArchitectureTest {
                 .haveSimpleNameContaining("Utility")
                 .should()
                 .resideInAPackage(packagePath + ".gateway.dataprovider.utility..")
+                .orShould()
+                .resideInAPackage(packagePath+".core.utils..")
                 .because("Utility helps in processing data and perform validations on it");
 
         rule.check(importer.importPackages(packagePath));

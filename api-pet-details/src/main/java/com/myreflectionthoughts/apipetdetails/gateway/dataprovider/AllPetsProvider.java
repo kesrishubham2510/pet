@@ -28,7 +28,7 @@ public  class AllPetsProvider extends DataProvider implements IGetAll<PetDTO> {
         return petRepository
                 .findAll()
                 .delayElements(Duration.ofSeconds(1))
-                .doOnComplete(()->LogUtility.loggerUtility.log(logger, "Pet's retrieved successfully...", Level.INFO))
+                .doOnComplete(()->LogUtility.loggerUtility.log(logger, "Pets retrieved successfully...", Level.INFO))
                 .map(mappingUtility::mapToPetDTO)
                 .doOnNext((petResponse)-> LogUtility.loggerUtility.log(logger, "Pet:- "+ Objects.requireNonNull(petResponse.getId())+" retrieved...", Level.INFO));
     }
