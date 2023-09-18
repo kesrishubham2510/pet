@@ -27,7 +27,7 @@ public  class PetDataProvider extends DataProvider implements IGet<PetDTO> {
     @Override
     public Mono<PetDTO> getInfo(Mono<String> petIdMono) {
         return petIdMono
-                .doOnNext(petId-> LogUtility.loggerUtility.log(logger, "Initiating information retrieval for pet:- "+petId+" ...", Level.INFO))
+                .doOnNext(petId-> LogUtility.loggerUtility.log(logger, "Initiating information retrieval for pet:- "+petId, Level.INFO))
                 .flatMap(petRepository::findById)
                 .doOnNext(retrievedPet-> LogUtility.loggerUtility.log(logger, "Information retrieved for pet:- "+retrievedPet.getId()+" successfully...",Level.INFO))
                 .map(mappingUtility::mapToPetDTO)
