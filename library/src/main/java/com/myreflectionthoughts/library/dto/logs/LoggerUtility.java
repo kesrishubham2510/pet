@@ -19,12 +19,22 @@ public class LoggerUtility implements ILogger, IEntryLogger, IExitLogger {
 
     @Override
     public void logEntry(Logger logger, String message) {
-        logger.log(Level.INFO, message);
+        logEntry(logger, message, Level.INFO);
+    }
+
+    @Override
+    public void logEntry(Logger logger, String message, Level logLevel) {
+        logger.log(logLevel, message);
     }
 
     @Override
     public void logExit(Logger logger, String message) {
-        logger.log(Level.INFO, message);
+        logExit(logger, message, Level.INFO);
+    }
+
+    @Override
+    public void logExit(Logger logger, String message, Level logLevel) {
+        logger.log(logLevel, message);
     }
 
     public void log(Logger logger, String message, Level logLevel){
