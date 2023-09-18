@@ -7,6 +7,7 @@ import com.myreflectionthoughts.apipetdetails.core.exception.CategoryNotFoundExc
 import com.myreflectionthoughts.apipetdetails.core.exception.ClinicCardStatusNotFoundException;
 import com.myreflectionthoughts.apipetdetails.core.exception.GenderNotFoundException;
 import com.myreflectionthoughts.apipetdetails.core.utils.LogUtility;
+import com.myreflectionthoughts.library.dto.logs.LoggerUtility;
 
 import java.util.Arrays;
 import java.util.List;
@@ -29,8 +30,10 @@ public class ValidationUtility {
         LogUtility.loggerUtility.logEntry(logger, "Validating category:- "+categoryString, Level.FINE);
         List<String> categoryStringList = Arrays.stream(Category.values()).map(Enum::toString).collect(Collectors.toList());
 
-        if (!categoryStringList.contains(categoryString.toUpperCase().trim()))
+        if (!categoryStringList.contains(categoryString.toUpperCase().trim())){
+            LogUtility.loggerUtility.log(logger, "Exception occurred while validating category:- "+categoryString, Level.SEVERE);
             throw new CategoryNotFoundException(exceptionUtility.getCategoryNotFoundExceptionMessage(categoryString));
+        }
 
         LogUtility.loggerUtility.logExit(logger, "Category:- "+categoryString+" validated successfully", Level.FINE);
         return Category.valueOf(categoryString.toUpperCase());
@@ -40,8 +43,11 @@ public class ValidationUtility {
 
         LogUtility.loggerUtility.logEntry(logger, "Validating gender:- "+genderString, Level.FINE);
         List<String> genderStringList = Arrays.stream(Gender.values()).map(Enum::toString).collect(Collectors.toList());
-        if (!genderStringList.contains(genderString.toUpperCase().trim()))
+
+        if (!genderStringList.contains(genderString.toUpperCase().trim())){
+            LogUtility.loggerUtility.log(logger, "Exception occurred while validating gender:- "+genderString, Level.SEVERE);
             throw new GenderNotFoundException(exceptionUtility.getGenderNotFoundExceptionMessage());
+        }
 
         LogUtility.loggerUtility.logExit(logger, "Gender:- "+genderString+" validated successfully", Level.FINE);
         return Gender.valueOf(genderString.toUpperCase());
@@ -50,8 +56,11 @@ public class ValidationUtility {
 
         LogUtility.loggerUtility.logEntry(logger, "Validating clinicCardStatus:- "+clinincCardStatusString, Level.FINE);
         List<String> clinicCardStatusList = Arrays.stream(ClinicCardStatus.values()).map(Enum::toString).collect(Collectors.toList());
-        if (!clinicCardStatusList.contains(clinincCardStatusString.toUpperCase().trim()))
+
+        if (!clinicCardStatusList.contains(clinincCardStatusString.toUpperCase().trim())){
+            LogUtility.loggerUtility.log(logger, "Exception occurred while validating clinicCardStatus:- "+clinincCardStatusString, Level.SEVERE);
             throw new ClinicCardStatusNotFoundException(exceptionUtility.getClinicCardStatusNotFoundExceptionMessage());
+        }
 
         LogUtility.loggerUtility.logExit(logger, "ClinicCardStatus:- "+clinincCardStatusString+" validated successfully", Level.FINE);
         return ClinicCardStatus.valueOf(clinincCardStatusString.toUpperCase());
