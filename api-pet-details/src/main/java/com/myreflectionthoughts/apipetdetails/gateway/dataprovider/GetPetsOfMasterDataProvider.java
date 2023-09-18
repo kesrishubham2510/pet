@@ -30,6 +30,7 @@ public class GetPetsOfMasterDataProvider extends DataProvider implements IGetByC
                 .doOnNext(masterId-> LogUtility.loggerUtility.log(logger, "Initiating pet retrieval for master:- "+masterId, Level.INFO))
                 .flatMapMany(petRepository::findAllByMaster)
                 .doOnComplete(()-> LogUtility.loggerUtility.log(logger, "Pets retrieval completed successfully", Level.INFO))
-                .map(mappingUtility::setClinicCardStatus);
+                .map(mappingUtility::setClinicCardStatus)
+                .doOnNext(retrievedPet-> LogUtility.loggerUtility.log(logger, "Retrieved:- "+retrievedPet, Level.FINE));
     }
 }
