@@ -7,6 +7,7 @@ import com.myreflectionthoughts.apipetdetails.core.utils.LogUtility;
 import org.modelmapper.AbstractConverter;
 import org.modelmapper.Converter;
 
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class ConversionUtility {
@@ -23,7 +24,7 @@ public class ConversionUtility {
     protected Converter<Gender, String> gender_To_stringConverter = new AbstractConverter<>() {
         @Override
         protected String convert(Gender source) {
-            LogUtility.loggerUtility.logEntry(logger, "Initialised Gender --> String converter...");
+            LogUtility.loggerUtility.logEntry(logger, "Initialised Gender --> String converter...", Level.FINE);
             return source.toString();
         }
 
@@ -31,14 +32,14 @@ public class ConversionUtility {
     protected Converter<Category, String> category_To_stringConverter = new AbstractConverter<>() {
         @Override
         protected String convert(Category source) {
-            LogUtility.loggerUtility.logEntry(logger, "Initialised Category --> String converter...");
+            LogUtility.loggerUtility.logEntry(logger, "Initialised Category --> String converter...", Level.FINE);
             return source.toString();
         }
     };
     protected Converter<ClinicCardStatus, String> clinicCardStatus_To_stringConverter = new AbstractConverter<>() {
         @Override
         protected String convert(ClinicCardStatus source) {
-            LogUtility.loggerUtility.logEntry(logger, "Initialised ClinicCardStatus --> String converter...");
+            LogUtility.loggerUtility.logEntry(logger, "Initialised ClinicCardStatus --> String converter...", Level.FINE);
             return source.toString();
         }
     };
@@ -46,14 +47,14 @@ public class ConversionUtility {
     protected Converter<String, Category> string_To_categoryConverter = new AbstractConverter<>() {
         @Override
         protected Category convert(String source) {
-            LogUtility.loggerUtility.logEntry(logger, "Initialised String --> Category converter...");
+            LogUtility.loggerUtility.logEntry(logger, "Initialised String --> Category converter...", Level.FINE);
             return validationUtility.validateCategory(source);
         }
     };
     protected Converter<String, Gender> string_To_genderConverter = new AbstractConverter<>() {
         @Override
         protected Gender convert(String source) {
-            LogUtility.loggerUtility.logEntry(logger, "Initialised String --> Gender converter...");
+            LogUtility.loggerUtility.logEntry(logger, "Initialised String --> Gender converter...", Level.FINE);
             return validationUtility.validateGender(source);
         }
     };
@@ -61,7 +62,7 @@ public class ConversionUtility {
     protected Converter<String,ClinicCardStatus> string_To_clinicCardStatusConverter = new AbstractConverter<>() {
         @Override
         protected ClinicCardStatus convert(String source) {
-            LogUtility.loggerUtility.logEntry(logger, "Initialised String --> ClinicCardStatus converter...");
+            LogUtility.loggerUtility.logEntry(logger, "Initialised String --> ClinicCardStatus converter...", Level.FINE);
             return validationUtility.validateClinicCardStatus(source);
         }
     };
