@@ -21,7 +21,7 @@ public class DataProvider {
     protected <T extends IValidator> T validatePayload(T payload){
         LogUtility.loggerUtility.logEntry(logger, "Initiating request payload validation...", Level.FINE);
         payload.validate();
-        LogUtility.loggerUtility.logEntry(logger, "Request payload validated successfully...", Level.FINE);
+        LogUtility.loggerUtility.logExit(logger, "Request payload validated successfully...", Level.FINE);
         return payload;
     }
 }

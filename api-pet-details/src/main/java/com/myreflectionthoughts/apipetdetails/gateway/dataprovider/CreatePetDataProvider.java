@@ -27,7 +27,7 @@ public class CreatePetDataProvider extends DataProvider implements IAdd<AddPetDT
     public Mono<PetDTO> add(Mono<AddPetDTO> requestPayloadMono) {
 
         return requestPayloadMono
-                .doOnNext(requestPayload-> LogUtility.loggerUtility.log(logger, "Initiating registration process for pet:- "+requestPayload.getName()+" ...", Level.INFO))
+                .doOnNext(requestPayload-> LogUtility.loggerUtility.log(logger, "Initiating registration process for pet:- "+requestPayload.getName(), Level.INFO))
                 .map(this::validatePayload)
                 .map(mappingUtility::mapToPet)
                 .doOnNext(pet-> LogUtility.loggerUtility.log(logger, "Initiating pet's data persistence...", Level.INFO))
