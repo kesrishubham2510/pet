@@ -1,6 +1,7 @@
 package com.myreflectionthoughts.apigateway.gateway.dataprovider;
 
 import com.myreflectionthoughts.apigateway.core.constant.ServiceConstant;
+import com.myreflectionthoughts.apigateway.core.utils.LogUtility;
 import com.myreflectionthoughts.library.contract.IAdd;
 import com.myreflectionthoughts.library.dto.request.AddMasterDTO;
 import com.myreflectionthoughts.library.dto.request.AddPetDTO;
@@ -17,14 +18,19 @@ import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @Service
 public class RegisterUserDataProvider extends DataProvider implements IAdd<AddUserDTO, UserDTO> {
+
+    private final Logger logger;
 
     public RegisterUserDataProvider(
             @Qualifier(ServiceConstant.masterServiceQualifier) WebClient masterServiceClient,
             @Qualifier(ServiceConstant.petServiceQualifier) WebClient petServiceClient) {
         super(masterServiceClient, petServiceClient);
+        logger = Logger.getLogger(RegisterUserDataProvider.class.getName());
     }
 
     @Override
@@ -42,11 +48,14 @@ public class RegisterUserDataProvider extends DataProvider implements IAdd<AddUs
 
             UserDTO userDTO = new UserDTO();
 
-            return addMaster(addUserDTO.getMaster()).flatMap(addedMaster -> {
+            return addMaster(addUserDTO.getMaster())
+                    .doOnNext(addedMaster-> LogUtility.loggerUtility.log(logger, "Master:- "+addedMaster.getId()+" added successfully", Level.INFO))
+                    .flatMap(addedMaster -> {
                 userDTO.setMaster(addedMaster);
 
-                if (addUserDTO.getMaster() == null || addUserDTO.getPets().isEmpty()) {
+                if (addUserDTO.getPets() == null || addUserDTO.getPets().isEmpty()) {
                     userDTO.setPets(new ArrayList<>());
+                    LogUtility.loggerUtility.log(logger, "User hasn't pets in the request payload",Level.INFO);
                     return Mono.fromSupplier(() -> userDTO);
                 }
 
@@ -54,32 +63,43 @@ public class RegisterUserDataProvider extends DataProvider implements IAdd<AddUs
                     userDTO.setPets(addedPets);
                     return userDTO;
                 });
-            });
+            }).doOnNext(addedUser-> LogUtility.loggerUtility.log(logger, "User registered successfully...",Level.INFO));
         });
     }
 
     private Mono<MasterDTO> addMaster(AddMasterDTO addMasterDTO) {
+        LogUtility.loggerUtility.logEntry(logger, "Initiating call to master-service to add the master...");
         return masterServiceClient.post()
                 .uri("/add")
                 .bodyValue(addMasterDTO)
                 .retrieve()
-                .bodyToMono(MasterDTO.class);
+                .bodyToMono(MasterDTO.class)
+                .doOnNext(addedMaster-> LogUtility.loggerUtility.logExit(logger, "add-master call completed successfully..."));
     }
 
     private Mono<List<PetDTO>> handlePets(String masterId, List<AddPetDTO> addPetDTOs) {
         return Flux.fromIterable(addPetDTOs)
                 .map(addPetDTO -> {
+                    LogUtility.loggerUtility.log(logger,"Added masterId:- "+masterId+" to the add-pet ("+addPetDTO.getName()+") request payload", Level.INFO);
                     addPetDTO.setMaster(masterId);
                     return addPetDTO;
-                }).flatMap(this::addPet).collectList();
+                })
+                .flatMap(this::addPet)
+                .doOnNext(addedPet-> LogUtility.loggerUtility.log(logger, "Pet:- "+addedPet.getId()+" added...",Level.INFO))
+                .doOnComplete(()->{LogUtility.loggerUtility.log(logger, "Pets from the request payload has been added successfully...", Level.INFO);})
+                .collectList();
     }
 
     private Mono<PetDTO> addPet(AddPetDTO addPetDTO) {
+
+        LogUtility.loggerUtility.logEntry(logger, "Initiating add-pet call to pet-service...");
+
         return petServiceClient.post()
                 .uri("/add")
                 .bodyValue(addPetDTO)
                 .retrieve()
-                .bodyToMono(PetDTO.class);
+                .bodyToMono(PetDTO.class)
+                .doOnNext(addedMaster-> LogUtility.loggerUtility.logExit(logger, "add-pet call completed successfully..."));
     }
 
 }
