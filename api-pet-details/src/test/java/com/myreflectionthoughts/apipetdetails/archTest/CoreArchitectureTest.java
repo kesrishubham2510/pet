@@ -116,4 +116,17 @@ public class CoreArchitectureTest {
 
         rule.check(importer.importPackages(packagePath));
     }
+
+    //    to make sure LogUtility resides in core
+    @Test
+    void logUtility_should_reside_in_core(){
+        ArchRule rule = noClasses().that()
+                .haveSimpleNameContaining("Log")
+                .and()
+                .haveSimpleNameContaining("Utility")
+                .should()
+                .resideOutsideOfPackage(packagePath+".core.utils..");
+
+        rule.check(importer.importPackages(packagePath));
+    }
 }
