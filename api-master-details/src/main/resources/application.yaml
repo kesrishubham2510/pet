@@ -7,6 +7,8 @@ spring:
       host: localhost
       port: 27017
       database: masterDB
+  application:
+    name: master-service
 
 server:
   port: 8002
@@ -24,3 +26,7 @@ SwaggerConfig:
   servers:
     - url: "http:localhost:8002"
       description: "The local server spun up on the local machine"
+
+logging:
+  pattern:
+    level: "%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-}]"

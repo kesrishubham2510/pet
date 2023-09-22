@@ -4,6 +4,8 @@ spring:
       host: localhost
       port: 27017
       database: petDB
+  application:
+    name: pet-service
 
 server:
   port: 8003
@@ -22,3 +24,6 @@ SwaggerConfig:
     - url: "http:localhost:8003"
       description: "The local server spun up on the local machine"
 
+logging:
+  pattern:
+    level: "%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-}]"

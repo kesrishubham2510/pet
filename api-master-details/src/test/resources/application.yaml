@@ -25,3 +25,11 @@ SwaggerConfig:
   servers:
     - url: "http:localhost:8002"
       description: "The local server spun up on the local machine"
+
+spring:
+  application:
+    name: master-service-test
+
+logging:
+  pattern:
+    level: "%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-}]"

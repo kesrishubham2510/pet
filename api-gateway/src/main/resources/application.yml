@@ -5,6 +5,20 @@ restClient:
 server:
   port: 8000
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+    enabled-by-default: false
+  endpoint:
+    info:
+      enabled: true
+    loggers:
+      enabled: true
+    health:
+      enabled: true
+
 SwaggerConfig:
   info:
     title: "Pet Micro-service API Contract"
@@ -19,7 +33,10 @@ SwaggerConfig:
     - url: "http:localhost:8000"
       description: "The local server spun up on the local machine"
 
+spring:
+  application:
+    name: api-gateway
 
-
-
-
+logging:
+  pattern:
+    level: "%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-}]"
