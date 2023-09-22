@@ -65,8 +65,14 @@ subprojects {
         testAnnotationProcessor('org.projectlombok:lombok')
         testImplementation "com.tngtech.archunit:archunit:${versions.archTestVersion}"
         testImplementation "org.testcontainers:mongodb:${versions.testContainerVersion}"
-
+        // dependencies for observability
         implementation "org.springframework.boot:spring-boot-starter-actuator:${versions.actuatorVersion}"
-
+        // to enable request-tracing
+        implementation platform('io.micrometer:micrometer-tracing-bom:latest.release')
+        implementation 'io.micrometer:micrometer-tracing:1.1.5'
+        // tracing tool
+        implementation 'io.micrometer:micrometer-tracing-bridge-brave:1.1.5'
+        // reporter to export the tracing data to the UI tool
+        implementation 'io.zipkin.reporter2:zipkin-reporter-brave'
     }
 }
