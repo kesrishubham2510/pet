@@ -5,6 +5,7 @@ import com.myreflectionthoughts.apigateway.core.utils.LogUtility;
 import com.myreflectionthoughts.library.contract.IGet;
 import com.myreflectionthoughts.library.dto.response.MasterDTO;
 import com.myreflectionthoughts.library.dto.response.UserDTO;
+import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -54,12 +55,16 @@ public class RetrieveUserDataProvider extends DataProvider implements IGet<UserD
 
         LogUtility.loggerUtility.logEntry(logger,"Initiating retrieve user-info call to master-service");
 
-        return masterServiceClient.get()
+        return masterServiceClient
+                .get()
                 .uri(String.format("/get/master/%s", masterId))
+                .header("traceId", MDC.get("traceId"))
                 .retrieve()
                 .bodyToMono(MasterDTO.class)
                 .doOnNext(retrievedMaster-> LogUtility.loggerUtility.log(logger, "retrieve user-info call to master-service completed successfully", Level.INFO));
     }
+
+
 
 
 }

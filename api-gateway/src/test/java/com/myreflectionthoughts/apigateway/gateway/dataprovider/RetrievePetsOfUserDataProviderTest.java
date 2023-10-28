@@ -1,10 +1,14 @@
 package com.myreflectionthoughts.apigateway.gateway.dataprovider;
 
 import com.myreflectionthoughts.apigateway.core.constant.ServiceConstant;
-import com.myreflectionthoughts.apigateway.gateway.dataprovider.RetrievePetsOfUserDataProvider;
 import com.myreflectionthoughts.library.dto.response.PetDTO;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
+import org.mockito.MockedStatic;
+import org.mockito.Mockito;
+import org.slf4j.MDC;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
@@ -15,14 +19,18 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
-public class RetrievePetsOfUserDataProviderTest {
+public class RetrievePetsOfUserDataProviderTest{
 
     private final RetrievePetsOfUserDataProvider retrievePetsOfUserDataProvider;
     private final WebClient masterServiceClient;
     private final WebClient petServiceClient;
+    private MockedStatic<MDC> mdc;
 
     @Mock
     private WebClient.RequestBodyUriSpec requestBodyUriSpec;
+
+    @Mock
+    private WebClient.RequestBodySpec requestBodySpec;
 
     @Mock
     private WebClient.RequestHeadersSpec requestHeadersSpec;
@@ -50,6 +58,11 @@ public class RetrievePetsOfUserDataProviderTest {
 
         when(petServiceClient.get()).thenReturn(requestHeadersUriSpec);
         when(requestHeadersUriSpec.uri(anyString())).thenReturn(requestHeadersSpec);
+
+        mdc.when(()->MDC.get(anyString())).thenReturn("traceId");
+
+        when(requestHeadersSpec.header(anyString(),anyString())).thenReturn(requestHeadersSpec);
+
         when(requestHeadersSpec.retrieve()).thenReturn(responseSpec);
         when(responseSpec.bodyToFlux(eq(PetDTO.class))).thenReturn(Flux.just(expectedPet));
 
@@ -59,6 +72,7 @@ public class RetrievePetsOfUserDataProviderTest {
 
         verify(petServiceClient,times(1)).get();
         verify(requestHeadersUriSpec,times(1)).uri(anyString());
+        verify(requestHeadersSpec,times(1)).header(anyString(),anyString());
         verify(requestHeadersSpec,times(1)).retrieve();
         verify(responseSpec,times(1)).bodyToFlux(eq(PetDTO.class));
     }
@@ -73,5 +87,14 @@ public class RetrievePetsOfUserDataProviderTest {
         pet.setName("pet-name");
         pet.setClinicCardStatus("NOT_APPLIED");
         return pet;
+    }
+
+    @BeforeEach
+    private void initStaticMDC(){
+        mdc = Mockito.mockStatic(MDC.class);
+    }
+    @AfterEach
+    private void closeStatic(){
+        mdc.close();
     }
 }

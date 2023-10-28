@@ -3,6 +3,7 @@ package com.myreflectionthoughts.apigateway.gateway.dataprovider;
 import com.myreflectionthoughts.apigateway.core.utils.LogUtility;
 import com.myreflectionthoughts.library.dto.request.UpdatePetDTO;
 import com.myreflectionthoughts.library.dto.response.PetDTO;
+import org.slf4j.MDC;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -25,8 +26,10 @@ public class DataProvider {
 
         LogUtility.loggerUtility.log(logger, "Initiating retrieve-all-pets-of-master call to pet-service", Level.INFO);
 
-        return petServiceClient.get()
+        return petServiceClient
+                .get()
                 .uri(String.format("/get/pets/%s", masterId))
+                .header("traceId", MDC.get("traceId"))
                 .retrieve()
                 .bodyToFlux(PetDTO.class)
                 .doOnEach(receivedPetSignal-> {
@@ -43,8 +46,10 @@ public class DataProvider {
 
         LogUtility.loggerUtility.log(logger, "Initiating update-pet call to pet-service", Level.INFO);
 
-        return petServiceClient.put()
+        return petServiceClient
+                .put()
                 .uri(String.format("/update/pet/%s", updatePetDTO.getId()))
+                .header("traceId", MDC.get("traceId"))
                 .bodyValue(updatePetDTO)
                 .retrieve()
                 .bodyToMono(PetDTO.class)

@@ -10,6 +10,7 @@ import com.myreflectionthoughts.library.dto.response.MasterDTO;
 import com.myreflectionthoughts.library.dto.response.PetDTO;
 import com.myreflectionthoughts.library.dto.response.UserDTO;
 import com.myreflectionthoughts.library.exception.ParameterMissingException;
+import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -69,8 +70,10 @@ public class RegisterUserDataProvider extends DataProvider implements IAdd<AddUs
 
     private Mono<MasterDTO> addMaster(AddMasterDTO addMasterDTO) {
         LogUtility.loggerUtility.logEntry(logger, "Initiating call to master-service to add the master...");
-        return masterServiceClient.post()
+        return  masterServiceClient
+                .post()
                 .uri("/add")
+                .header("traceId", MDC.get("traceId"))
                 .bodyValue(addMasterDTO)
                 .retrieve()
                 .bodyToMono(MasterDTO.class)
@@ -94,8 +97,10 @@ public class RegisterUserDataProvider extends DataProvider implements IAdd<AddUs
 
         LogUtility.loggerUtility.logEntry(logger, "Initiating add-pet call to pet-service...");
 
-        return petServiceClient.post()
+        return petServiceClient
+                .post()
                 .uri("/add")
+                .header("traceId", MDC.get("traceId"))
                 .bodyValue(addPetDTO)
                 .retrieve()
                 .bodyToMono(PetDTO.class)

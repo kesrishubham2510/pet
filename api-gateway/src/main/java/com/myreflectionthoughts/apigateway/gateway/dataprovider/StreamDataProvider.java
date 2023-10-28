@@ -4,6 +4,7 @@ import com.myreflectionthoughts.apigateway.core.constant.ServiceConstant;
 import com.myreflectionthoughts.apigateway.core.utils.LogUtility;
 import com.myreflectionthoughts.library.contract.IGetAll;
 import com.myreflectionthoughts.library.dto.response.PetDTO;
+import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -29,6 +30,7 @@ public class StreamDataProvider extends DataProvider implements IGetAll<PetDTO> 
         LogUtility.loggerUtility.logEntry(logger, "Initiating get-all-pets call to pet-service...");
         return petServiceClient.get()
                 .uri("/get/all")
+                .header("traceId", MDC.get("traceId"))
                 .retrieve()
                 .bodyToFlux(PetDTO.class)
                 .doOnEach(retrievedPetSignal-> {

@@ -10,6 +10,7 @@ import com.myreflectionthoughts.library.dto.response.MasterDTO;
 import com.myreflectionthoughts.library.dto.response.PetDTO;
 import com.myreflectionthoughts.library.dto.response.UserDTO;
 import com.myreflectionthoughts.library.exception.ParameterMissingException;
+import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -71,6 +72,7 @@ public class UpdateUserDataProvider extends DataProvider implements IUpdate<User
         LogUtility.loggerUtility.logEntry(logger, "Initiating update-master call to master-service");
         return masterServiceClient.put()
                 .uri(String.format("/update/master/%s", updateMasterDTO.getId()))
+                .header("traceId", MDC.get("traceId"))
                 .bodyValue(updateMasterDTO)
                 .retrieve()
                 .bodyToMono(MasterDTO.class)
