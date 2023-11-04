@@ -10,6 +10,8 @@ import reactor.core.publisher.Mono;
 
 @Component
 public class RequestFilter implements WebFilter {
+
+
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
 
@@ -17,12 +19,12 @@ public class RequestFilter implements WebFilter {
             System.out.println(entry.getKey() + " Value:- " + entry.getValue());
         }
 
-        setMDCForRequest(exchange.getRequest().getHeaders().get("traceId").get(0), UniqueIdGenerator.generateSpanID());
+//        setMDCForRequest(exchange.getRequest().getHeaders().get("traceId").get(0), UniqueIdGenerator.generateSpanID());
         return chain.filter(exchange);
     }
 
-    private void setMDCForRequest(String traceId, String spanId){
-        MDC.put("traceId",traceId);
-        MDC.put("spanId",spanId);
-    }
+//    private void setMDCForRequest(String traceId, String spanId){
+//        MDC.put("traceId",traceId);
+//        MDC.put("spanId",spanId);
+//    }
 }

@@ -4,6 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.mongodb.repository.config.EnableReactiveMongoRepositories;
+import reactor.core.publisher.Hooks;
 
 @SpringBootApplication
 @EnableReactiveMongoRepositories
@@ -11,6 +12,8 @@ import org.springframework.data.mongodb.repository.config.EnableReactiveMongoRep
 public class ApiPetDetailsApplication {
 
     public static void main(String[] args) {
+        Hooks.enableAutomaticContextPropagation();
+        Hooks.enableContextLossTracking();
         SpringApplication.run(ApiPetDetailsApplication.class, args);
     }
 }
