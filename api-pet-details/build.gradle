@@ -1,6 +1,7 @@
 dependencies {
-	implementation(project(":library"))
+	implementation 'com.myreflectionthoughts:library-pet:0.0.1@jar'
 }
+
 tasks.named('test') {
 	useJUnitPlatform()
 }

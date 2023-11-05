@@ -1,5 +1,5 @@
 dependencies {
-    implementation(project(":library"))
+    implementation 'com.myreflectionthoughts:library-pet:0.0.1@jar'
     implementation 'org.springframework.cloud:spring-cloud-contract-wiremock:4.0.4'
     implementation 'io.netty:netty-resolver-dns-native-macos:4.1.97.Final'
 

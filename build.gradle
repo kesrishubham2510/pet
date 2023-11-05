@@ -40,7 +40,14 @@ allprojects {
     }
 
     repositories {
+//        mavenCentral()
+//        mavenLocal()
+        maven {
+            url 'http://localhost:8081/repository/maven-releases/'
+            allowInsecureProtocol true
+        }
         mavenCentral()
+
     }
 }
 
