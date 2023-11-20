@@ -1,5 +1,4 @@
 rootProject.name= 'pets'
 
-include ':api-gateway'
 include ':api-pet-details'
 include ':api-master-details'
