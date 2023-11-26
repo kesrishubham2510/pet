@@ -1,0 +1,16 @@
+version: '3'
+services:
+
+  nexus-server:
+    build: .
+    # specifying the image-name for the image built using dockerfile
+    image: "nexus-server"
+    container_name: "nexus-server"
+    networks:
+      - api-pet
+    ports:
+      - "8081:8081"
+
+networks:
+  api-pet:
+    external: true
