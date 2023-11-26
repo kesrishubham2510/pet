@@ -1,0 +1,14 @@
+version: '3'
+services:
+  jenkins:
+    image: "jenkins/jenkins"
+    container_name: "jenkins"
+    ports:
+      - "50000:50000"
+      - "8082:8080"
+    networks:
+      - api-pet
+
+networks:
+  api-pet:
+    external: true
