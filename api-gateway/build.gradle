@@ -17,10 +17,6 @@ ext.versions = [
         actuatorVersion                  : '2.7.15'
 ]
 
-bootJar {
-    enabled = false
-}
-
 jar {
     enabled = true
 }
