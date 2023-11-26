@@ -70,3 +70,30 @@ dependencies {
 tasks.named('test') {
     useJUnitPlatform()
 }
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            group "${versions.group}"
+            artifact("build/libs/api-gateway-${versions.appVersion}.jar")
+        }
+    }
+
+    repositories {
+        maven {
+            // to fetch the properties from the gradle.properties file
+            name property('nexusRepoIdentifier')
+            url  property('nexusURL')
+            allowInsecureProtocol true
+            credentials {
+                username property('nexusUsername')
+                password property('nexusPassword')
+            }
+        }
+    }
+}
+
+tasks.named("publishMavenPublicationToNexus-localRepository") {
+    dependsOn(tasks.named("jar"))
+}
+
