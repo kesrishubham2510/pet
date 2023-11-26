@@ -9,5 +9,6 @@ RUN apk add openjdk17
 WORKDIR ./home/developer/api-gateway
 
 RUN ./gradlew clean
+
 # build the project when container starts
-ENTRYPOINT ["./gradlew","build"]
+ENTRYPOINT ["sh","-c","./gradlew build && ./gradlew bootrun"]
