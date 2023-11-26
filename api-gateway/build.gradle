@@ -34,7 +34,7 @@ java {
 
 repositories {
     maven {
-        url 'http://localhost:8081/repository/maven-releases/'
+        url 'http://nexus-server:8081/repository/maven-releases/'
         allowInsecureProtocol true
 
         credentials{
