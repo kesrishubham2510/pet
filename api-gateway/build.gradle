@@ -13,7 +13,6 @@ ext.versions = [
         appVersion                       : '0.0.1',
         group                            : 'com.myreflectionthoughts',
         archTestVersion                  : '1.1.0',
-        testContainerVersion             : '1.19.0',
         actuatorVersion                  : '2.7.15'
 ]
 
@@ -50,7 +49,6 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'io.projectreactor:reactor-test'
-    implementation 'org.springframework.boot:spring-boot-starter-data-mongodb-reactive'
     implementation "org.modelmapper:modelmapper:${versions.modelmapper}"
     implementation "org.springdoc:springdoc-openapi-webflux-core:${versions.springdocOpenAPI}"
     implementation "org.springdoc:springdoc-openapi-webflux-ui:${versions.springdocOpenAPI}"
@@ -61,16 +59,8 @@ dependencies {
     testCompileOnly('org.projectlombok:lombok')
     testAnnotationProcessor('org.projectlombok:lombok')
     testImplementation "com.tngtech.archunit:archunit:${versions.archTestVersion}"
-    testImplementation "org.testcontainers:mongodb:${versions.testContainerVersion}"
     // dependencies for observability
     implementation "org.springframework.boot:spring-boot-starter-actuator:${versions.actuatorVersion}"
-    // to enable request-tracing
-    implementation platform('io.micrometer:micrometer-tracing-bom:latest.release')
-    implementation 'io.micrometer:micrometer-tracing:1.1.5'
-    // tracing tool
-    implementation 'io.micrometer:micrometer-tracing-bridge-brave:1.1.5'
-    // reporter to export the tracing data to the UI tool
-    implementation 'io.zipkin.reporter2:zipkin-reporter-brave'
     implementation 'com.myreflectionthoughts:library-pet:0.0.1@jar'
     implementation 'org.springframework.cloud:spring-cloud-contract-wiremock:4.0.4'
     implementation 'io.netty:netty-resolver-dns-native-macos:4.1.97.Final'
