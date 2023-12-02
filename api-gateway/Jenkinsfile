@@ -1,0 +1,34 @@
+pipeline{
+
+   agent any
+
+   triggers{
+      pollSCM   '**** ****'
+   }
+   stages{
+        stage('clean'){
+            steps{
+             sh './gradlew clean'
+            }
+        }
+
+        stage('checkout api-gateway'){
+            steps{
+              sh 'cd ./api-gateway'
+            }
+        }
+
+        stage('Test'){
+            steps{
+                sh './gradlew test'
+            }
+        }
+
+        stage('Build'){
+            steps{
+                sh './gradlew build'
+            }
+        }
+   }
+
+}
