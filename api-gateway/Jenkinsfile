@@ -26,6 +26,21 @@ pipeline{
                 }
             }
         }
-   }
 
+        stage('Sonar'){
+            steps{
+                    dir('api-gateway'){
+                     sh './gradlew sonar'
+                }
+            }
+        }
+
+        stage('Sonar'){
+             steps{
+                     dir('api-gateway'){
+                      sh './gradlew publish'
+                 }
+            }
+        }
+   }
 }
