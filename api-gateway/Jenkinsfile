@@ -1,32 +1,29 @@
 pipeline{
-
    agent any
 
-   triggers{
-      pollSCM   '**** ****'
-   }
    stages{
-        stage('clean'){
-            steps{
-             sh './gradlew clean'
-            }
-        }
 
-        stage('checkout api-gateway'){
+        stage('Clean'){
             steps{
-              sh 'cd ./api-gateway'
+                dir('api-gateway'){
+                    sh './gradlew clean'
+                }
             }
         }
 
         stage('Test'){
             steps{
-                sh './gradlew test'
+                  dir('api-gateway'){
+                     sh './gradlew test'
+                }
             }
         }
 
         stage('Build'){
             steps{
-                sh './gradlew build'
+                    dir('api-gateway'){
+                     sh './gradlew build'
+                }
             }
         }
    }
