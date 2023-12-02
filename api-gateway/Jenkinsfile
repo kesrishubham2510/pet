@@ -35,7 +35,7 @@ pipeline{
             }
         }
 
-        stage('Sonar'){
+        stage('Publish'){
              steps{
                      dir('api-gateway'){
                       sh './gradlew publish'
