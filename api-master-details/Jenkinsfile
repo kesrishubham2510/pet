@@ -1,0 +1,42 @@
+pipeline{
+    agent{
+      docker { image 'testcontainers/ryuk'}
+    }
+
+    stages{
+        stage('Clean'){
+            steps{
+               dir('api-master-details'){
+                  sh './gradlew clean'
+               }
+            }
+        }
+
+        stage('Test'){
+             steps{
+                 dir('api-master-details'){
+                    sh './gradlew test'
+                }
+            }
+        }
+
+        stage('Build'){
+             steps{
+                 dir('api-master-details'){
+                    sh './gradlew build'
+                }
+            }
+        }
+
+        stage('Sonar'){
+             steps{
+                 dir('api-master-details'){
+                    sh './gradlew sonar'
+                }
+            }
+        }
+
+
+    }
+
+}
