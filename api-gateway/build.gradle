@@ -72,11 +72,15 @@ tasks.named('test') {
 }
 
 sonar{
+    /*
+        * during configuration phase, Project object has access to the properties
+        * Accessing the properties using Project object
+    */
     properties{
-        property 'sonar.projectKey' , 'api-gateway'
-        property 'sonar.projectName' , 'api-gateway'
-        property 'sonar.host.url' , 'http://sonarqube:9000'
-        property 'sonar.token','sqp_4780fef7acbb05b8f44dbbbbdf9a9d4cb0d4a4e2'
+        property 'sonar.projectKey' , property.property('projectKey')
+        property 'sonar.projectName' , property.property('projectName')
+        property 'sonar.host.url' , property.property('sonarUrl')
+        property 'sonar.token', property.property('projectToken')
     }
 }
 
