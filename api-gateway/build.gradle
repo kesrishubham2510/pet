@@ -77,10 +77,10 @@ sonar{
         * Accessing the properties using Project object
     */
     properties{
-        property 'sonar.projectKey' , property.property('projectKey')
-        property 'sonar.projectName' , property.property('projectName')
-        property 'sonar.host.url' , property.property('sonarUrl')
-        property 'sonar.token', property.property('projectToken')
+        property 'sonar.projectKey' , project.property('projectKey')
+        property 'sonar.projectName' , project.property('projectName')
+        property 'sonar.host.url' , project.property('sonarUrl')
+        property 'sonar.token', project.property('projectToken')
     }
 }
 
