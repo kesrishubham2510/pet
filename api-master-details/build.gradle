@@ -21,10 +21,6 @@ ext.versions = [
 		actuatorVersion                  : '2.7.15'
 ]
 
-bootJar {
-	enabled = false
-}
-
 jar {
 	enabled = true
 }
@@ -38,7 +34,7 @@ java {
 
 repositories {
 	maven {
-		url 'http://nexus-server:8081/repository/maven-releases/'
+		url project.property('nexusURL')
 		allowInsecureProtocol true
 
 		credentials{
@@ -84,9 +80,9 @@ tasks.named('test') {
 
 sonar{
 	properties{
-		property 'sonar.projectKey' , 'api-master-details'
-		property 'sonar.projectName' , 'api-master-details'
-		property 'sonar.host.url' , 'http://sonarqube:9000'
-		property 'sonar.token','sqp_38d36732cdff38b50d7c121a0af3c5cc9e05eef8'
+		property 'sonar.projectKey' , project.property('projectKey')
+		property 'sonar.projectName' , project.property('projectName')
+		property 'sonar.host.url' , project.property('sonarUrl')
+		property 'sonar.token',project.property('projectToken')
 	}
 }
