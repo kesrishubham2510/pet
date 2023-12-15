@@ -43,7 +43,19 @@ repositories {
 		}
 	}
 	mavenCentral()
+}
 
+publishing {
+	publications {
+		maven(MavenPublication) {
+			group "${versions.group}"
+			artifact("build/libs/api-master-details-${versions.appVersion}.jar")
+		}
+	}
+}
+
+tasks.named("publishMavenPublicationToNexus-localRepository") {
+	dependsOn(tasks.named("jar"))
 }
 
 dependencies {
