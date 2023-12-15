@@ -45,19 +45,6 @@ repositories {
 	mavenCentral()
 }
 
-publishing {
-	publications {
-		maven(MavenPublication) {
-			group "${versions.group}"
-			artifact("build/libs/api-master-details-${versions.appVersion}.jar")
-		}
-	}
-}
-
-tasks.named("publishMavenPublicationToNexus-localRepository") {
-	dependsOn(tasks.named("jar"))
-}
-
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
@@ -97,4 +84,29 @@ sonar{
 		property 'sonar.host.url' , project.property('sonarUrl')
 		property 'sonar.token',project.property('projectToken')
 	}
+}
+
+publishing {
+	publications {
+		maven(MavenPublication) {
+			group "${versions.group}"
+			artifact("build/libs/api-master-details-${versions.appVersion}.jar")
+		}
+	}
+	repositories {
+		maven {
+			// to fetch the properties from the gradle.properties file
+			name property('nexusRepoIdentifier')
+			url  property('nexusURL')
+			allowInsecureProtocol true
+			credentials {
+				username property('nexusUsername')
+				password property('nexusPassword')
+			}
+		}
+	}
+}
+
+tasks.named("publishMavenPublicationToNexus-localRepository") {
+	dependsOn(tasks.named("jar"))
 }
