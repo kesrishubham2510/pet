@@ -95,3 +95,16 @@ publishing {
 tasks.named("publishMavenPublicationToNexus-localRepository") {
 	dependsOn(tasks.named("jar"))
 }
+
+sonar{
+	/*
+        * during configuration phase, Project object has access to the properties
+        * Accessing the properties using Project object
+    */
+	properties{
+		property 'sonar.projectKey' , project.property('projectKey')
+		property 'sonar.projectName' , project.property('projectName')
+		property 'sonar.host.url' , project.property('sonarUrl')
+		property 'sonar.token', project.property('projectToken')
+	}
+}
