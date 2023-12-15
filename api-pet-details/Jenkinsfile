@@ -1,0 +1,45 @@
+pipeline{
+  agent any
+
+  stages{
+   stage('Clean'){
+               steps{
+                  dir('api-pet-details'){
+                     sh './gradlew clean'
+                  }
+               }
+           }
+
+           stage('Test'){
+                steps{
+                    dir('api-pet-details'){
+                       sh './gradlew test'
+                   }
+               }
+           }
+
+           stage('Build'){
+                steps{
+                    dir('api-pet-details'){
+                       sh './gradlew build'
+                   }
+               }
+           }
+
+           stage('Sonar'){
+                steps{
+                    dir('api-pet-details'){
+                       sh './gradlew sonar'
+                   }
+               }
+           }
+
+           stage('Publish'){
+                steps{
+                    dir('api-pet-details'){
+                        sh './gradlew publish'
+                    }
+                }
+           }
+  }
+}
