@@ -42,6 +42,13 @@ pipeline{
             }
         }
 
+        stage('Docker-image'){
+             steps{
+                 dir('api-master-details'){
+                   sh './gradlew buildDockerImage'
+                 }
+             }
+        }
 
     }
 
