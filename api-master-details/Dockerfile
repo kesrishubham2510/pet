@@ -1,7 +1,6 @@
 FROM alpine
 
 # image level arguments
-
 ARG projectIdentifier
 ARG artifactDirectory
 ARG artifactVersion

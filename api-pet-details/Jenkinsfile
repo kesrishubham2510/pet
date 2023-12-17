@@ -41,5 +41,13 @@ pipeline{
                     }
                 }
            }
+
+           stage('Docker-image'){
+                steps{
+                    dir('api-pet-details'){
+                        sh './gradlew buildDockerImage'
+                    }
+                }
+           }
   }
 }

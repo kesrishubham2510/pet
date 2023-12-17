@@ -108,3 +108,19 @@ sonar{
 		property 'sonar.token', project.property('projectToken')
 	}
 }
+
+tasks.register('buildDockerImage', Exec) {
+	commandLine 'docker', 'build',
+			'-t', project.findProperty('projectName'),
+			'--build-arg', "projectIdentifier=${project.findProperty('projectName')}",
+			'--build-arg', "artifactDirectory=build/libs/${project.property('projectName')}",
+			'--build-arg', "artifactVersion=${versions.appVersion}",
+			"/root/.jenkins/workspace/${project.findProperty('projectName')}/${project.findProperty('projectName')}/."
+
+	workingDir '.'
+}
+
+
+tasks.named('buildDockerImage'){
+	dependsOn(tasks.named('jar'))
+}
