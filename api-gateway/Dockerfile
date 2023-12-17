@@ -1,25 +1,23 @@
-FROM alpine
+FROM alpine:latest
 
-# arguments
-ARG nexusUsername
-ARG nexusPassword
-ARG nexusArtifactURL
-ARG nexusArtifactIdentifier=api-gateway.jar
-
-# install wget
-RUN apk add curl
+# artifact-URI
+ARG projectIdentifier
+ARG artifactURI
+ARG artifactIdentifier
 
 # install java 17
 RUN apk add openjdk17
 
 # make the directory
-RUN mkdir -p /home/developer/api-gateway
+RUN mkdir -p /home/developer/$projectIdentifier
+
+COPY /root/.jenkins/workspace/$projectIdentifier/$artifactURI ./home/developer/api-gateway
 
 # change working directory
-WORKDIR ./home/developer/api-gateway
+WORKDIR /home/developer/$projectIdentifier
 
-# download artifact from nexus
-RUN curl -u $nexusUsername:$nexusPassword -o $nexusArtifactIdentifier $nexusArtifactURL
+# rename the jar by removing the version
+RUN mv $artifactURI $artifactIdentifier
 
 # build the project when container starts
 ENTRYPOINT ["sh","-c","java -jar api-gateway.jar"]
