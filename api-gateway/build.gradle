@@ -114,7 +114,7 @@ tasks.register('buildDockerImage', Exec) {
     commandLine 'docker', 'build',
             '-t', project.findProperty('projectName'),
             '--build-arg', "projectIdentifier=${project.findProperty('projectName')}",
-            '--build-arg', "artifactDirectory=build/libs/api-gateway",
+            '--build-arg', "artifactDirectory=build/libs/${project.property('projectName')}",
             '--build-arg', "artifactVersion=${versions.appVersion}",
             "/root/.jenkins/workspace/${project.findProperty('projectName')}/${project.findProperty('projectName')}/."
 
