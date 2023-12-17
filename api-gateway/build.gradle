@@ -33,7 +33,7 @@ java {
 
 repositories {
     maven {
-        url 'http://nexus-server:8081/repository/maven-releases/'
+        url project.property('nexusURL')
         allowInsecureProtocol true
 
         credentials{
@@ -107,5 +107,21 @@ publishing {
 }
 
 tasks.named("publishMavenPublicationToNexus-localRepository") {
+    dependsOn(tasks.named("jar"))
+}
+
+tasks.register('buildDockerImage', Exec) {
+    commandLine 'docker', 'build',
+            '-t', project.findProperty('projectName'),
+            '--build-arg', "nexusUsername=${project.findProperty('nexusUsername')}",
+            '--build-arg', "nexusPassword=${project.findProperty('nexusPassword')}",
+            '--build-arg', "nexusArtifactURL=${project.findProperty('nexusArtifactURL')}",
+            '--build-arg', "artifactIdentifier=${project.findProperty('artifactIdentifier')}",
+            '.'
+
+    workingDir '.'
+}
+
+tasks.named('buildDockerImage'){
     dependsOn(tasks.named("jar"))
 }
