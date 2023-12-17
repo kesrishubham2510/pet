@@ -11,7 +11,7 @@ RUN apk add openjdk17
 # make the directory
 RUN mkdir -p /home/developer/$projectIdentifier
 
-COPY /root/.jenkins/workspace/$projectIdentifier/$artifactURI ./home/developer/api-gateway
+COPY /root/.jenkins/workspace/$projectIdentifier/$projectIdentifier/$artifactURI ./home/developer/api-gateway
 
 # change working directory
 WORKDIR /home/developer/$projectIdentifier
