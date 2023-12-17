@@ -1,9 +1,13 @@
 FROM alpine:latest
 
-# artifact-URI
+# image-level arguments
 ARG projectIdentifier
-ARG artifactURI
-ARG artifactIdentifier
+ARG artifactDirectory
+ARG artifactVersion
+
+# container level arguments
+ENV ARTIFACT_VERSION=$artifactVersion
+ENV ARTIFACT_IDENTIFIER=$projectIdentifier
 
 # install java 17
 RUN apk add openjdk17
@@ -11,13 +15,10 @@ RUN apk add openjdk17
 # make the directory
 RUN mkdir -p /home/developer/$projectIdentifier
 
-COPY /root/.jenkins/workspace/api-gateway/api-gateway/build/libs/api-gateway-0.0.1-plain.jar /home/developer/api-gateway
+COPY ./$artifactDirectory-$artifactVersion.jar /home/developer/$projectIdentifier/
 
 # change working directory
 WORKDIR /home/developer/$projectIdentifier
 
-# rename the jar by removing the version
-RUN mv $artifactURI $artifactIdentifier
-
 # build the project when container starts
-ENTRYPOINT ["sh","-c","java -jar api-gateway.jar"]
+ENTRYPOINT ["sh","-c","java -jar ${ARTIFACT_IDENTIFIER}-${ARTIFACT_VERSION}.jar"]
