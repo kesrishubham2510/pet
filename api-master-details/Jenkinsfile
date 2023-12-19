@@ -45,11 +45,17 @@ pipeline{
         stage('Docker-image'){
              steps{
                  dir('api-master-details'){
-                   sh './gradlew buildDockerImage'
+                   sh './gradlew buildAndTagDockerImage'
                  }
              }
         }
 
+        stage('Docker-image push'){
+             steps{
+                 dir('api-master-details'){
+                   sh './gradlew pushDockerImage'
+                 }
+             }
+        }
     }
-
 }
