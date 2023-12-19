@@ -112,7 +112,7 @@ tasks.named("publishMavenPublicationToNexus-localRepository") {
 
 tasks.register('buildAndTagDockerImage', Exec) {
     commandLine 'docker', 'build',
-            '-t', "${project.property('dockerHubUserName')}/${project.property('projectName')}:${versions.appVersion}",
+            '-t', "${project.property('projectName')}:${versions.appVersion}",
             '--build-arg', "projectIdentifier=${project.findProperty('projectName')}",
             '--build-arg', "artifactDirectory=build/libs/${project.property('projectName')}",
             '--build-arg', "artifactVersion=${versions.appVersion}",
