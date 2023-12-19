@@ -128,9 +128,7 @@ tasks.register('buildAndTagDockerImage', Exec) {
 tasks.register('dockerLogin',Exec){
 	commandLine 'docker', 'login',
 				'-u', "${project.property('dockerHubUsername')}",
-				'--password-stdin'
-
-	commandLine 'echo', "${System.getenv('DOCKER_ACCESS_TOKEN')}"
+				'-p', "${System.getenv('DOCKER_ACCESS_TOKEN')}"
 
 	workingDir '.'
 }
@@ -140,8 +138,8 @@ tasks.register('pushDockerImage',Exec){
 				"${project.property('dockerHubUsername')}/${project.property('projectName')}:${versions.appVersion}"
 
 	dependsOn(tasks.named('dockerLogin'))
+}
 
-	doLast {
-		commandLine 'docker', 'logout'
-	}
+tasks.register('logoutDocker',Exec){
+	commandLine 'docker', 'logout'
 }

@@ -54,6 +54,7 @@ pipeline{
              steps{
                  dir('api-master-details'){
                    sh './gradlew pushDockerImage'
+                   sh './gradlew logoutDocker'
                  }
              }
         }
