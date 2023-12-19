@@ -28,6 +28,7 @@ services:
     privileged: true
     environment:
       - DOCKER_TLS_CERTDIR=/certs
+      - DOCKER_ACCESS_TOKEN=${DOCKER_HUB_ACCESS_TOKEN}
     volumes:
       - ${HOME}/jenkins-docker-certs:/certs/client
       - ${HOME}/jenkins-data:/var/jenkins_home
