@@ -136,13 +136,15 @@ tasks.register('dockerLogin',Exec){
 }
 
 tasks.register('tagDockerImage',Exec){
-   commandLine 'docker', 'tag', "${project.property('projectName')}:latest"
+   commandLine 'docker', 'tag',
+           "${project.property('projectName')}:latest",
+           "${project.property('projectName')}:${versions.appVersion}"
 
    dependsOn(tasks.named('dockerLogin'))
 }
 
 tasks.register('pushDockerImage',Exec){
-    commandLine 'docker', 'push', "${project.property('dockerHubUserName')}/nexus-sever:latest"
+    commandLine 'docker', 'push', "${project.property('dockerHubUserName')}/${project.property('projectName')}:latest"
 
     dependsOn(tasks.named('tagDockerImage'))
 }
