@@ -138,7 +138,7 @@ tasks.register('dockerLogin',Exec){
 tasks.register('tagDockerImage',Exec){
    commandLine 'docker', 'tag',
            "${project.property('projectName')}:latest",
-           "${project.property('dockerHubUserName')}/${project.property('projectName')}:${versions.appVersion}"
+           "${project.property('projectName')}:${versions.appVersion}"
 
    dependsOn(tasks.named('dockerLogin'))
 }
