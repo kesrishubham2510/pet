@@ -130,7 +130,7 @@ tasks.register('dockerLogin',Exec) {
 
 tasks.register('pushDockerImage',Exec){
 	commandLine 'docker', 'push',
-				"${project.property('dockerHubUserName')}/${project.property('projectName')}:${versions.appVersion}"
+				"${project.property('dockerHubUsername')}/${project.property('projectName')}:${versions.appVersion}"
 
 	dependsOn(tasks.named('dockerLogin'))
 }
