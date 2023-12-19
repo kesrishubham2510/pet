@@ -139,6 +139,5 @@ tasks.register('pushDockerImage',Exec){
     dependsOn(tasks.named('dockerLogin'))
     doLast {
         commandLine 'docker','logout'
-        dependsOn(tasks.named('pushDockerImage'))
     }
 }
