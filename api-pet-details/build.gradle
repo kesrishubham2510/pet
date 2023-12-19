@@ -118,10 +118,6 @@ tasks.register('buildAndTagDockerImage', Exec) {
 			"/root/.jenkins/workspace/${project.findProperty('projectName')}/${project.findProperty('projectName')}/."
 
 	workingDir '.'
-}
-
-
-tasks.named('buildDockerImage'){
 	dependsOn(tasks.named('jar'))
 }
 
