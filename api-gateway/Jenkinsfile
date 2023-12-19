@@ -50,5 +50,12 @@ pipeline{
                   }
              }
         }
+        stage('Image-push'){
+             steps{
+                    dir('api-gateway'){
+                     sh './gradlew pushDockerImage'
+                  }
+             }
+        }
    }
 }
