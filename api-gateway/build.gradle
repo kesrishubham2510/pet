@@ -137,7 +137,8 @@ tasks.register('pushDockerImage',Exec){
     commandLine 'docker', 'push', "${project.property('dockerHubUserName')}/${project.property('projectName')}:${versions.appVersion}"
 
     dependsOn(tasks.named('dockerLogin'))
-    doLast {
-        commandLine 'docker','logout'
-    }
+}
+
+tasks.register('dockerLogout',Exec){
+    commandLine 'docker','logout'
 }
