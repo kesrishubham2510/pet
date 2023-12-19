@@ -128,8 +128,9 @@ tasks.named('buildDockerImage'){
 tasks.register('dockerLogin',Exec){
     commandLine 'docker', 'login',
             '-u', "${project.property('dockerHubUserName')}",
-            '--password-stdin',
-            'echo', "${System.getenv('DOCKER_ACCESS_TOKEN')}"
+            '--password-stdin'
+
+    commandLine 'echo', "${System.getenv('DOCKER_ACCESS_TOKEN')}"
 
     workingDir '.'
 }
