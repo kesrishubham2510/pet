@@ -45,7 +45,16 @@ pipeline{
            stage('Docker-image'){
                 steps{
                     dir('api-pet-details'){
-                        sh './gradlew buildDockerImage'
+                        sh './gradlew buildAndTagDockerImage'
+                    }
+                }
+           }
+
+           stage('Docker-image push'){
+                steps{
+                    dir('api-pet-details'){
+                        sh './gradlew pushDockerImage'
+                        sh './gradlew logoutDocker'
                     }
                 }
            }

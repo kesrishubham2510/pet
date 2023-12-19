@@ -109,9 +109,9 @@ sonar{
 	}
 }
 
-tasks.register('buildDockerImage', Exec) {
+tasks.register('buildAndTagDockerImage', Exec) {
 	commandLine 'docker', 'build',
-			'-t', project.findProperty('projectName'),
+			'-t', "${project.property('dockerHubUsername')}/${project.findProperty('projectName')}:${versions.appVersion}",
 			'--build-arg', "projectIdentifier=${project.findProperty('projectName')}",
 			'--build-arg', "artifactDirectory=build/libs/${project.property('projectName')}",
 			'--build-arg', "artifactVersion=${versions.appVersion}",
@@ -123,4 +123,22 @@ tasks.register('buildDockerImage', Exec) {
 
 tasks.named('buildDockerImage'){
 	dependsOn(tasks.named('jar'))
+}
+
+tasks.register('dockerLogin',Exec) {
+	commandLine 'docker', 'login',
+			'-u', "${project.property('dockerHubUsername')}",
+			'-p', "${System.getenv('DOCKER_ACCESS_TOKEN')}"
+
+}
+
+tasks.register('pushDockerImage',Exec){
+	commandLine 'docker', 'push',
+				"${project.property('dockerHubUserName')}/${project.property('projectName')}:${versions.appVersion}"
+
+	dependsOn(tasks.named('dockerLogin'))
+}
+
+tasks.register('logoutDocker',Exec){
+	commandLine 'docker', 'logout'
 }
