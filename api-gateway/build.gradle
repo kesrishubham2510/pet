@@ -110,18 +110,16 @@ tasks.named("publishMavenPublicationToNexus-localRepository") {
     dependsOn(tasks.named("jar"))
 }
 
-tasks.register('buildDockerImage', Exec) {
+tasks.register('build&TagDockerImage', Exec) {
     commandLine 'docker', 'build',
-            '-t', project.findProperty('projectName'),
+            '-t', "${project.property('dockerHubUserName')}/${project.property('projectName')}:${versions.appVersion}",
             '--build-arg', "projectIdentifier=${project.findProperty('projectName')}",
             '--build-arg', "artifactDirectory=build/libs/${project.property('projectName')}",
             '--build-arg', "artifactVersion=${versions.appVersion}",
             "/root/.jenkins/workspace/${project.findProperty('projectName')}/${project.findProperty('projectName')}/."
 
     workingDir '.'
-}
 
-tasks.named('buildDockerImage'){
     dependsOn(tasks.named("jar"))
 }
 
@@ -135,21 +133,12 @@ tasks.register('dockerLogin',Exec){
     workingDir '.'
 }
 
-tasks.register('tagDockerImage',Exec){
-   commandLine 'docker', 'tag',
-           "${project.property('projectName')}:latest",
-           "${project.property('dockerHubUserName')}/${project.property('projectName')}:${versions.appVersion}"
-
-   dependsOn(tasks.named('dockerLogin'))
-}
-
 tasks.register('pushDockerImage',Exec){
     commandLine 'docker', 'push', "${project.property('dockerHubUserName')}/${project.property('projectName')}:${versions.appVersion}"
 
-    dependsOn(tasks.named('tagDockerImage'))
-}
-
-tasks.register('dockerLogout',Exec){
-    commandLine 'docker','logout'
-    dependsOn(tasks.named('pushDockerImage'))
+    dependsOn(tasks.named('dockerLogin'))
+    doLast {
+        commandLine 'docker','logout'
+        dependsOn(tasks.named('pushDockerImage'))
+    }
 }

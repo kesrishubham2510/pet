@@ -46,7 +46,7 @@ pipeline{
         stage('Docker-image'){
              steps{
                     dir('api-gateway'){
-                     sh './gradlew buildDockerImage'
+                     sh './gradlew build&TagDockerImage'
                   }
              }
         }
