@@ -110,7 +110,7 @@ tasks.named("publishMavenPublicationToNexus-localRepository") {
     dependsOn(tasks.named("jar"))
 }
 
-tasks.register('build&TagDockerImage', Exec) {
+tasks.register('buildAndTagDockerImage', Exec) {
     commandLine 'docker', 'build',
             '-t', "${project.property('dockerHubUserName')}/${project.property('projectName')}:${versions.appVersion}",
             '--build-arg', "projectIdentifier=${project.findProperty('projectName')}",
