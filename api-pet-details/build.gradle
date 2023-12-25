@@ -18,7 +18,9 @@ ext.versions = [
 		group                            : 'com.myreflectionthoughts',
 		archTestVersion                  : '1.1.0',
 		testContainerVersion             : '1.19.0',
-		actuatorVersion                  : '2.7.15'
+		actuatorVersion                  : '2.7.15',
+		libraryPetVersion				 : '0.0.2'
+
 ]
 
 jar {
@@ -64,7 +66,7 @@ dependencies {
 	testImplementation "org.testcontainers:mongodb:${versions.testContainerVersion}"
 	// dependencies for observability
 	implementation "org.springframework.boot:spring-boot-starter-actuator:${versions.actuatorVersion}"
-	implementation 'com.myreflectionthoughts:library-pet:0.0.1@jar'
+	implementation "com.myreflectionthoughts:library-pet:${versions.libraryPetVersion}@jar"
 }
 
 tasks.named('test') {

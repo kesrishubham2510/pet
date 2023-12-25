@@ -17,7 +17,9 @@ ext.versions = [
         appVersion                       : '0.0.1',
         group                            : 'com.myreflectionthoughts',
         archTestVersion                  : '1.1.0',
-        actuatorVersion                  : '2.7.15'
+        actuatorVersion                  : '2.7.15',
+        libraryPetVersion                : '0.0.2'
+
 ]
 
 jar {
@@ -61,7 +63,7 @@ dependencies {
     testImplementation "com.tngtech.archunit:archunit:${versions.archTestVersion}"
     // dependencies for observability
     implementation "org.springframework.boot:spring-boot-starter-actuator:${versions.actuatorVersion}"
-    implementation 'com.myreflectionthoughts:library-pet:0.0.1@jar'
+    implementation "com.myreflectionthoughts:library-pet:${versions.libraryPetVersion}@jar"
     implementation 'org.springframework.cloud:spring-cloud-contract-wiremock:4.0.4'
     implementation 'io.netty:netty-resolver-dns-native-macos:4.1.97.Final'
 
