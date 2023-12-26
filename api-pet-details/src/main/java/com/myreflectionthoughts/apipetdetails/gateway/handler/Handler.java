@@ -4,11 +4,11 @@ import com.myreflectionthoughts.apipetdetails.core.exception.PetNotFoundExceptio
 import com.myreflectionthoughts.apipetdetails.core.utils.LogUtility;
 import com.myreflectionthoughts.library.dto.response.ExceptionResponse;
 import com.myreflectionthoughts.library.exception.InputDataException;
+import io.micrometer.core.instrument.MeterRegistry;
 import org.modelmapper.MappingException;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
 
-import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -16,9 +16,14 @@ import java.util.logging.Logger;
 public class Handler{
 
     private static final Logger logger;
+    private MeterRegistry apiPetDetailsRegistry;
 
     static {
         logger = Logger.getLogger(Handler.class.getName());
+    }
+
+    public Handler(MeterRegistry apiPetDetailsRegistry){
+        this.apiPetDetailsRegistry = apiPetDetailsRegistry;
     }
 
     protected Function<Throwable, Mono<ServerResponse>> exceptionMapper = (ex)->{
@@ -30,16 +35,22 @@ public class Handler{
             exceptionResponse.setErrorMessage(ex.getCause().getMessage());
             LogUtility.loggerUtility.log(logger, "MappingException occurred...", Level.SEVERE);
             LogUtility.loggerUtility.log(logger, "Exception :- "+ex.getMessage(), Level.INFO);
+            apiPetDetailsRegistry.counter(MappingException.class.getSimpleName()).increment();
+
         }else if(ex instanceof PetNotFoundException){
             exceptionResponse.setError(PetNotFoundException.class.getSimpleName());
             exceptionResponse.setErrorMessage(ex.getMessage());
             LogUtility.loggerUtility.log(logger, "PetNotFoundException occurred...", Level.SEVERE);
             LogUtility.loggerUtility.log(logger, "Exception :- "+ex.getMessage(), Level.INFO);
+            apiPetDetailsRegistry.counter(PetNotFoundException.class.getSimpleName()).increment();
+
         } else if (ex instanceof InputDataException) {
             exceptionResponse.setError(InputDataException.class.getSimpleName());
             exceptionResponse.setErrorMessage(ex.getMessage());
             LogUtility.loggerUtility.log(logger, "InputDataException occurred...", Level.SEVERE);
             LogUtility.loggerUtility.log(logger, "Exception :- "+ex.getMessage(), Level.INFO);
+            apiPetDetailsRegistry.counter(InputDataException.class.getSimpleName()).increment();
+
         }
 
         LogUtility.loggerUtility.log(logger, "Exception occurred while processing request: "+ex, Level.SEVERE);

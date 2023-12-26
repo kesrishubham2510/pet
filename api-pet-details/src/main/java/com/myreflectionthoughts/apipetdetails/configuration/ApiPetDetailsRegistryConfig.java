@@ -8,6 +8,7 @@ import com.myreflectionthoughts.library.utils.ValidationUtils;
 import io.micrometer.core.instrument.MeterRegistry;
 import io.micrometer.core.instrument.composite.CompositeMeterRegistry;
 import io.micrometer.core.instrument.simple.SimpleMeterRegistry;
+import org.modelmapper.MappingException;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -35,7 +36,8 @@ public class ApiPetDetailsRegistryConfig {
                 CategoryNotFoundException.class.getSimpleName(),
                 ClinicCardStatusNotFoundException.class.getSimpleName(),
                 GenderNotFoundException.class.getSimpleName(),
-                PetNotFoundException.class.getSimpleName()
+                PetNotFoundException.class.getSimpleName(),
+                MappingException.class.getSimpleName()
         ));
 
         exceptionCounters.addAll(ValidationUtils.validationExceptions());

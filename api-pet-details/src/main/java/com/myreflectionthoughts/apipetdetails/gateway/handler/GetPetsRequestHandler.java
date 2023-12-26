@@ -3,6 +3,7 @@ package com.myreflectionthoughts.apipetdetails.gateway.handler;
 import com.myreflectionthoughts.apipetdetails.core.usecase.ReadPetsUseCase;
 import com.myreflectionthoughts.apipetdetails.core.utils.LogUtility;
 import com.myreflectionthoughts.library.dto.response.PetDTO;
+import io.micrometer.core.instrument.MeterRegistry;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.server.ServerRequest;
@@ -18,7 +19,8 @@ public class GetPetsRequestHandler extends Handler{
     private final Logger logger;
 
 
-    public GetPetsRequestHandler(ReadPetsUseCase readPetsUseCase) {
+    public GetPetsRequestHandler(ReadPetsUseCase readPetsUseCase, MeterRegistry apiPetDetailsRegistry) {
+        super(apiPetDetailsRegistry);
         this.readPetsUseCase = readPetsUseCase;
         logger =Logger.getLogger(GetPetRequestHandler.class.getName());
     }

@@ -3,6 +3,7 @@ package com.myreflectionthoughts.apipetdetails.gateway.handler;
 import com.myreflectionthoughts.apipetdetails.core.usecase.UpdatePetDetailsUseCase;
 import com.myreflectionthoughts.apipetdetails.core.utils.LogUtility;
 import com.myreflectionthoughts.library.dto.request.UpdatePetDTO;
+import io.micrometer.core.instrument.MeterRegistry;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
@@ -17,7 +18,8 @@ public class UpdatePetRequestHandler extends Handler{
     private final UpdatePetDetailsUseCase updatePetDetailsUseCase;
     private final Logger logger;
 
-    public UpdatePetRequestHandler(UpdatePetDetailsUseCase updatePetDetailsUseCase) {
+    public UpdatePetRequestHandler(UpdatePetDetailsUseCase updatePetDetailsUseCase, MeterRegistry apiPetDetailsRegistry) {
+        super(apiPetDetailsRegistry);
         this.updatePetDetailsUseCase = updatePetDetailsUseCase;
         logger = Logger.getLogger(UpdatePetRequestHandler.class.getName());
     }
