@@ -4,6 +4,7 @@ import com.myreflectionthoughts.apipetdetails.gateway.dataprovider.TestDataGener
 import com.myreflectionthoughts.library.dto.request.AddPetDTO;
 import com.myreflectionthoughts.library.dto.response.ExceptionResponse;
 import com.myreflectionthoughts.library.exception.InputDataException;
+import com.myreflectionthoughts.library.exception.ParameterMissingException;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
@@ -51,10 +52,11 @@ public class AddPetBeanValidationTest extends TestSetup{
                 .isBadRequest()
                 .expectBody(ExceptionResponse.class)
                 .consumeWith(exceptionResponse->{
-                    assertEquals(InputDataException.class.getSimpleName(), exceptionResponse.getResponseBody().getError());
-                    assertEquals("Pet name is required, it can't null or empty or whitespaces", exceptionResponse.getResponseBody().getErrorMessage());
+                    assertEquals(ParameterMissingException.class.getSimpleName(), exceptionResponse.getResponseBody().getError());
+                    assertEquals("Pet name is required, it can't be null", exceptionResponse.getResponseBody().getErrorMessage());
                 });
     }
+
     @Test
     void testAddPetToDatabase_should_throw_InputDataException_empty_masterId(){
 
@@ -138,6 +140,72 @@ public class AddPetBeanValidationTest extends TestSetup{
                 .consumeWith(exceptionResponse->{
                     assertEquals(InputDataException.class.getSimpleName(), exceptionResponse.getResponseBody().getError());
                     assertEquals("Age can't be zero or negative, Please provide a Valid age for your pet", exceptionResponse.getResponseBody().getErrorMessage());
+                });
+    }
+
+    @Test
+    void testAddPetToDatabase_should_throw_InputDataException_null_Master(){
+
+        AddPetDTO requestPayload = TestDataGenerator.getAddPetDTO();
+        requestPayload.setMaster(null);
+
+        // Adding a pet to the database
+        petWebClient.post()
+                .uri(String.format("%s/add", baseURL))
+                .bodyValue(requestPayload)
+                .exchange()
+                .expectHeader()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .expectStatus()
+                .isBadRequest()
+                .expectBody(ExceptionResponse.class)
+                .consumeWith(exceptionResponse->{
+                    assertEquals(ParameterMissingException.class.getSimpleName(), exceptionResponse.getResponseBody().getError());
+                    assertEquals("Master ID is required, it can't be null", exceptionResponse.getResponseBody().getErrorMessage());
+                });
+    }
+
+    @Test
+    void testAddPetToDatabase_should_throw_InputDataException_null_Category(){
+
+        AddPetDTO requestPayload = TestDataGenerator.getAddPetDTO();
+        requestPayload.setCategory(null);
+
+        // Adding a pet to the database
+        petWebClient.post()
+                .uri(String.format("%s/add", baseURL))
+                .bodyValue(requestPayload)
+                .exchange()
+                .expectHeader()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .expectStatus()
+                .isBadRequest()
+                .expectBody(ExceptionResponse.class)
+                .consumeWith(exceptionResponse->{
+                    assertEquals(ParameterMissingException.class.getSimpleName(), exceptionResponse.getResponseBody().getError());
+                    assertEquals("Category is required, it can't be null", exceptionResponse.getResponseBody().getErrorMessage());
+                });
+    }
+
+    @Test
+    void testAddPetToDatabase_should_throw_InputDataException_null_Gender(){
+
+        AddPetDTO requestPayload = TestDataGenerator.getAddPetDTO();
+        requestPayload.setGender(null);
+
+        // Adding a pet to the database
+        petWebClient.post()
+                .uri(String.format("%s/add", baseURL))
+                .bodyValue(requestPayload)
+                .exchange()
+                .expectHeader()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .expectStatus()
+                .isBadRequest()
+                .expectBody(ExceptionResponse.class)
+                .consumeWith(exceptionResponse->{
+                    assertEquals(ParameterMissingException.class.getSimpleName(), exceptionResponse.getResponseBody().getError());
+                    assertEquals("Gender is required, it can't be null", exceptionResponse.getResponseBody().getErrorMessage());
                 });
     }
 }

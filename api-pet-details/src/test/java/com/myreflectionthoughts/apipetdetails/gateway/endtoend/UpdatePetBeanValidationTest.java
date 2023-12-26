@@ -10,6 +10,7 @@ import com.myreflectionthoughts.library.dto.request.UpdatePetDTO;
 import com.myreflectionthoughts.library.dto.response.ExceptionResponse;
 import com.myreflectionthoughts.library.dto.response.PetDTO;
 import com.myreflectionthoughts.library.exception.InputDataException;
+import com.myreflectionthoughts.library.exception.ParameterMissingException;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
@@ -231,5 +232,211 @@ public class UpdatePetBeanValidationTest extends TestSetup{
                     assertEquals("Age can't be zero or negative, Please provide a Valid age for your pet", exceptionResponse.getResponseBody().getErrorMessage());
                 });
     }
+
+    @Test
+    void testUpdatePetInfo_should_throw_ParameterMissingException_for_Id() {
+
+        String petId;
+        AddPetDTO addPetRequestPayload = TestDataGenerator.getAddPetDTO();
+
+        // Adding a pet to the database
+        EntityExchangeResult<PetDTO> recievedAddPetResponse = petWebClient.post()
+                .uri(String.format("%s/add", baseURL))
+                .bodyValue(addPetRequestPayload)
+                .exchange()
+                .expectHeader()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .expectStatus()
+                .isCreated()
+                .expectBody(PetDTO.class)
+                .returnResult();
+
+        petId = recievedAddPetResponse.getResponseBody().getId();
+
+        // updating the pet with new details
+        UpdatePetDTO updatePetRequestPayload = TestDataGenerator.getUpdatePetDTO();
+
+        updatePetRequestPayload.setId(null);
+        updatePetRequestPayload.setAge(2.5);
+
+        petWebClient.put()
+                .uri(String.format("%s/update/pet/%s", baseURL, petId))
+                .bodyValue(updatePetRequestPayload)
+                .exchange()
+                .expectHeader()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .expectStatus()
+                .isBadRequest()
+                .expectBody(ExceptionResponse.class)
+                .consumeWith(exceptionResponse -> {
+                    assertEquals(ParameterMissingException.class.getSimpleName(), exceptionResponse.getResponseBody().getError());
+                    assertEquals("Pet ID is required, it can't be null", exceptionResponse.getResponseBody().getErrorMessage());
+                });
+    }
+
+    @Test
+    void testUpdatePetInfo_should_throw_ParameterMissingException_for_MasterId() {
+
+        String petId;
+        AddPetDTO addPetRequestPayload = TestDataGenerator.getAddPetDTO();
+
+        // Adding a pet to the database
+        EntityExchangeResult<PetDTO> recievedAddPetResponse = petWebClient.post()
+                .uri(String.format("%s/add", baseURL))
+                .bodyValue(addPetRequestPayload)
+                .exchange()
+                .expectHeader()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .expectStatus()
+                .isCreated()
+                .expectBody(PetDTO.class)
+                .returnResult();
+
+        petId = recievedAddPetResponse.getResponseBody().getId();
+
+        // updating the pet with new details
+        UpdatePetDTO updatePetRequestPayload = TestDataGenerator.getUpdatePetDTO();
+
+        updatePetRequestPayload.setMaster(null);
+        updatePetRequestPayload.setAge(2.5);
+
+        petWebClient.put()
+                .uri(String.format("%s/update/pet/%s", baseURL, petId))
+                .bodyValue(updatePetRequestPayload)
+                .exchange()
+                .expectHeader()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .expectStatus()
+                .isBadRequest()
+                .expectBody(ExceptionResponse.class)
+                .consumeWith(exceptionResponse -> {
+                    assertEquals(ParameterMissingException.class.getSimpleName(), exceptionResponse.getResponseBody().getError());
+                    assertEquals("Master ID is required, it can't be null", exceptionResponse.getResponseBody().getErrorMessage());
+                });
+    }
+
+    @Test
+    void testUpdatePetInfo_should_throw_ParameterMissingException_for_PetName() {
+
+        String petId;
+        AddPetDTO addPetRequestPayload = TestDataGenerator.getAddPetDTO();
+
+        // Adding a pet to the database
+        EntityExchangeResult<PetDTO> recievedAddPetResponse = petWebClient.post()
+                .uri(String.format("%s/add", baseURL))
+                .bodyValue(addPetRequestPayload)
+                .exchange()
+                .expectHeader()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .expectStatus()
+                .isCreated()
+                .expectBody(PetDTO.class)
+                .returnResult();
+
+        petId = recievedAddPetResponse.getResponseBody().getId();
+
+        // updating the pet with new details
+        UpdatePetDTO updatePetRequestPayload = TestDataGenerator.getUpdatePetDTO();
+
+        updatePetRequestPayload.setName(null);
+        updatePetRequestPayload.setAge(2.5);
+
+        petWebClient.put()
+                .uri(String.format("%s/update/pet/%s", baseURL, petId))
+                .bodyValue(updatePetRequestPayload)
+                .exchange()
+                .expectHeader()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .expectStatus()
+                .isBadRequest()
+                .expectBody(ExceptionResponse.class)
+                .consumeWith(exceptionResponse -> {
+                    assertEquals(ParameterMissingException.class.getSimpleName(), exceptionResponse.getResponseBody().getError());
+                    assertEquals("Pet name is required, it can't be null", exceptionResponse.getResponseBody().getErrorMessage());
+                });
+    }
+
+    @Test
+    void testUpdatePetInfo_should_throw_ParameterMissingException_for_Category() {
+
+        String petId;
+        AddPetDTO addPetRequestPayload = TestDataGenerator.getAddPetDTO();
+
+        // Adding a pet to the database
+        EntityExchangeResult<PetDTO> recievedAddPetResponse = petWebClient.post()
+                .uri(String.format("%s/add", baseURL))
+                .bodyValue(addPetRequestPayload)
+                .exchange()
+                .expectHeader()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .expectStatus()
+                .isCreated()
+                .expectBody(PetDTO.class)
+                .returnResult();
+
+        petId = recievedAddPetResponse.getResponseBody().getId();
+
+        // updating the pet with new details
+        UpdatePetDTO updatePetRequestPayload = TestDataGenerator.getUpdatePetDTO();
+
+        updatePetRequestPayload.setCategory(null);
+        updatePetRequestPayload.setAge(2.5);
+
+        petWebClient.put()
+                .uri(String.format("%s/update/pet/%s", baseURL, petId))
+                .bodyValue(updatePetRequestPayload)
+                .exchange()
+                .expectHeader()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .expectStatus()
+                .isBadRequest()
+                .expectBody(ExceptionResponse.class)
+                .consumeWith(exceptionResponse -> {
+                    assertEquals(ParameterMissingException.class.getSimpleName(), exceptionResponse.getResponseBody().getError());
+                    assertEquals("Category is required, it can't be null", exceptionResponse.getResponseBody().getErrorMessage());
+                });
+    }
+
+    @Test
+    void testUpdatePetInfo_should_throw_ParameterMissingException_for_Gender() {
+
+        String petId;
+        AddPetDTO addPetRequestPayload = TestDataGenerator.getAddPetDTO();
+
+        // Adding a pet to the database
+        EntityExchangeResult<PetDTO> recievedAddPetResponse = petWebClient.post()
+                .uri(String.format("%s/add", baseURL))
+                .bodyValue(addPetRequestPayload)
+                .exchange()
+                .expectHeader()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .expectStatus()
+                .isCreated()
+                .expectBody(PetDTO.class)
+                .returnResult();
+
+        petId = recievedAddPetResponse.getResponseBody().getId();
+
+        // updating the pet with new details
+        UpdatePetDTO updatePetRequestPayload = TestDataGenerator.getUpdatePetDTO();
+
+        updatePetRequestPayload.setGender(null);
+        updatePetRequestPayload.setAge(2.5);
+
+        petWebClient.put()
+                .uri(String.format("%s/update/pet/%s", baseURL, petId))
+                .bodyValue(updatePetRequestPayload)
+                .exchange()
+                .expectHeader()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .expectStatus()
+                .isBadRequest()
+                .expectBody(ExceptionResponse.class)
+                .consumeWith(exceptionResponse -> {
+                    assertEquals(ParameterMissingException.class.getSimpleName(), exceptionResponse.getResponseBody().getError());
+                    assertEquals("Gender is required, it can't be null", exceptionResponse.getResponseBody().getErrorMessage());
+                });
+    }
+
 
 }

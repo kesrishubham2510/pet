@@ -4,6 +4,7 @@ import com.myreflectionthoughts.apipetdetails.core.exception.PetNotFoundExceptio
 import com.myreflectionthoughts.apipetdetails.core.utils.LogUtility;
 import com.myreflectionthoughts.library.dto.response.ExceptionResponse;
 import com.myreflectionthoughts.library.exception.InputDataException;
+import com.myreflectionthoughts.library.exception.ParameterMissingException;
 import io.micrometer.core.instrument.MeterRegistry;
 import org.modelmapper.MappingException;
 import org.springframework.web.reactive.function.server.ServerResponse;
@@ -30,6 +31,7 @@ public class Handler{
 
         ExceptionResponse exceptionResponse = new ExceptionResponse();
 
+        // covers GenderNotFoundException & ClinicCardStatusNotFoundException
         if(ex instanceof MappingException){
             exceptionResponse.setError(ex.getCause().getClass().getSimpleName());
             exceptionResponse.setErrorMessage(ex.getCause().getMessage());
@@ -51,6 +53,12 @@ public class Handler{
             LogUtility.loggerUtility.log(logger, "Exception :- "+ex.getMessage(), Level.INFO);
             apiPetDetailsRegistry.counter(InputDataException.class.getSimpleName()).increment();
 
+        } else if (ex instanceof ParameterMissingException) {
+            exceptionResponse.setError(ParameterMissingException.class.getSimpleName());
+            exceptionResponse.setErrorMessage(ex.getMessage());
+            LogUtility.loggerUtility.log(logger, "ParameterMissingException occurred...", Level.SEVERE);
+            LogUtility.loggerUtility.log(logger, "Exception :- "+ex.getMessage(), Level.INFO);
+            apiPetDetailsRegistry.counter(ParameterMissingException.class.getSimpleName()).increment();
         }
 
         LogUtility.loggerUtility.log(logger, "Exception occurred while processing request: "+ex, Level.SEVERE);
