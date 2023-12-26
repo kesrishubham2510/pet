@@ -19,8 +19,8 @@ ext.versions = [
 		archTestVersion                  : '1.1.0',
 		testContainerVersion             : '1.19.0',
 		actuatorVersion                  : '2.7.15',
-		libraryPetVersion				 : '0.0.2'
-
+		libraryPetVersion				 : '0.0.2',
+		micrometerPrometheusRegistry     : '1.12.0'
 ]
 
 jar {
@@ -67,6 +67,9 @@ dependencies {
 	// dependencies for observability
 	implementation "org.springframework.boot:spring-boot-starter-actuator:${versions.actuatorVersion}"
 	implementation "com.myreflectionthoughts:library-pet:${versions.libraryPetVersion}@jar"
+	// https://mvnrepository.com/artifact/io.micrometer/micrometer-registry-prometheus
+	implementation "io.micrometer:micrometer-registry-prometheus:${versions.micrometerPrometheusRegistry}"
+
 }
 
 tasks.named('test') {
