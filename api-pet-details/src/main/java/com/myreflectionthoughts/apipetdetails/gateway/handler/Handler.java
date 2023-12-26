@@ -59,9 +59,13 @@ public class Handler{
             LogUtility.loggerUtility.log(logger, "ParameterMissingException occurred...", Level.SEVERE);
             LogUtility.loggerUtility.log(logger, "Exception :- "+ex.getMessage(), Level.INFO);
             apiPetDetailsRegistry.counter(ParameterMissingException.class.getSimpleName()).increment();
+        } else{
+            exceptionResponse.setError("!! Oops !!");
+            exceptionResponse.setErrorMessage("Something went wrong, please try again");
+            LogUtility.loggerUtility.log(logger, "Unhandled exception :- "+ex.getMessage(), Level.INFO);
+            apiPetDetailsRegistry.counter("UnhandledException").increment();
         }
 
-        LogUtility.loggerUtility.log(logger, "Exception occurred while processing request: "+ex, Level.SEVERE);
         LogUtility.loggerUtility.log(logger, "Exception response generated: "+exceptionResponse, Level.FINE);
 
         return ServerResponse.badRequest().bodyValue(exceptionResponse);
