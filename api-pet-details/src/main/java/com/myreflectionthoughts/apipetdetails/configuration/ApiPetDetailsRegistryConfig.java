@@ -37,7 +37,6 @@ public class ApiPetDetailsRegistryConfig {
                 ClinicCardStatusNotFoundException.class.getSimpleName(),
                 GenderNotFoundException.class.getSimpleName(),
                 PetNotFoundException.class.getSimpleName(),
-                MappingException.class.getSimpleName(),
                 "UnhandledException"
         ));
 

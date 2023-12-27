@@ -37,7 +37,7 @@ public class Handler{
             exceptionResponse.setErrorMessage(ex.getCause().getMessage());
             LogUtility.loggerUtility.log(logger, "MappingException occurred...", Level.SEVERE);
             LogUtility.loggerUtility.log(logger, "Exception :- "+ex.getMessage(), Level.INFO);
-            apiPetDetailsRegistry.counter(MappingException.class.getSimpleName()).increment();
+            apiPetDetailsRegistry.counter(ex.getCause().getClass().getSimpleName()).increment();
 
         }else if(ex instanceof PetNotFoundException){
             exceptionResponse.setError(PetNotFoundException.class.getSimpleName());
