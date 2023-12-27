@@ -5,6 +5,7 @@ import com.myreflectionthoughts.apipetdetails.core.constant.ServiceConstants;
 import com.myreflectionthoughts.apipetdetails.gateway.handler.DeletePetRequestHandler;
 import com.myreflectionthoughts.library.dto.response.DeletePetDTO;
 import com.myreflectionthoughts.library.dto.response.ExceptionResponse;
+import io.micrometer.core.annotation.Timed;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
@@ -64,6 +65,7 @@ public class DeletePetRequestRouter {
             )
     )
     @Bean
+    @Timed
     public RouterFunction<ServerResponse> routeDeletePetRequest(){
         return RouterFunctions.route().DELETE(endPoint,deletePetRequestHandler::deletePet).build();
     }

@@ -3,6 +3,7 @@ package com.myreflectionthoughts.apipetdetails.gateway.routers;
 import com.myreflectionthoughts.apipetdetails.core.constant.ServiceConstants;
 import com.myreflectionthoughts.apipetdetails.gateway.handler.GetPetsOfMasterRequestHandler;
 import com.myreflectionthoughts.library.dto.response.PetDTO;
+import io.micrometer.core.annotation.Timed;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
@@ -59,6 +60,7 @@ public class GetPetsOfMasterRequestRouter {
 
     )
     @Bean
+    @Timed
     public RouterFunction<ServerResponse> routeGetAllPetsOfMaster() {
         return route().GET(endpoint, getPetsOfMasterRequestHandler::retrievePetsOfMaster).build();
     }

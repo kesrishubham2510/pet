@@ -5,6 +5,7 @@ import com.myreflectionthoughts.apipetdetails.gateway.handler.UpdatePetRequestHa
 import com.myreflectionthoughts.library.dto.request.UpdatePetDTO;
 import com.myreflectionthoughts.library.dto.response.ExceptionResponse;
 import com.myreflectionthoughts.library.dto.response.PetDTO;
+import io.micrometer.core.annotation.Timed;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
@@ -69,6 +70,7 @@ public class UpdatePetRequestRouter {
            )
     )
     @Bean
+    @Timed
     public RouterFunction<ServerResponse> routeUpdatePetRequest(){
         return RouterFunctions.route().PUT(endPoint,updatePetRequestHandler::updatePet).build();
     }

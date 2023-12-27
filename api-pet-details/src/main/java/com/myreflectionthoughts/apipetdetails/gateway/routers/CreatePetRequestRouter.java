@@ -5,6 +5,7 @@ import com.myreflectionthoughts.apipetdetails.gateway.handler.CreatePetRequestHa
 import com.myreflectionthoughts.library.dto.request.AddPetDTO;
 import com.myreflectionthoughts.library.dto.response.ExceptionResponse;
 import com.myreflectionthoughts.library.dto.response.PetDTO;
+import io.micrometer.core.annotation.Timed;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -63,6 +64,7 @@ public class CreatePetRequestRouter {
             )
     )
     @Bean
+    @Timed
     public RouterFunction<ServerResponse> routeCreatePetRequest(){
         return route().POST(endPoint,createPetRequestHandler::addPet).build();
     }

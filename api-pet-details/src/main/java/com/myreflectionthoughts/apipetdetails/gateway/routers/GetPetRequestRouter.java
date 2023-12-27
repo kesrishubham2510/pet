@@ -4,6 +4,9 @@ import com.myreflectionthoughts.apipetdetails.core.constant.ServiceConstants;
 import com.myreflectionthoughts.apipetdetails.gateway.handler.GetPetRequestHandler;
 import com.myreflectionthoughts.library.dto.response.ExceptionResponse;
 import com.myreflectionthoughts.library.dto.response.PetDTO;
+import io.micrometer.core.annotation.Timed;
+import io.micrometer.core.instrument.MeterRegistry;
+import io.micrometer.core.instrument.Timer;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
@@ -15,19 +18,23 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.reactive.function.server.HandlerFunction;
 import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.RouterFunctions;
 import org.springframework.web.reactive.function.server.ServerResponse;
+import reactor.core.publisher.Mono;
 
 @Configuration
 public class GetPetRequestRouter {
 
     private final GetPetRequestHandler getPetRequestHandler;
+    private final MeterRegistry apiPetDetailsRegistry;
 
     private final String endPoint = ServiceConstants.API_QUALIFIER+"/get/pet/{petId}";
 
-    public GetPetRequestRouter(GetPetRequestHandler getPetRequestHandler) {
+    public GetPetRequestRouter(GetPetRequestHandler getPetRequestHandler, MeterRegistry apiPetDetailsRegistry) {
         this.getPetRequestHandler = getPetRequestHandler;
+        this.apiPetDetailsRegistry = apiPetDetailsRegistry;
     }
 
     @RouterOperation(
@@ -65,6 +72,8 @@ public class GetPetRequestRouter {
     )
     @Bean
     public RouterFunction<ServerResponse> routeGetPetRequest(){
-        return RouterFunctions.route().GET(endPoint,getPetRequestHandler::getPet).build();
+        Timer.Sample sample = Timer.start(apiPetDetailsRegistry);
+        return RouterFunctions.route()
+                .GET(endPoint,getPetRequestHandler::getPet).build();
     }
 }
