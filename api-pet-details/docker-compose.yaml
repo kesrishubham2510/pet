@@ -18,7 +18,7 @@ services:
     networks:
       - api-pet
     environment:
-      ME_CONFIG_MONGODB_SERVER: masterDB
+      ME_CONFIG_MONGODB_SERVER: petDB
 
   # need to get the image name rectified
   api-pet-details:
