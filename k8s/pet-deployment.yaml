@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pet-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      service: api-pet
+  template:
+    metadata:
+      labels:
+        service: api-pet
+    spec:
+      containers:
+        - image: kshubhamm/api-pet-details:0.0.1
+          name: pet-service
+          ports:
+            - containerPort: 8003
+
+

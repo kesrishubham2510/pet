@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: master-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      service: api-master
+  template:
+    metadata:
+      labels:
+        service: api-master
+    spec:
+      containers:
+        - image: kshubhamm/api-master-details:0.0.1
+          name: master-service
+          ports:
+            - containerPort : 8002

@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pet-db-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      service: petDB
+  template:
+    metadata:
+      labels:
+        service: petDB
+    spec:
+      restartPolicy: Always
+      containers:
+        - image: mongo
+          name: pet-database
+          ports:
+            - containerPort: 27017
+
+        - image: mongo-express
+          name: pet-database-surfer
+          ports:
+            - containerPort: 8081
+          env:
+            - name: ME_CONFIG_MONGODB_SERVER
+              value: "localhost"
+            - name: ME_CONFIG_MONGODB_PORT
+              value: "27017"
+

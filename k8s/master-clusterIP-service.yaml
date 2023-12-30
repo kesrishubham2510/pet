@@ -1,0 +1,11 @@
+spiVersion: v1
+kind: Service
+metadata:
+  name: master-cluster-ip-service
+spec:
+  type: ClusterIP
+  selector:
+    service: api-master
+  ports:
+    - port: 8002
+      targetPort: 8002

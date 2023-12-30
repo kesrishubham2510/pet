@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: pet-cluster-ip-service
+spec:
+  type: ClusterIP
+  selector:
+    service: api-pet
+  ports:
+    - port: 8003
+      targetPort: 8003
