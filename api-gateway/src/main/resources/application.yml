@@ -1,6 +1,6 @@
 restClient:
-  masterService: http://localhost:8002/api-master-details/
-  petService: http://localhost:8003/api-pet-details/
+  masterService: ${API_MASTER_SERVICE_URL}
+  petService: ${API_PET_SERVICE_URL}
 
 server:
   port: 8000
