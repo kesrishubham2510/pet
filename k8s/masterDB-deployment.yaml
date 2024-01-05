@@ -1,31 +1,31 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: pet-db-deployment
+  name: master-db-deployment
 spec:
   replicas: 1
   selector:
     matchLabels:
-      service: petDB
+      service: masterDB
   template:
     metadata:
       labels:
-        service: petDB
+        service: masterDB
     spec:
       restartPolicy: Always
 
       volumes:
-        - name: pet-storage
+        - name: master-storage
           persistentVolumeClaim:
-            claimName: pet-db-pvc
+            claimName: master-db-pvc
 
       containers:
         - image: mongo
-          name: pet-database
+          name: master-database
           ports:
             - containerPort: 27017
           volumeMounts:
-            - name: pet-storage
+            - name: master-storage
               mountPath: /var/lib/mongodb
 
         - image: mongo-express

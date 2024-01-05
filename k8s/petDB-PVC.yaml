@@ -1,11 +1,12 @@
-apiVersion: apps/v1
+apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: pet-db-pvc
 spec:
   # using ReadWriteOnce because, deploying on minikube in local-docker having single cluster with single Node
   # using default StorageClass, hence 2Gi partition will be sliced from machine's hard-disk
-  accessModes: ReadWriteOnce
+  accessModes:
+    - ReadWriteOnce
   resources:
     requests:
       storage: 2Gi
