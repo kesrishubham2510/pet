@@ -12,12 +12,22 @@ spec:
       labels:
         service: petDB
     spec:
+
       restartPolicy: Always
+
+      volumes:
+        - name: pet-storage
+          persistentVolumeClaim:
+            claimName: pet-db-pvc
+
       containers:
         - image: mongo
           name: pet-database
           ports:
             - containerPort: 27017
+          volumeMounts:
+            - name: pet-storage
+              mountPath: /var/lib/mongodb
 
         - image: mongo-express
           name: pet-database-surfer

@@ -17,5 +17,10 @@ spec:
           name: pet-service
           ports:
             - containerPort: 8003
+          env:
+            - name: HOST_MONGODB_SERVER
+              value: pet-db-cluster-ip-service
+            - name: PORT_MONGODB_SERVER
+              value: "27017"
 
 
