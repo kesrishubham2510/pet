@@ -17,3 +17,8 @@ spec:
           name: master-service
           ports:
             - containerPort : 8002
+          env:
+            - name: HOST_MONGODB_SERVER
+              value: master-db-cluster-ip-service
+            - name: PORT_MONGODB_SERVER
+              value: "27017"
