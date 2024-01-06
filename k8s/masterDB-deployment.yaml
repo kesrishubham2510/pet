@@ -29,7 +29,7 @@ spec:
               mountPath: /var/lib/mongodb
 
         - image: mongo-express
-          name: pet-database-surfer
+          name: master-database-surfer
           ports:
             - containerPort: 8081
           env:
