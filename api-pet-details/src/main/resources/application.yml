@@ -1,8 +1,8 @@
 spring:
   data:
     mongodb:
-      host: localhost
-      port: 27017
+      host: ${HOST_MONGODB_SERVER}
+      port: ${PORT_MONGODB_SERVER}
       database: petDB
   application:
     name: pet-service

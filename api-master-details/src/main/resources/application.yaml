@@ -4,8 +4,8 @@ spring:
   data:
     mongodb:
       auto-index-creation: true
-      host: localhost
-      port: 27017
+      host: ${HOST_MONGODB_SERVER}
+      port: ${PORT_MONGODB_SERVER}
       database: masterDB
   application:
     name: master-service
