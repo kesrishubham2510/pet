@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: gateway-deployment
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       service: api-gateway
@@ -13,7 +13,7 @@ spec:
         service: api-gateway
     spec:
       containers:
-        - image: kshubhamm/api-gateway:0.0.1
+        - image: kshubhamm/api-gateway:0.0.2
           name: gateway-service
           ports:
             - containerPort: 8000
