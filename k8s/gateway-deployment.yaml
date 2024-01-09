@@ -19,7 +19,8 @@ spec:
             - containerPort: 8000
           env:
             - name: API_MASTER_SERVICE_URL
-              value: master-cluster-ip-service
+              # not using fqdn as I am using default namespace
+              value: "http://master-cluster-ip-service:8002/api-master-details"
             - name: API_PET_SERVICE_URL
-              value: pet-cluster-ip-service
+              value: "http://pet-cluster-ip-service:8003/api-pet-details"
 
