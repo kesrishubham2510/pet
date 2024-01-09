@@ -13,7 +13,7 @@ spec:
         service: api-pet
     spec:
       containers:
-        - image: kshubhamm/api-pet-details:0.0.1
+        - image: kshubhamm/api-pet-details:0.0.2
           name: pet-service
           ports:
             - containerPort: 8003
