@@ -1,4 +1,0 @@
-{
-  "error": "InputDataException",
-  "errorMessage": "Email must contain one of these domains [gmail.com, facebook.com, yopmail.com]"
-}
