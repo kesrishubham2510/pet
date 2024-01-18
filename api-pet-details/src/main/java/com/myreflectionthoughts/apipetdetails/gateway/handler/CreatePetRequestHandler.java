@@ -32,6 +32,7 @@ public class CreatePetRequestHandler extends Handler{
                 .doOnNext(addedPet-> LogUtility.loggerUtility.log(logger, "Response:- "+addedPet, Level.FINE))
                 .flatMap(addedPet-> ServerResponse.status(HttpStatus.CREATED).bodyValue(addedPet))
                 .doOnNext(generatedResponse-> LogUtility.loggerUtility.log(logger, "Add pet request processed with successful response generation",Level.INFO))
-                .onErrorResume(exceptionMapper);
+                .onErrorResume(exceptionMapper)
+                .contextCapture();
     }
 }

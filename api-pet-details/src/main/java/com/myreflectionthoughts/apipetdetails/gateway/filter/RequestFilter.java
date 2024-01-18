@@ -7,6 +7,9 @@ import org.springframework.web.server.ServerWebExchange;
 import org.springframework.web.server.WebFilter;
 import org.springframework.web.server.WebFilterChain;
 import reactor.core.publisher.Mono;
+import reactor.util.context.Context;
+
+import java.util.List;
 
 @Component
 public class RequestFilter implements WebFilter {
@@ -15,12 +18,16 @@ public class RequestFilter implements WebFilter {
         for(var entry: exchange.getRequest().getHeaders().entrySet())
             System.out.println(entry.getKey()+" Value:- "+entry.getValue());
 
-        setMDCForRequest(exchange.getRequest().getHeaders().get("traceId").get(0), UniqueIdGenerator.generateSpanID());
-        return chain.filter(exchange);
-    }
+        String traceId;
 
-    private void setMDCForRequest(String traceId, String spanId){
-        MDC.put("traceId",traceId);
-        MDC.put("spanId",spanId);
+        if(null!=exchange.getRequest().getHeaders().get("traceId") && !exchange.getRequest().getHeaders().get("traceId").isEmpty()){
+           traceId = exchange.getRequest().getHeaders().get("traceId").get(0);
+        }else{
+           traceId = UniqueIdGenerator.generateSpanID();
+        }
+
+        return chain.filter(exchange)
+                .contextWrite(Context.of("traceId", traceId))
+                .contextWrite(Context.of("spanId",UniqueIdGenerator.generateSpanID()));
     }
 }

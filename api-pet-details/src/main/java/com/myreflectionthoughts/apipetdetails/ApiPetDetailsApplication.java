@@ -1,5 +1,7 @@
 package com.myreflectionthoughts.apipetdetails;
 
+import io.micrometer.context.ContextRegistry;
+import org.slf4j.MDC;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
@@ -13,7 +15,9 @@ public class ApiPetDetailsApplication {
 
     public static void main(String[] args) {
         Hooks.enableAutomaticContextPropagation();
-        Hooks.enableContextLossTracking();
+        ContextRegistry.getInstance()
+                .registerThreadLocalAccessor("traceId",()-> MDC.get("traceId"), traceId-> MDC.put("traceId",traceId),()->MDC.remove("traceId"))
+                .registerThreadLocalAccessor("spanId",()-> MDC.get("spanId"), traceId-> MDC.put("spanId",traceId),()->MDC.remove("spanId"));
         SpringApplication.run(ApiPetDetailsApplication.class, args);
     }
 }

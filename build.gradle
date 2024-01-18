@@ -67,15 +67,6 @@ subprojects {
         testImplementation "org.testcontainers:mongodb:${versions.testContainerVersion}"
         // dependencies for observability
         implementation "org.springframework.boot:spring-boot-starter-actuator:${versions.actuatorVersion}"
-        // to enable request-tracing
-        implementation platform('io.micrometer:micrometer-tracing-bom:latest.release')
-        implementation 'io.micrometer:micrometer-tracing:1.1.5'
-        // tracing tool
-        implementation 'io.micrometer:micrometer-tracing-bridge-brave:1.1.5'
-        // reporter to export the tracing data to the UI tool
-        implementation 'io.zipkin.reporter2:zipkin-reporter-brave'
-        // https://mvnrepository.com/artifact/io.projectreactor.spring/reactor-spring-context
-        implementation 'io.projectreactor.spring:reactor-spring-context:2.0.7.RELEASE'
-
+        implementation "io.micrometer:context-propagation:1.0.6"
     }
 }
