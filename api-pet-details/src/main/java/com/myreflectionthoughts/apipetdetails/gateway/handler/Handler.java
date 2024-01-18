@@ -4,11 +4,11 @@ import com.myreflectionthoughts.apipetdetails.core.exception.PetNotFoundExceptio
 import com.myreflectionthoughts.apipetdetails.core.utils.LogUtility;
 import com.myreflectionthoughts.library.dto.response.ExceptionResponse;
 import com.myreflectionthoughts.library.exception.InputDataException;
+import com.myreflectionthoughts.library.exception.ParameterMissingException;
 import org.modelmapper.MappingException;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
 
-import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -39,6 +39,11 @@ public class Handler{
             exceptionResponse.setError(InputDataException.class.getSimpleName());
             exceptionResponse.setErrorMessage(ex.getMessage());
             LogUtility.loggerUtility.log(logger, "InputDataException occurred...", Level.SEVERE);
+            LogUtility.loggerUtility.log(logger, "Exception :- "+ex.getMessage(), Level.INFO);
+        } else if (ex instanceof ParameterMissingException) {
+            exceptionResponse.setError(ParameterMissingException.class.getSimpleName());
+            exceptionResponse.setErrorMessage(ex.getMessage());
+            LogUtility.loggerUtility.log(logger, "ParameterMissingException occurred...", Level.SEVERE);
             LogUtility.loggerUtility.log(logger, "Exception :- "+ex.getMessage(), Level.INFO);
         }
 

@@ -4,6 +4,7 @@ import com.myreflectionthoughts.apipetdetails.gateway.dataprovider.TestDataGener
 import com.myreflectionthoughts.library.dto.request.AddPetDTO;
 import com.myreflectionthoughts.library.dto.response.ExceptionResponse;
 import com.myreflectionthoughts.library.exception.InputDataException;
+import com.myreflectionthoughts.library.exception.ParameterMissingException;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
@@ -35,7 +36,7 @@ public class AddPetBeanValidationTest extends TestSetup{
                 });
     }
     @Test
-    void testAddPetToDatabase_should_throw_InputDataException_null_name(){
+    void testAddPetToDatabase_should_throw_ParameterMissingException_null_name(){
 
         AddPetDTO requestPayload = TestDataGenerator.getAddPetDTO();
         requestPayload.setName(null);
@@ -51,8 +52,8 @@ public class AddPetBeanValidationTest extends TestSetup{
                 .isBadRequest()
                 .expectBody(ExceptionResponse.class)
                 .consumeWith(exceptionResponse->{
-                    assertEquals(InputDataException.class.getSimpleName(), exceptionResponse.getResponseBody().getError());
-                    assertEquals("Pet name is required, it can't null or empty or whitespaces", exceptionResponse.getResponseBody().getErrorMessage());
+                    assertEquals(ParameterMissingException.class.getSimpleName(), exceptionResponse.getResponseBody().getError());
+                    assertEquals("Pet name is required, it can't be null", exceptionResponse.getResponseBody().getErrorMessage());
                 });
     }
     @Test

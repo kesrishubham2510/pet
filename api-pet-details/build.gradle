@@ -19,8 +19,8 @@ ext.versions = [
 		archTestVersion                  : '1.1.0',
 		testContainerVersion             : '1.19.0',
 		actuatorVersion                  : '2.7.15',
-		libraryPetVersion				 : '0.0.2'
-
+		libraryPetVersion				 : '0.0.2',
+		contextPropagationLibraryVersion : '1.0.6'
 ]
 
 jar {
@@ -67,6 +67,7 @@ dependencies {
 	// dependencies for observability
 	implementation "org.springframework.boot:spring-boot-starter-actuator:${versions.actuatorVersion}"
 	implementation "com.myreflectionthoughts:library-pet:${versions.libraryPetVersion}@jar"
+	implementation "io.micrometer:context-propagation:${versions.contextPropagationLibraryVersion}"
 }
 
 tasks.named('test') {
