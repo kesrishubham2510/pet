@@ -1,7 +1,6 @@
 package com.myreflectionthoughts.apigateway.gateway.dataprovider;
 
 import com.myreflectionthoughts.apigateway.core.constant.ServiceConstant;
-import com.myreflectionthoughts.apigateway.gateway.dataprovider.RegisterUserDataProvider;
 import com.myreflectionthoughts.library.dto.request.AddMasterDTO;
 import com.myreflectionthoughts.library.dto.request.AddPetDTO;
 import com.myreflectionthoughts.library.dto.request.AddUserDTO;
@@ -9,8 +8,10 @@ import com.myreflectionthoughts.library.dto.response.MasterDTO;
 import com.myreflectionthoughts.library.dto.response.PetDTO;
 import com.myreflectionthoughts.library.dto.response.UserDTO;
 import com.myreflectionthoughts.library.exception.ParameterMissingException;
+import io.micrometer.context.ContextRegistry;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
+import org.slf4j.MDC;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClient.RequestBodyUriSpec;
@@ -21,8 +22,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.anyString;
+import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.eq;
+import static org.mockito.Mockito.times;
 
 
 @SpringBootTest
@@ -49,6 +55,7 @@ public class RegisterUserDataProviderTest {
     public RegisterUserDataProviderTest() {
         this.masterServiceClient = mock(WebClient.class, ServiceConstant.masterServiceQualifier);
         this.petServiceClient = mock(WebClient.class, ServiceConstant.petServiceQualifier);
+        ContextRegistry.getInstance().registerThreadLocalAccessor("traceId", () -> MDC.get("traceId"), traceId -> MDC.put("traceId", "traceId"), () -> MDC.remove("traceId"));
         registerUserDataProvider = new RegisterUserDataProvider(masterServiceClient, petServiceClient);
     }
 
@@ -65,12 +72,17 @@ public class RegisterUserDataProviderTest {
 
         when(masterServiceClient.post()).thenReturn(requestBodyUriSpec);
         when(requestBodyUriSpec.uri(anyString())).thenReturn(requestBodySpec);
+
+        when(requestBodySpec.header(eq("traceId"),anyString())).thenReturn(requestBodySpec);
+
         when(requestBodySpec.bodyValue(any(AddMasterDTO.class))).thenReturn(requestHeadersSpec);
         when(requestHeadersSpec.retrieve()).thenReturn(responseSpec);
         when(responseSpec.bodyToMono(eq(MasterDTO.class))).thenReturn(Mono.fromSupplier(()->expectedMasterDTO));
 
         when(petServiceClient.post()).thenReturn(requestBodyUriSpec);
         when(requestBodyUriSpec.uri(anyString())).thenReturn(requestBodySpec);
+
+        when(requestBodyUriSpec.header(anyString(),anyString())).thenReturn(requestBodySpec);
         when(requestBodySpec.bodyValue(any(AddPetDTO.class))).thenReturn(requestHeadersSpec);
         when(requestHeadersSpec.retrieve()).thenReturn(responseSpec);
         when(responseSpec.bodyToMono(eq(PetDTO.class))).thenReturn(Mono.fromSupplier(()->expectedPetDTO));
@@ -91,6 +103,7 @@ public class RegisterUserDataProviderTest {
 
         verify(petServiceClient,times(1)).post();
         verify(requestBodySpec,times(1)).bodyValue(any(AddPetDTO.class));
+        verify(requestBodySpec,times(2)).header(eq("traceId"),anyString());
         verify(responseSpec,times(1)).bodyToMono(eq(PetDTO.class));
     }
 
@@ -106,6 +119,8 @@ public class RegisterUserDataProviderTest {
 
         when(masterServiceClient.post()).thenReturn(requestBodyUriSpec);
         when(requestBodyUriSpec.uri(anyString())).thenReturn(requestBodySpec);
+        when(requestBodySpec.header(eq("traceId"),anyString())).thenReturn(requestBodySpec);
+
         when(requestBodySpec.bodyValue(any(AddMasterDTO.class))).thenReturn(requestHeadersSpec);
         when(requestHeadersSpec.retrieve()).thenReturn(responseSpec);
         when(responseSpec.bodyToMono(eq(MasterDTO.class))).thenReturn(Mono.fromSupplier(()->expectedMasterDTO));
@@ -130,6 +145,8 @@ public class RegisterUserDataProviderTest {
         verify(responseSpec,times(1)).bodyToMono(eq(MasterDTO.class));
 
         verify(petServiceClient,times(0)).post();
+        verify(requestBodySpec,times(1)).header(eq("traceId"),anyString());
+
         verify(requestBodySpec,times(0)).bodyValue(any(AddPetDTO.class));
         verify(responseSpec,times(0)).bodyToMono(eq(PetDTO.class));
     }
