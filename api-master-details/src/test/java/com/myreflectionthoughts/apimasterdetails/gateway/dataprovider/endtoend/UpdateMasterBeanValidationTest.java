@@ -7,6 +7,7 @@ import com.myreflectionthoughts.library.dto.request.UpdateMasterDTO;
 import com.myreflectionthoughts.library.dto.response.ExceptionResponse;
 import com.myreflectionthoughts.library.dto.response.MasterDTO;
 import com.myreflectionthoughts.library.exception.InputDataException;
+import com.myreflectionthoughts.library.exception.ParameterMissingException;
 import com.myreflectionthoughts.library.utils.ValidationUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
@@ -168,7 +169,7 @@ public class UpdateMasterBeanValidationTest extends TestSetup {
     }
 
     @Test
-    void testUpdateMaster_should_throw_InputDataException_for_null_email(){
+    void testUpdateMaster_should_throw_ParameterMissingException_for_null_email(){
 
         AddMasterDTO requestPayload = TestDataGenerator.generateAddMasterDTO();
         requestPayload.setEmail("newMaster@gmail.com");
@@ -210,8 +211,8 @@ public class UpdateMasterBeanValidationTest extends TestSetup {
                 .isBadRequest()
                 .expectBody(ExceptionResponse.class)
                 .consumeWith(exceptionResponse->{
-                    assertEquals(InputDataException.class.getSimpleName(), exceptionResponse.getResponseBody().getError());
-                    assertEquals("Email ID is required, it can't null or empty or whitespaces", exceptionResponse.getResponseBody().getErrorMessage());
+                    assertEquals(ParameterMissingException.class.getSimpleName(), exceptionResponse.getResponseBody().getError());
+                    assertEquals("Email ID is required, it can't be null", exceptionResponse.getResponseBody().getErrorMessage());
                 });
     }
 
@@ -306,12 +307,12 @@ public class UpdateMasterBeanValidationTest extends TestSetup {
                 .expectBody(ExceptionResponse.class)
                 .consumeWith(exceptionResponse->{
                     assertEquals(InputDataException.class.getSimpleName(), exceptionResponse.getResponseBody().getError());
-                    assertEquals(String.format("Please provide a Valid age should be atleast %s years old",ValidationUtils.ageThreshold), exceptionResponse.getResponseBody().getErrorMessage());
+                    assertEquals("Age can't be zero or negative, Please provide a valid age",exceptionResponse.getResponseBody().getErrorMessage());
                 });
     }
 
     @Test
-    void testUpdateMaster_should_throw_InputDataException_for_address(){
+    void testUpdateMaster_should_throw_ParameterMissingException_for_address(){
 
         AddMasterDTO requestPayload = TestDataGenerator.generateAddMasterDTO();
         requestPayload.setEmail("newMaster@gmail.com");
@@ -353,8 +354,8 @@ public class UpdateMasterBeanValidationTest extends TestSetup {
                 .isBadRequest()
                 .expectBody(ExceptionResponse.class)
                 .consumeWith(exceptionResponse->{
-                    assertEquals(InputDataException.class.getSimpleName(), exceptionResponse.getResponseBody().getError());
-                    assertEquals("address is required, it can't null or empty or whitespaces", exceptionResponse.getResponseBody().getErrorMessage());
+                    assertEquals(ParameterMissingException.class.getSimpleName(), exceptionResponse.getResponseBody().getError());
+                    assertEquals("address is required, it can't be null", exceptionResponse.getResponseBody().getErrorMessage());
                 });
     }
 
