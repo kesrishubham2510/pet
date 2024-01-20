@@ -16,7 +16,7 @@ public class RequestFilter implements WebFilter {
         String traceId;
 
         if(null!=exchange.getRequest().getHeaders().get("traceId") &&
-                 exchange.getRequest().getHeaders().get("traceId").isEmpty()){
+                 !exchange.getRequest().getHeaders().get("traceId").isEmpty()){
             traceId = exchange.getRequest().getHeaders().get("traceId").get(0) ;
         }else{
             System.out.println("Generating a new traceId:- ");
