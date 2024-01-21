@@ -3,10 +3,12 @@ package com.myreflectionthoughts.apigateway.gateway.dataprovider;
 import com.myreflectionthoughts.apigateway.core.utils.LogUtility;
 import com.myreflectionthoughts.library.dto.request.UpdatePetDTO;
 import com.myreflectionthoughts.library.dto.response.PetDTO;
+import io.micrometer.context.ContextRegistry;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -27,6 +29,15 @@ public class DataProvider {
 
         return petServiceClient.get()
                 .uri(String.format("/get/pets/%s", masterId))
+                .header("traceId", Optional.ofNullable(
+                                (String)ContextRegistry.getInstance()
+                                .getThreadLocalAccessors()
+                                .stream()
+                                .filter(threadLocalAccessor -> threadLocalAccessor.key().equals("traceId"))
+                                .toList()
+                                .get(0)
+                                .getValue())
+                .orElse("Custom-traceId"))
                 .retrieve()
                 .bodyToFlux(PetDTO.class)
                 .doOnEach(receivedPetSignal-> {

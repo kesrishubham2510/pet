@@ -29,6 +29,6 @@ public class GetPetsOfMasterRequestHandler {
         LogUtility.loggerUtility.logEntry(logger, "Initiating get master's pets request processing...");
 
         return ServerResponse.ok().contentType(MediaType.APPLICATION_NDJSON)
-                .body(readAllPetsOfMasterUseCase.retrieveAllPetsOfMaster(masterId), PetDTO.class);
+                .body(readAllPetsOfMasterUseCase.retrieveAllPetsOfMaster(masterId).contextCapture(), PetDTO.class);
     }
 }
