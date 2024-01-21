@@ -2,8 +2,10 @@ package com.myreflectionthoughts.apigateway.gateway.dataprovider;
 
 import com.myreflectionthoughts.apigateway.core.constant.ServiceConstant;
 import com.myreflectionthoughts.library.dto.response.PetDTO;
+import io.micrometer.context.ContextRegistry;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
+import org.slf4j.MDC;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
@@ -35,6 +37,7 @@ public class StreamDataProviderTest {
     public StreamDataProviderTest() {
         this.petService = mock(WebClient.class, ServiceConstant.petServiceQualifier);
         this.masterService = mock(WebClient.class, ServiceConstant.masterServiceQualifier);
+        ContextRegistry.getInstance().registerThreadLocalAccessor("traceId", ()-> MDC.get("traceId"), traceId-> MDC.put("traceId","traceId"), ()->MDC.remove(("traceId")));
         streamDataProvider = new StreamDataProvider(masterService, petService);
     }
 
@@ -42,6 +45,7 @@ public class StreamDataProviderTest {
     void testGetAll(){
         when(petService.get()).thenReturn(requestHeadersUriSpec);
         when(requestHeadersUriSpec.uri(anyString())).thenReturn(requestHeadersSpec);
+        when(requestHeadersSpec.header(eq("traceId"),anyString())).thenReturn(requestHeadersSpec);
         when(requestHeadersSpec.retrieve()).thenReturn(responseSpec);
         when(responseSpec.bodyToFlux(eq(PetDTO.class))).thenReturn(Flux.fromStream(()-> Stream.of(generatePetDTO())));
 
