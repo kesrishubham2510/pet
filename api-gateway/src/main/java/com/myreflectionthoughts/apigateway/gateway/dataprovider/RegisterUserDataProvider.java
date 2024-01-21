@@ -75,7 +75,7 @@ public class RegisterUserDataProvider extends DataProvider implements IAdd<AddUs
         return masterServiceClient.post()
                 .uri("/add")
                 .header("traceId",
-                        Optional.ofNullable(ContextRegistry.getInstance()
+                        Optional.ofNullable((String) ContextRegistry.getInstance()
                                         .getThreadLocalAccessors()
                                         .stream()
                                         .filter(threadLocalAccessor ->
@@ -83,8 +83,7 @@ public class RegisterUserDataProvider extends DataProvider implements IAdd<AddUs
                                         ).toList()
                                         .get(0)
                                         .getValue())
-                                .get()
-                                .toString()
+                                .orElse("custom-trace-id")
                 )
                 .bodyValue(addMasterDTO)
                 .retrieve()
@@ -112,7 +111,7 @@ public class RegisterUserDataProvider extends DataProvider implements IAdd<AddUs
         return petServiceClient.post()
                 .uri("/add")
                 .header("traceId",
-                        Optional.ofNullable(ContextRegistry.getInstance()
+                        Optional.ofNullable((String)ContextRegistry.getInstance()
                                         .getThreadLocalAccessors()
                                         .stream()
                                         .filter(threadLocalAccessor ->
@@ -120,8 +119,7 @@ public class RegisterUserDataProvider extends DataProvider implements IAdd<AddUs
                                         ).toList()
                                         .get(0)
                                         .getValue())
-                                        .get()
-                                        .toString()
+                                        .orElse("Custom-trace-id")
                 ) .bodyValue(addPetDTO)
                 .retrieve()
                 .bodyToMono(PetDTO.class)
