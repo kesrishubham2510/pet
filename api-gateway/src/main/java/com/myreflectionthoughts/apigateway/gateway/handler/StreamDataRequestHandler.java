@@ -25,7 +25,6 @@ public class StreamDataRequestHandler extends Handler{
     public Mono<ServerResponse> handleDataStreamRequest(ServerRequest serverRequest){
         LogUtility.loggerUtility.logEntry(logger, "Initiating stream-demonstration request processing...");
         return ServerResponse.ok().contentType(MediaType.TEXT_EVENT_STREAM).body(
-                demoDataStreamUseCase.demoStreaming(), PetDTO.class
-        );
+                demoDataStreamUseCase.demoStreaming().contextCapture(), PetDTO.class);
     }
 }
