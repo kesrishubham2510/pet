@@ -26,11 +26,7 @@ public class RegisterUserRequestHandler extends Handler {
 
     public Mono<ServerResponse> addUser(ServerRequest serverRequest) {
         LogUtility.loggerUtility.logEntry(logger, "Initiating Add User request...");
-        ContextRegistry.getInstance().getThreadLocalAccessors().stream().forEach(threadLocalAccessor -> {
-            System.out.println("Key:- "+threadLocalAccessor.key()+" value:- "+threadLocalAccessor.getValue());
-        });
 
-        ContextRegistry.getInstance().getThreadLocalAccessors().stream().filter(threadLocalAccessor -> threadLocalAccessor.key().equals("traceId")).forEach(t-> System.out.println("TraceId:- "+t.getValue()));
         return registerUserUseCase
                 .registerUser(serverRequest.bodyToMono(AddUserDTO.class))
                 .doOnNext(registeredUser-> LogUtility.loggerUtility.log(logger, "User:- "+registeredUser.getMaster().getId()+" registered", Level.INFO))

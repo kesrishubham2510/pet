@@ -83,6 +83,7 @@ public class RegisterUserDataProvider extends DataProvider implements IAdd<AddUs
                                         ).toList()
                                         .get(0)
                                         .getValue())
+                                .get()
                                 .toString()
                 )
                 .bodyValue(addMasterDTO)
