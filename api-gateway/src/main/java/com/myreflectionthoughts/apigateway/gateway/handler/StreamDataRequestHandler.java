@@ -3,12 +3,17 @@ package com.myreflectionthoughts.apigateway.gateway.handler;
 import com.myreflectionthoughts.apigateway.core.usecase.DemoDataStreamUseCase;
 import com.myreflectionthoughts.apigateway.core.utils.LogUtility;
 import com.myreflectionthoughts.library.dto.response.PetDTO;
+import io.micrometer.context.ContextRegistry;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.Optional;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @Service

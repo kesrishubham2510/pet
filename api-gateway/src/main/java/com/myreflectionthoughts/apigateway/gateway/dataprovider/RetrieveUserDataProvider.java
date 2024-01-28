@@ -46,7 +46,7 @@ public class RetrieveUserDataProvider extends DataProvider implements IGet<UserD
                                             userDTO.setMaster(masterDTO);
                                             return userDTO;
                                         }
-                                )
+                                ).contextCapture()
                 ).doOnNext(retrievedUser-> LogUtility.loggerUtility.log(logger, "User:- "+retrievedUser.getMaster().getId()+" has "+retrievedUser.getPets().size()+" pets",Level.INFO))
 
         );

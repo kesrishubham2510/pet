@@ -30,7 +30,6 @@ public class RetrieveUserDetailsRequestHandler extends Handler {
                 .doOnNext(retrievedUser-> LogUtility.loggerUtility.log(logger, "Response:- "+retrievedUser, Level.FINE))
                 .flatMap(userInfo -> ServerResponse.ok().bodyValue(userInfo))
                 .doOnNext(generatedResponse-> LogUtility.loggerUtility.log(logger, "Retrieve user-info request processed with successful response generation", Level.INFO))
-                .onErrorResume(exceptionMapper)
-                .contextCapture();
+                .onErrorResume(exceptionMapper);
     }
 }

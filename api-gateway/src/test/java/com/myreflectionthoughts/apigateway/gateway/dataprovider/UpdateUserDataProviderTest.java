@@ -9,8 +9,10 @@ import com.myreflectionthoughts.library.dto.response.MasterDTO;
 import com.myreflectionthoughts.library.dto.response.PetDTO;
 import com.myreflectionthoughts.library.dto.response.UserDTO;
 import com.myreflectionthoughts.library.exception.ParameterMissingException;
+import io.micrometer.context.ContextRegistry;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
+import org.slf4j.MDC;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
@@ -47,6 +49,7 @@ public class UpdateUserDataProviderTest {
     public UpdateUserDataProviderTest() {
         this.masterServiceClient = mock(WebClient.class, ServiceConstant.masterServiceQualifier);
         this.petServiceClient =    mock(WebClient.class, ServiceConstant.petServiceQualifier);
+        ContextRegistry.getInstance().registerThreadLocalAccessor("traceId", ()-> MDC.get("traceId"), traceId-> MDC.put("traceId","traceId"), ()->MDC.remove(("traceId")));
         this.updateUserDataProvider = new UpdateUserDataProvider(masterServiceClient, petServiceClient);
     }
 
@@ -64,6 +67,7 @@ public class UpdateUserDataProviderTest {
 
         when(masterServiceClient.put()).thenReturn(requestBodyUriSpec);
         when(requestBodyUriSpec.uri(anyString())).thenReturn(requestBodySpec);
+        when(requestBodySpec.header(anyString(),anyString())).thenReturn(requestBodySpec);
         when(requestBodySpec.bodyValue(any(UpdateMasterDTO.class))).thenReturn(requestHeadersSpec);
         when(requestHeadersSpec.retrieve()).thenReturn(responseSpec);
         when(responseSpec.bodyToMono(eq(MasterDTO.class))).thenReturn(Mono.fromSupplier(()-> expectedUpdatedMasterDTO));
@@ -87,6 +91,7 @@ public class UpdateUserDataProviderTest {
         verify(requestBodySpec,times(1)).bodyValue(any(UpdateMasterDTO.class));
         verify(requestHeadersSpec,times(2)).retrieve();
         verify(responseSpec,times(1)).bodyToMono(eq(MasterDTO.class));
+        verify(requestBodySpec,times(2)).header(anyString(),anyString());
 
         verify(petServiceClient, times(1)).put();
         verify(requestBodySpec, times(1)).bodyValue(any(UpdatePetDTO.class));
@@ -108,6 +113,7 @@ public class UpdateUserDataProviderTest {
 
         when(masterServiceClient.put()).thenReturn(requestBodyUriSpec);
         when(requestBodyUriSpec.uri(anyString())).thenReturn(requestBodySpec);
+        when(requestBodySpec.header(anyString(),anyString())).thenReturn(requestBodySpec);
         when(requestBodySpec.bodyValue(any(UpdateMasterDTO.class))).thenReturn(requestHeadersSpec);
         when(requestHeadersSpec.retrieve()).thenReturn(responseSpec);
         when(responseSpec.bodyToMono(eq(MasterDTO.class))).thenReturn(Mono.fromSupplier(()-> expectedUpdatedMasterDTO));
@@ -131,6 +137,7 @@ public class UpdateUserDataProviderTest {
         verify(requestBodySpec,times(1)).bodyValue(any(UpdateMasterDTO.class));
         verify(requestHeadersSpec,times(1)).retrieve();
         verify(responseSpec,times(1)).bodyToMono(eq(MasterDTO.class));
+        verify(requestBodySpec,times(1)).header(anyString(),anyString());
 
         verify(petServiceClient, times(0)).put();
         verify(requestBodySpec, times(0)).bodyValue(any(UpdatePetDTO.class));

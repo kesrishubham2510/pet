@@ -10,6 +10,8 @@ import com.myreflectionthoughts.library.dto.response.MasterDTO;
 import com.myreflectionthoughts.library.dto.response.PetDTO;
 import com.myreflectionthoughts.library.dto.response.UserDTO;
 import com.myreflectionthoughts.library.exception.ParameterMissingException;
+import io.micrometer.context.ContextRegistry;
+import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -18,6 +20,7 @@ import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -71,6 +74,16 @@ public class UpdateUserDataProvider extends DataProvider implements IUpdate<User
         LogUtility.loggerUtility.logEntry(logger, "Initiating update-master call to master-service");
         return masterServiceClient.put()
                 .uri(String.format("/update/master/%s", updateMasterDTO.getId()))
+                .header("traceId", Optional.ofNullable(
+                        (String) ContextRegistry
+                                .getInstance()
+                                .getThreadLocalAccessors()
+                                .stream()
+                                .filter(threadLocalAccessor -> threadLocalAccessor.key().equals("traceId"))
+                                .toList()
+                                .get(0)
+                                .getValue())
+                        .orElse("custom-trace-ID"))
                 .bodyValue(updateMasterDTO)
                 .retrieve()
                 .bodyToMono(MasterDTO.class)
@@ -81,11 +94,18 @@ public class UpdateUserDataProvider extends DataProvider implements IUpdate<User
         return Flux.fromIterable(updatePetDTOS)
                 .flatMap(this::handlePetUpdate)
                 .doOnEach(updatePetSignal->{
+
+                    if(!updatePetSignal.getContextView().isEmpty()) {
+                        MDC.put("traceId", updatePetSignal.getContextView().get("traceId").toString());
+                        MDC.put("spanId", updatePetSignal.getContextView().get("spanId").toString());
+                    }
+                    
                     if(updatePetSignal.isOnNext())
                         LogUtility.loggerUtility.log(logger, "Updated Pet:- "+updatePetSignal.get().getId(), Level.INFO);
                     else if(updatePetSignal.isOnComplete())
                         LogUtility.loggerUtility.log(logger, "All Pets updated successfully...", Level.INFO);
-                })
-                .collectList();
+
+                    MDC.clear();
+                }).collectList();
     }
 }

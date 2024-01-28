@@ -4,6 +4,7 @@ import com.myreflectionthoughts.apigateway.core.utils.LogUtility;
 import com.myreflectionthoughts.library.dto.request.UpdatePetDTO;
 import com.myreflectionthoughts.library.dto.response.PetDTO;
 import io.micrometer.context.ContextRegistry;
+import org.slf4j.MDC;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -11,6 +12,7 @@ import reactor.core.publisher.Mono;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 public class DataProvider {
     protected final WebClient masterServiceClient;
@@ -41,13 +43,22 @@ public class DataProvider {
                 .retrieve()
                 .bodyToFlux(PetDTO.class)
                 .doOnEach(receivedPetSignal-> {
-                    if(receivedPetSignal.isOnNext())
-                        LogUtility.loggerUtility.log(logger, "Received pet:- "+receivedPetSignal.get().getId(), Level.INFO);
 
-                    else if (receivedPetSignal.isOnComplete())
+                    if(!receivedPetSignal.getContextView().isEmpty()) {
+                        MDC.put("traceId", receivedPetSignal.getContextView().get("traceId").toString());
+                        MDC.put("spanId", receivedPetSignal.getContextView().get("spanId").toString());
+                    }
+
+                    if(receivedPetSignal.isOnNext()) {
+                        LogUtility.loggerUtility.log(logger, "Received pet:- " + receivedPetSignal.get().getId(), Level.INFO);
+                    }
+
+                    else if (receivedPetSignal.isOnComplete()) {
                         LogUtility.loggerUtility.log(logger, "Call for retrieve-all-pets-of-master to pet-service completed successfully", Level.INFO);
+                    }
 
-                    });
+                    MDC.clear();
+                });
     }
 
     protected Mono<PetDTO> handlePetUpdate(UpdatePetDTO updatePetDTO) {
@@ -56,6 +67,16 @@ public class DataProvider {
 
         return petServiceClient.put()
                 .uri(String.format("/update/pet/%s", updatePetDTO.getId()))
+                .header("traceId",Optional.ofNullable(
+                        (String)ContextRegistry
+                                .getInstance()
+                                .getThreadLocalAccessors()
+                                .stream()
+                                .filter(threadLocalAccessor -> threadLocalAccessor.key().equals("traceId"))
+                                .toList()
+                                .get(0)
+                                .getValue()
+                ).orElse("custom-trace-ID"))
                 .bodyValue(updatePetDTO)
                 .retrieve()
                 .bodyToMono(PetDTO.class)
