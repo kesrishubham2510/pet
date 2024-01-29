@@ -32,6 +32,7 @@ public class CreateMasterRequestHandler extends Handler{
                 .doOnNext(addedMaster-> LogUtility.loggerUtility.log(logger, "Response:- "+addedMaster, Level.FINE))
                 .flatMap(response-> ServerResponse.status(HttpStatus.CREATED).bodyValue(response))
                 .doOnNext(generatedResponse-> LogUtility.loggerUtility.log(logger, "Add master request processed with successful response generation", Level.INFO))
-                .onErrorResume(exceptionMapper);
+                .onErrorResume(exceptionMapper)
+                .contextCapture();
     }
 }

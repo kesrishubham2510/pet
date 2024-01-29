@@ -3,8 +3,10 @@ package com.myreflectionthoughts.apigateway.gateway.dataprovider;
 import com.myreflectionthoughts.apigateway.core.constant.ServiceConstant;
 import com.myreflectionthoughts.apigateway.gateway.dataprovider.RetrievePetsOfUserDataProvider;
 import com.myreflectionthoughts.library.dto.response.PetDTO;
+import io.micrometer.context.ContextRegistry;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
+import org.slf4j.MDC;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
@@ -37,6 +39,7 @@ public class RetrievePetsOfUserDataProviderTest {
     public RetrievePetsOfUserDataProviderTest() {
         this.masterServiceClient = mock(WebClient.class, ServiceConstant.masterServiceQualifier);
         this.petServiceClient = mock(WebClient.class, ServiceConstant.petServiceQualifier);
+        ContextRegistry.getInstance().registerThreadLocalAccessor("traceId", ()-> MDC.get("traceId"), traceId-> MDC.put("traceId","traceId"), ()->MDC.remove(("traceId")));
         this.retrievePetsOfUserDataProvider = new RetrievePetsOfUserDataProvider(masterServiceClient, petServiceClient);
     }
 
@@ -50,6 +53,7 @@ public class RetrievePetsOfUserDataProviderTest {
 
         when(petServiceClient.get()).thenReturn(requestHeadersUriSpec);
         when(requestHeadersUriSpec.uri(anyString())).thenReturn(requestHeadersSpec);
+        when(requestHeadersSpec.header(anyString(),anyString())).thenReturn(requestHeadersSpec);
         when(requestHeadersSpec.retrieve()).thenReturn(responseSpec);
         when(responseSpec.bodyToFlux(eq(PetDTO.class))).thenReturn(Flux.just(expectedPet));
 
@@ -60,6 +64,7 @@ public class RetrievePetsOfUserDataProviderTest {
         verify(petServiceClient,times(1)).get();
         verify(requestHeadersUriSpec,times(1)).uri(anyString());
         verify(requestHeadersSpec,times(1)).retrieve();
+        verify(requestHeadersSpec,times(1)).header(anyString(),anyString());
         verify(responseSpec,times(1)).bodyToFlux(eq(PetDTO.class));
     }
 

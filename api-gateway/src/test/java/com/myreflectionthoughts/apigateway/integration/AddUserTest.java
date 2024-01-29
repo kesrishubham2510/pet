@@ -54,6 +54,8 @@ public class AddUserTest extends TestSetup{
                  .contentType(MediaType.APPLICATION_JSON_VALUE)
                  .expectStatus()
                  .isCreated()
+                 .expectHeader()
+                 .exists("traceId")
                  .expectBody(UserDTO.class)
                  .consumeWith(registerUserResponse->{
                     assertEquals(expectedMasterResponse.getName(), registerUserResponse.getResponseBody().getMaster().getName());
@@ -96,6 +98,8 @@ public class AddUserTest extends TestSetup{
                  .contentType(MediaType.APPLICATION_JSON_VALUE)
                  .expectStatus()
                  .isBadRequest()
+                 .expectHeader()
+                 .exists("traceId")
                  .expectBody(ExceptionResponse.class)
                  .consumeWith(registerUserExceptionResponse->{
                      assertEquals(InputDataException.class.getSimpleName(), registerUserExceptionResponse.getResponseBody().getError());
@@ -126,6 +130,8 @@ public class AddUserTest extends TestSetup{
                  .contentType(MediaType.APPLICATION_JSON_VALUE)
                  .expectStatus()
                  .isBadRequest()
+                 .expectHeader()
+                 .exists("traceId")
                  .expectBody(ExceptionResponse.class)
                  .consumeWith(registerUserExceptionResponse->{
                      assertEquals(InputDataException.class.getSimpleName(), registerUserExceptionResponse.getResponseBody().getError());
@@ -156,6 +162,8 @@ public class AddUserTest extends TestSetup{
                  .contentType(MediaType.APPLICATION_JSON_VALUE)
                  .expectStatus()
                  .isBadRequest()
+                 .expectHeader()
+                 .exists("traceId")
                  .expectBody(ExceptionResponse.class)
                  .consumeWith(registerUserExceptionResponse->{
                      assertEquals(InputDataException.class.getSimpleName(), registerUserExceptionResponse.getResponseBody().getError());
@@ -188,6 +196,8 @@ public class AddUserTest extends TestSetup{
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .expectStatus()
                 .isBadRequest()
+                .expectHeader()
+                .exists("traceId")
                 .expectBody(ExceptionResponse.class)
                 .consumeWith(registerUserExceptionResponse->{
                     assertEquals(InputDataException.class.getSimpleName(), registerUserExceptionResponse.getResponseBody().getError());
@@ -220,6 +230,8 @@ public class AddUserTest extends TestSetup{
                  .contentType(MediaType.APPLICATION_JSON_VALUE)
                  .expectStatus()
                  .isBadRequest()
+                 .expectHeader()
+                 .exists("traceId")
                  .expectBody(ExceptionResponse.class)
                  .consumeWith(registerUserExceptionResponse->{
                      assertEquals(InputDataException.class.getSimpleName(), registerUserExceptionResponse.getResponseBody().getError());
@@ -250,6 +262,8 @@ public class AddUserTest extends TestSetup{
                  .contentType(MediaType.APPLICATION_JSON_VALUE)
                  .expectStatus()
                  .isBadRequest()
+                 .expectHeader()
+                 .exists("traceId")
                  .expectBody(ExceptionResponse.class)
                  .consumeWith(registerUserExceptionResponse->{
                      assertEquals(InputDataException.class.getSimpleName(), registerUserExceptionResponse.getResponseBody().getError());

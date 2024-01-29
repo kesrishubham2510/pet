@@ -4,6 +4,7 @@ import com.myreflectionthoughts.apimasterdetails.core.constant.ServiceConstants;
 import com.myreflectionthoughts.apimasterdetails.core.exception.MasterNotFoundException;
 import com.myreflectionthoughts.library.dto.response.ExceptionResponse;
 import com.myreflectionthoughts.library.exception.InputDataException;
+import com.myreflectionthoughts.library.exception.ParameterMissingException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
@@ -41,6 +42,11 @@ public class Handler {
         } else if (exception instanceof InputDataException) {
 
             exceptionResponse.setError(InputDataException.class.getSimpleName());
+            exceptionResponse.setErrorMessage(exception.getMessage());
+
+        } else if (exception instanceof ParameterMissingException) {
+
+            exceptionResponse.setError(ParameterMissingException.class.getSimpleName());
             exceptionResponse.setErrorMessage(exception.getMessage());
 
         } else {

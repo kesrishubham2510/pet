@@ -27,6 +27,6 @@ public class GetPetsRequestHandler extends Handler{
 
     public Mono<ServerResponse> getPets(ServerRequest serverRequest){
         LogUtility.loggerUtility.logEntry(logger, "Initiating get all pets request processing...");
-        return  ServerResponse.ok().contentType(MediaType.APPLICATION_NDJSON).body(readPetsUseCase.getPets(), PetDTO.class);
+        return  ServerResponse.ok().contentType(MediaType.APPLICATION_NDJSON).body(readPetsUseCase.getPets().contextCapture(), PetDTO.class);
     }
 }

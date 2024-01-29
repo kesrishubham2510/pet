@@ -4,8 +4,10 @@ import com.myreflectionthoughts.apigateway.core.constant.ServiceConstant;
 import com.myreflectionthoughts.apigateway.gateway.dataprovider.UpdatePetDetailsDataProvider;
 import com.myreflectionthoughts.library.dto.request.UpdatePetDTO;
 import com.myreflectionthoughts.library.dto.response.PetDTO;
+import io.micrometer.context.ContextRegistry;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
+import org.slf4j.MDC;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
@@ -38,6 +40,7 @@ public class UpdatePetDetailsDataProviderTest {
     public UpdatePetDetailsDataProviderTest() {
         this.masterServiceClient = mock(WebClient.class, ServiceConstant.masterServiceQualifier);
         this.petServiceClient = mock(WebClient.class, ServiceConstant.petServiceQualifier);
+        ContextRegistry.getInstance().registerThreadLocalAccessor("traceId", ()-> MDC.get("traceId"), traceId-> MDC.put("traceId","traceId"), ()->MDC.remove(("traceId")));
         updatePetDetailsDataProvider = new UpdatePetDetailsDataProvider(masterServiceClient,petServiceClient);
     }
 
@@ -49,6 +52,10 @@ public class UpdatePetDetailsDataProviderTest {
 
         when(petServiceClient.put()).thenReturn(requestBodyUriSpec);
         when(requestBodyUriSpec.uri(anyString())).thenReturn(requestBodySpec);
+
+        when(requestBodySpec.header(anyString(),anyString())).thenReturn(requestBodySpec);
+
+
         when(requestBodySpec.bodyValue(any(UpdatePetDTO.class))).thenReturn(requestHeadersSpec);
         when(requestHeadersSpec.retrieve()).thenReturn(responseSpec);
         when(responseSpec.bodyToMono(eq(PetDTO.class))).thenReturn(Mono.fromSupplier(() -> expectedUpdatedPetDTO));
@@ -62,6 +69,7 @@ public class UpdatePetDetailsDataProviderTest {
         verify(petServiceClient, times(1)).put();
         verify(requestBodyUriSpec, times(1)).uri(anyString());
         verify(requestBodySpec, times(1)).bodyValue(any(UpdatePetDTO.class));
+        verify(requestBodySpec,times(1)).header(anyString(),anyString());
         verify(requestHeadersSpec, times(1)).retrieve();
         verify(responseSpec, times(1)).bodyToMono(eq(PetDTO.class));
     }

@@ -33,6 +33,7 @@ public class RetrievePetsOfUserDataProvider extends DataProvider implements IGet
     private Flux<PetDTO> getAllPetsOfUser(Mono<String> masterIdMono) {
         return masterIdMono
                 .flatMapMany(this::handleAllPetsOfUserRetrieval)
+                .contextCapture()
                 .doOnComplete(()-> LogUtility.loggerUtility.log(logger, "All pets of master retrieved successfully", Level.INFO));
     }
 }

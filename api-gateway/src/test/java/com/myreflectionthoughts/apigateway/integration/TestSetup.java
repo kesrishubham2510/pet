@@ -2,9 +2,11 @@ package com.myreflectionthoughts.apigateway.integration;
 
 
 import com.github.tomakehurst.wiremock.WireMockServer;
+import io.micrometer.context.ContextRegistry;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestInstance;
+import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.reactive.server.WebTestClient;
@@ -33,10 +35,14 @@ public class TestSetup {
     @BeforeEach
     void setUpServer() {
         wireMockServer.start();
+        ContextRegistry.getInstance()
+                .registerThreadLocalAccessor("traceId", ()-> MDC.get("traceId"), traceId -> MDC.put("traceId",traceId), ()-> MDC.remove("traceId"));
+
     }
 
     @AfterEach
     void tearDownServer() {
         wireMockServer.stop();
+        ContextRegistry.getInstance().removeThreadLocalAccessor("traceId");
     }
 }

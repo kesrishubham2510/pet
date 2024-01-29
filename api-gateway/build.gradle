@@ -14,12 +14,13 @@ ext.versions = [
         modelmapper                      : '3.1.1',
         springdocOpenAPI                 : '1.7.0',
         lombok                           : '1.18.26',
-        appVersion                       : '0.0.1',
+        appVersion                       : '0.0.3',
         group                            : 'com.myreflectionthoughts',
         archTestVersion                  : '1.1.0',
         actuatorVersion                  : '2.7.15',
-        libraryPetVersion                : '0.0.2'
-
+        libraryPetVersion                : '0.0.2',
+        wireMockVersion                  : '4.0.4',
+        contextPropagationLibraryVersion : '1.0.6'
 ]
 
 jar {
@@ -64,9 +65,9 @@ dependencies {
     // dependencies for observability
     implementation "org.springframework.boot:spring-boot-starter-actuator:${versions.actuatorVersion}"
     implementation "com.myreflectionthoughts:library-pet:${versions.libraryPetVersion}@jar"
-    implementation 'org.springframework.cloud:spring-cloud-contract-wiremock:4.0.4'
+    implementation "org.springframework.cloud:spring-cloud-contract-wiremock:${versions.wireMockVersion}"
     implementation 'io.netty:netty-resolver-dns-native-macos:4.1.97.Final'
-
+    implementation "io.micrometer:context-propagation:${versions.contextPropagationLibraryVersion}"
 }
 
 tasks.named('test') {

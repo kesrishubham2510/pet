@@ -14,13 +14,13 @@ ext.versions = [
 		modelmapper                      : '3.1.1',
 		springdocOpenAPI                 : '1.7.0',
 		lombok                           : '1.18.26',
-		appVersion                       : '0.0.1',
+		appVersion                       : '0.0.3',
 		group                            : 'com.myreflectionthoughts',
 		archTestVersion                  : '1.1.0',
 		testContainerVersion             : '1.19.0',
 		actuatorVersion                  : '2.7.15',
 		libraryPetVersion				 : '0.0.2',
-		micrometerPrometheusRegistry     : '1.12.0'
+		contextPropagationLibraryVersion : '1.0.6'
 ]
 
 jar {
@@ -67,6 +67,7 @@ dependencies {
 	// dependencies for observability
 	implementation "org.springframework.boot:spring-boot-starter-actuator:${versions.actuatorVersion}"
 	implementation "com.myreflectionthoughts:library-pet:${versions.libraryPetVersion}@jar"
+	implementation "io.micrometer:context-propagation:${versions.contextPropagationLibraryVersion}"
 	// https://mvnrepository.com/artifact/io.micrometer/micrometer-registry-prometheus
 	implementation "io.micrometer:micrometer-registry-prometheus:${versions.micrometerPrometheusRegistry}"
 

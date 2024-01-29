@@ -8,6 +8,7 @@ import com.myreflectionthoughts.apimasterdetails.gateway.dataprovider.TestDataGe
 import com.myreflectionthoughts.library.dto.request.AddMasterDTO;
 import com.myreflectionthoughts.library.dto.response.ExceptionResponse;
 import com.myreflectionthoughts.library.exception.InputDataException;
+import com.myreflectionthoughts.library.exception.ParameterMissingException;
 import com.myreflectionthoughts.library.utils.ValidationUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -59,7 +60,7 @@ public class AddMasterBeanValidationTest extends TestSetup{
     }
 
     @Test
-    void testAddMaster_should_throw_InputDataException_for_null_email(){
+    void testAddMaster_should_throw_ParameterMissingException_for_null_email(){
 
         AddMasterDTO requestPayload = TestDataGenerator.generateAddMasterDTO();
         requestPayload.setEmail(null);
@@ -72,8 +73,8 @@ public class AddMasterBeanValidationTest extends TestSetup{
                 .isBadRequest()
                 .expectBody(ExceptionResponse.class)
                 .consumeWith(exceptionResponse->{
-                    assertEquals(InputDataException.class.getSimpleName(), exceptionResponse.getResponseBody().getError());
-                    assertEquals("Email ID is required, it can't null or empty or whitespaces", exceptionResponse.getResponseBody().getErrorMessage());
+                    assertEquals(ParameterMissingException.class.getSimpleName(), exceptionResponse.getResponseBody().getError());
+                    assertEquals("Email ID is required, it can't be null", exceptionResponse.getResponseBody().getErrorMessage());
                 });
 
 
@@ -112,7 +113,7 @@ public class AddMasterBeanValidationTest extends TestSetup{
                 .expectBody(ExceptionResponse.class)
                 .consumeWith(exceptionResponse->{
                     assertEquals(InputDataException.class.getSimpleName(), exceptionResponse.getResponseBody().getError());
-                    assertEquals(String.format("Please provide a Valid age should be atleast %s years old",ValidationUtils.ageThreshold), exceptionResponse.getResponseBody().getErrorMessage());
+                    assertEquals("Age can't be zero or negative, Please provide a valid age", exceptionResponse.getResponseBody().getErrorMessage());
                 });
     }
 

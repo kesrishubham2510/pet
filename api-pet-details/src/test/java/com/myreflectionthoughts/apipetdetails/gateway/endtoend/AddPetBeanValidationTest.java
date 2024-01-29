@@ -36,7 +36,7 @@ public class AddPetBeanValidationTest extends TestSetup{
                 });
     }
     @Test
-    void testAddPetToDatabase_should_throw_InputDataException_null_name(){
+    void testAddPetToDatabase_should_throw_ParameterMissingException_null_name(){
 
         AddPetDTO requestPayload = TestDataGenerator.getAddPetDTO();
         requestPayload.setName(null);

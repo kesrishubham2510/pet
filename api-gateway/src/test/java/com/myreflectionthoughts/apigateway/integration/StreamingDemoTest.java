@@ -26,6 +26,8 @@ public class StreamingDemoTest extends TestSetup{
                 .contentType("text/event-stream;charset=UTF-8")
                 .expectStatus()
                 .isOk()
+                .expectHeader()
+                .exists("traceId")
                 .expectBodyList(PetDTO.class)
                 .hasSize(2);
     }

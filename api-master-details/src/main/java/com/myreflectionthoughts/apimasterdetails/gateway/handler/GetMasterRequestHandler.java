@@ -31,7 +31,8 @@ public class GetMasterRequestHandler extends Handler {
                 .doOnNext(retrievedMaster-> LogUtility.loggerUtility.log(logger, "Master:- "+retrievedMaster.getId()+" info retrieved successfully", Level.INFO))
                 .doOnNext(retrievedMaster-> LogUtility.loggerUtility.log(logger, "Response:- "+retrievedMaster, Level.FINE))
                 .flatMap(response-> ServerResponse.ok().bodyValue(response))
-                .doOnNext(generatedResponse-> LogUtility.loggerUtility.log(logger, "pet info retrieval request processed with successfull response generation", Level.INFO))
-                .onErrorResume(exceptionMapper);
+                .doOnNext(generatedResponse-> LogUtility.loggerUtility.log(logger, "Master info retrieval request processed with successfull response generation", Level.INFO))
+                .onErrorResume(exceptionMapper)
+                .contextCapture();
     }
 }

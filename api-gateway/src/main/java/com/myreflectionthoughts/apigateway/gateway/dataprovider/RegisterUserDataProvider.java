@@ -10,6 +10,7 @@ import com.myreflectionthoughts.library.dto.response.MasterDTO;
 import com.myreflectionthoughts.library.dto.response.PetDTO;
 import com.myreflectionthoughts.library.dto.response.UserDTO;
 import com.myreflectionthoughts.library.exception.ParameterMissingException;
+import io.micrometer.context.ContextRegistry;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -18,6 +19,7 @@ import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -42,6 +44,7 @@ public class RegisterUserDataProvider extends DataProvider implements IAdd<AddUs
 
 
         return addUserDTOMono.flatMap(addUserDTO -> {
+
 
             if (addUserDTO.getMaster() == null)
                 return Mono.error(new ParameterMissingException("Can't process request because the parameter 'master' is missing"));
@@ -71,6 +74,17 @@ public class RegisterUserDataProvider extends DataProvider implements IAdd<AddUs
         LogUtility.loggerUtility.logEntry(logger, "Initiating call to master-service to add the master...");
         return masterServiceClient.post()
                 .uri("/add")
+                .header("traceId",
+                        Optional.ofNullable((String) ContextRegistry.getInstance()
+                                        .getThreadLocalAccessors()
+                                        .stream()
+                                        .filter(threadLocalAccessor ->
+                                                threadLocalAccessor.key().equals("traceId")
+                                        ).toList()
+                                        .get(0)
+                                        .getValue())
+                                .orElse("custom-trace-id")
+                )
                 .bodyValue(addMasterDTO)
                 .retrieve()
                 .bodyToMono(MasterDTO.class)
@@ -96,10 +110,21 @@ public class RegisterUserDataProvider extends DataProvider implements IAdd<AddUs
 
         return petServiceClient.post()
                 .uri("/add")
-                .bodyValue(addPetDTO)
+                .header("traceId",
+                        Optional.ofNullable((String)ContextRegistry.getInstance()
+                                        .getThreadLocalAccessors()
+                                        .stream()
+                                        .filter(threadLocalAccessor ->
+                                                threadLocalAccessor.key().equals("traceId")
+                                        ).toList()
+                                        .get(0)
+                                        .getValue())
+                                        .orElse("Custom-trace-id")
+                ) .bodyValue(addPetDTO)
                 .retrieve()
                 .bodyToMono(PetDTO.class)
                 .doOnNext(addedMaster-> LogUtility.loggerUtility.logExit(logger, "add-pet call completed successfully..."));
+
     }
 
 }

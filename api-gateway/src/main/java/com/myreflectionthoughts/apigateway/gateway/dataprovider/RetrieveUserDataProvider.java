@@ -5,11 +5,13 @@ import com.myreflectionthoughts.apigateway.core.utils.LogUtility;
 import com.myreflectionthoughts.library.contract.IGet;
 import com.myreflectionthoughts.library.dto.response.MasterDTO;
 import com.myreflectionthoughts.library.dto.response.UserDTO;
+import io.micrometer.context.ContextRegistry;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -44,7 +46,7 @@ public class RetrieveUserDataProvider extends DataProvider implements IGet<UserD
                                             userDTO.setMaster(masterDTO);
                                             return userDTO;
                                         }
-                                )
+                                ).contextCapture()
                 ).doOnNext(retrievedUser-> LogUtility.loggerUtility.log(logger, "User:- "+retrievedUser.getMaster().getId()+" has "+retrievedUser.getPets().size()+" pets",Level.INFO))
 
         );
@@ -56,6 +58,15 @@ public class RetrieveUserDataProvider extends DataProvider implements IGet<UserD
 
         return masterServiceClient.get()
                 .uri(String.format("/get/master/%s", masterId))
+                .header("traceId", Optional.ofNullable(
+                                (String) ContextRegistry.getInstance()
+                                        .getThreadLocalAccessors()
+                                        .stream()
+                                        .filter(threadLocalAccessor -> threadLocalAccessor.key().equals("traceId"))
+                                        .toList()
+                                        .get(0)
+                                        .getValue())
+                        .orElse("Custom-traceId"))
                 .retrieve()
                 .bodyToMono(MasterDTO.class)
                 .doOnNext(retrievedMaster-> LogUtility.loggerUtility.log(logger, "retrieve user-info call to master-service completed successfully", Level.INFO));

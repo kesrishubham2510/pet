@@ -5,8 +5,10 @@ import com.myreflectionthoughts.apigateway.gateway.dataprovider.RetrieveUserData
 import com.myreflectionthoughts.library.dto.response.MasterDTO;
 import com.myreflectionthoughts.library.dto.response.PetDTO;
 import com.myreflectionthoughts.library.dto.response.UserDTO;
+import io.micrometer.context.ContextRegistry;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
+import org.slf4j.MDC;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
@@ -39,6 +41,7 @@ public class RetrieveUserDataProviderTest {
     public RetrieveUserDataProviderTest() {
         this.masterServiceClient = mock(WebClient.class, ServiceConstant.masterServiceQualifier);
         this.petServiceClient =    mock(WebClient.class, ServiceConstant.petServiceQualifier);
+        ContextRegistry.getInstance().registerThreadLocalAccessor("traceId", ()-> MDC.get("traceId"), traceId-> MDC.put("traceId","traceId"), ()->MDC.remove(("traceId")));
         this.retrieveUserDataProvider = new RetrieveUserDataProvider(masterServiceClient, petServiceClient);
     }
 
@@ -51,6 +54,7 @@ public class RetrieveUserDataProviderTest {
 
         when(masterServiceClient.get()).thenReturn(requestHeadersUriSpec);
         when(requestHeadersUriSpec.uri(anyString())).thenReturn(requestHeadersSpec);
+        when(requestHeadersSpec.header(anyString(),anyString())).thenReturn(requestHeadersSpec);
         when(requestHeadersSpec.retrieve()).thenReturn(responseSpec);
         when(responseSpec.bodyToMono(eq(MasterDTO.class))).thenReturn(Mono.fromSupplier(()->expectedMasterDTO));
 
@@ -70,6 +74,8 @@ public class RetrieveUserDataProviderTest {
         verify(requestHeadersUriSpec,times(2)).uri(anyString());
         verify(requestHeadersSpec,times(2)).retrieve();
         verify(responseSpec,times(1)).bodyToMono(eq(MasterDTO.class));
+        verify(requestHeadersSpec,times(2)).header(anyString(),anyString());
+
 
         verify(petServiceClient,times(1)).get();
         verify(responseSpec,times(1)).bodyToFlux(eq(PetDTO.class));
