@@ -10,6 +10,7 @@ import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
 
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -31,7 +32,16 @@ public class RegisterUserRequestHandler extends Handler {
                 .registerUser(serverRequest.bodyToMono(AddUserDTO.class))
                 .doOnNext(registeredUser-> LogUtility.loggerUtility.log(logger, "User:- "+registeredUser.getMaster().getId()+" registered", Level.INFO))
                 .doOnNext(registeredUser-> LogUtility.loggerUtility.log(logger, "Response:- "+registeredUser, Level.FINE))
-                .flatMap(userDTO -> ServerResponse.status(HttpStatus.CREATED).bodyValue(userDTO))
+                .flatMap(userDTO -> ServerResponse.status(HttpStatus.CREATED).header("traceId",
+                        Optional.ofNullable((String)ContextRegistry.getInstance()
+                                .getThreadLocalAccessors()
+                                .stream()
+                                .filter(threadLocalAccessor ->
+                                        threadLocalAccessor.key().equals("traceId")
+                                ).toList()
+                                .get(0)
+                                .getValue())
+                        .orElse("Custom-trace-id")).bodyValue(userDTO))
                 .doOnNext(generatedResponse-> LogUtility.loggerUtility.log(logger, "User registered with successfull response generation", Level.INFO))
                 .onErrorResume(exceptionMapper)
                 .contextCapture();

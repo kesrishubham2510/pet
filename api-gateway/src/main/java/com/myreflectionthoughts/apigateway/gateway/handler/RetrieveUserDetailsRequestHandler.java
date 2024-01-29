@@ -2,11 +2,13 @@ package com.myreflectionthoughts.apigateway.gateway.handler;
 
 import com.myreflectionthoughts.apigateway.core.usecase.RetrieveUserUseCase;
 import com.myreflectionthoughts.apigateway.core.utils.LogUtility;
+import io.micrometer.context.ContextRegistry;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
 
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -28,7 +30,16 @@ public class RetrieveUserDetailsRequestHandler extends Handler {
         return retrieveUserUseCase.retrieveUser(masterId)
                 .doOnNext(retrievedUser-> LogUtility.loggerUtility.log(logger, "User:- "+retrievedUser.getMaster().getId()+" info retrieved successfully", Level.INFO))
                 .doOnNext(retrievedUser-> LogUtility.loggerUtility.log(logger, "Response:- "+retrievedUser, Level.FINE))
-                .flatMap(userInfo -> ServerResponse.ok().bodyValue(userInfo))
+                .flatMap(userInfo -> ServerResponse.ok().header("traceId",
+                        Optional.ofNullable((String) ContextRegistry.getInstance()
+                                        .getThreadLocalAccessors()
+                                        .stream()
+                                        .filter(threadLocalAccessor ->
+                                                threadLocalAccessor.key().equals("traceId")
+                                        ).toList()
+                                        .get(0)
+                                        .getValue())
+                                .orElse("Custom-trace-id")).bodyValue(userInfo))
                 .doOnNext(generatedResponse-> LogUtility.loggerUtility.log(logger, "Retrieve user-info request processed with successful response generation", Level.INFO))
                 .onErrorResume(exceptionMapper);
     }

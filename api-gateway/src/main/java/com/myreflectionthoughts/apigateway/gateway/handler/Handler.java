@@ -4,12 +4,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.myreflectionthoughts.apigateway.core.utils.LogUtility;
 import com.myreflectionthoughts.library.dto.response.ExceptionResponse;
 import com.myreflectionthoughts.library.exception.ParameterMissingException;
+import io.micrometer.context.ContextRegistry;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -50,7 +52,16 @@ public class Handler {
         LogUtility.loggerUtility.log(logger, "Exception handled and response generated", Level.SEVERE);
         LogUtility.loggerUtility.log(logger, "Generated Exception Response:- "+exceptionResponse, Level.FINE);
 
-        return ServerResponse.badRequest().bodyValue(exceptionResponse);
+        return ServerResponse.badRequest().header("traceId",
+                Optional.ofNullable((String) ContextRegistry.getInstance()
+                                .getThreadLocalAccessors()
+                                .stream()
+                                .filter(threadLocalAccessor ->
+                                        threadLocalAccessor.key().equals("traceId")
+                                ).toList()
+                                .get(0)
+                                .getValue())
+                        .orElse("Custom-trace-id")).bodyValue(exceptionResponse);
     };
 
     private Map<String, String> errorBodyParser(String errorBody) {

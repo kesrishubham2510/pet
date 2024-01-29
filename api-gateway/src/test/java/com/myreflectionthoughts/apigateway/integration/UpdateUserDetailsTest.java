@@ -51,6 +51,8 @@ public class UpdateUserDetailsTest extends TestSetup{
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .expectStatus()
                 .isOk()
+                .expectHeader()
+                .exists("traceId")
                 .expectBody(UserDTO.class)
                 .consumeWith(updateUserResponse->{
                    assertEquals(expectedUpdatedMaster, updateUserResponse.getResponseBody().getMaster()); 

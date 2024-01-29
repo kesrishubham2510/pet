@@ -49,6 +49,8 @@ public class RetrieveUserInfoTest extends TestSetup{
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .expectStatus()
                 .isOk()
+                .expectHeader()
+                .exists("traceId")
                 .expectBody(UserDTO.class)
                 .consumeWith(retrievedUSerInfoResponse->{
                     assertEquals(expectedUserDTO.getMaster(), retrievedUSerInfoResponse.getResponseBody().getMaster());
@@ -80,6 +82,8 @@ public class RetrieveUserInfoTest extends TestSetup{
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .expectStatus()
                 .isBadRequest()
+                .expectHeader()
+                .exists("traceId")
                 .expectBody(ExceptionResponse.class)
                 .consumeWith(exceptionResponse->{
                     assertEquals("MasterNotFoundException", exceptionResponse.getResponseBody().getError());

@@ -33,6 +33,8 @@ public class UpdatePetDetailsTest extends TestSetup {
                 .contentType(MediaType.APPLICATION_JSON)
                 .expectStatus()
                 .isOk()
+                .expectHeader()
+                .exists("traceId")
                 .expectBody(PetDTO.class)
                 .consumeWith(updatedPetDTOResponse-> {
                     assertEquals(expectedUpdatedPetDTO, updatedPetDTOResponse.getResponseBody());
